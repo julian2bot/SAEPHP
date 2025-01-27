@@ -10,7 +10,8 @@ if (!feof($passCsv)) {
 
     $host = str_replace($replace,"",fgets($passCsv)) ;
     $user = str_replace($replace,"",fgets($passCsv)) ;
-    $table = str_replace($replace,"",fgets($passCsv)) ;
+    $dbname = str_replace($replace,"",fgets($passCsv)) ;
+    $port = str_replace($replace,"",fgets($passCsv)) ;
     $mdp = str_replace($replace,"",fgets($passCsv)) ;
 }
 
