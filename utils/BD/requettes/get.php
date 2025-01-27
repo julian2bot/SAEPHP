@@ -1,7 +1,7 @@
 <?php
     require_once __DIR__."/../connexionBD.php";
 
-    function getRegion(PDO $bdd, $codeRegion):array{
+    function getRegion(PDO $bdd, int $codeRegion):array{
         $reqResto = $bdd->prepare("SELECT * FROM REGION WHERE codeRegion = ?");
         $reqResto->execute(array($codeRegion));
 
@@ -12,7 +12,7 @@
         return $info;
     }
 
-    function getDepartement(PDO $bdd, $codeRegion, $codeDepartement):array{
+    function getDepartement(PDO $bdd, int $codeRegion, int $codeDepartement):array{
         $reqResto = $bdd->prepare("SELECT * FROM DEPARTEMENT WHERE codeRegion = ? AND codeDepartement = ?");
         $reqResto->execute(array($codeRegion, $codeDepartement));
 
@@ -23,7 +23,7 @@
         return $info;
     }
 
-    function getCommune(PDO $bdd, $codeRegion, $codeDepartement, $codeCommune):array{
+    function getCommune(PDO $bdd, int $codeRegion, int $codeDepartement, int $codeCommune):array{
         $reqResto = $bdd->prepare("SELECT * FROM COMMUNE WHERE codeRegion = ? AND codeDepartement = ? AND codeCommune = ?");
         $reqResto->execute(array($codeRegion, $codeDepartement, $codeCommune));
 
@@ -34,7 +34,7 @@
         return $info;
     }
 
-    function getRestaurantByID(PDO $bdd, $osmID):array{
+    function getRestaurantByID(PDO $bdd, string $osmID):array{
         $reqResto = $bdd->prepare("SELECT * FROM RESTAURANT WHERE osmID = ?");
         $reqResto->execute(array($osmID));
 
@@ -45,7 +45,7 @@
         return $info;
     }
 
-    function getRestaurantBySiret(PDO $bdd, $siret):array{
+    function getRestaurantBySiret(PDO $bdd, int $siret):array{
         $reqResto = $bdd->prepare("SELECT * FROM RESTAURANT WHERE siret = ?");
         $reqResto->execute(array($siret));
 
