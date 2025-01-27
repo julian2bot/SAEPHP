@@ -29,10 +29,10 @@ CREATE TABLE COMMUNE(
 );
 
 CREATE TABLE RESTAURANT(
-    osmID INT PRIMARY KEY,
+    osmID VARCHAR(32) PRIMARY KEY,
     nomRestaurant VARCHAR(32),
     telephone VARCHAR(32),
-    siret VARCHAR(32),
+    siret VARCHAR(32) UNIQUE,
     etoiles SMALLINT CHECK (etoiles >= 0 AND etoiles <=5),
     siteInternet VARCHAR(100),
 
@@ -44,7 +44,7 @@ CREATE TABLE RESTAURANT(
 );
 
 CREATE TABLE HEURE_OUVERTURE(
-    osmID INT,
+    osmID VARCHAR(32),
     jourOuverture VARCHAR(10),
     heureDebut TIME,
     heureFin TIME,
@@ -59,7 +59,7 @@ CREATE TABLE CUISINE(
 );
 
 CREATE TABLE PROPOSE(
-    osmID INT,
+    osmID VARCHAR(32),
     idCuisine INT,
 
     PRIMARY KEY (osmID, idCuisine),
@@ -78,7 +78,7 @@ CREATE TABLE CUISINE_FAVORITES(
 
 CREATE TABLE AVIS(
     username VARCHAR(32),
-    osmID INT,
+    osmID VARCHAR(32),
     note SMALLINT CHECK (note <= 0 AND note >= 5),
     commentaire VARCHAR(255),
 
@@ -89,7 +89,7 @@ CREATE TABLE AVIS(
 
 CREATE TABLE RESTAURANT_FAVORIS(
     username VARCHAR(32),
-    osmID INT,
+    osmID VARCHAR(32),
 
     PRIMARY KEY (username, osmID),
     FOREIGN KEY (username) REFERENCES UTILISATEUR(username),
