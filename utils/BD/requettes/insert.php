@@ -5,11 +5,11 @@
     /**
      * Créer une région si elle n'existe pas encore
      * @param PDO $bdd
-     * @param int $codeRegion id de la région ex 24
+     * @param string $codeRegion id de la région ex 24
      * @param string $nomRegion
      * @return bool true si l'insertion s'est déroullé avec succès
      */
-    function createRegion(PDO $bdd, int $codeRegion, string $nomRegion):bool{
+    function createRegion(PDO $bdd, string $codeRegion, string $nomRegion):bool{
         if(! empty(getRegion($bdd, $codeRegion))){
             return false;
         }
@@ -23,12 +23,12 @@
     /**
      * Créer un département si il n'existe pas encore
      * @param PDO $bdd
-     * @param int $codeRegion id de la région ex 24
-     * @param int $codeDepartement id du département ex 45
+     * @param string $codeRegion id de la région ex 24
+     * @param string $codeDepartement id du département ex 45
      * @param string $nomDepartement
      * @return bool true si l'insertion s'est déroullé avec succès
      */
-    function createDepartement(PDO $bdd, int $codeRegion, int $codeDepartement, string $nomDepartement):bool{
+    function createDepartement(PDO $bdd, string $codeRegion, string $codeDepartement, string $nomDepartement):bool{
         if(! empty(getDepartement($bdd, $codeDepartement))){
             return false;
         }
@@ -41,12 +41,12 @@
     /**
      * Créer une commune si elle n'existe pas encore
      * @param PDO $bdd
-     * @param int $codeDepartement id du département ex 45
-     * @param int $codeCommune id de la commune ex 45000
+     * @param string $codeDepartement id du département ex 45
+     * @param string $codeCommune id de la commune ex 45000
      * @param string $nomCommune
      * @return bool true si l'insertion s'est déroullé avec succès
      */
-    function createCommune(PDO $bdd, int $codeDepartement, int $codeCommune, string $nomCommune):bool{
+    function createCommune(PDO $bdd, string $codeDepartement, string $codeCommune, string $nomCommune):bool{
         if(! empty(getCommune($bdd, $codeCommune))){
             return false;
         }
@@ -65,10 +65,10 @@
      * @param string $siret
      * @param int $etoiles
      * @param string $siteInternet
-     * @param int $codeCommune
+     * @param string $codeCommune
      * @return bool true si l'insertion s'est déroullé avec succès
      */
-    function createRestaurant(PDO $bdd, string $osmID, string $nomResto, string $tel, string $siret, int $etoiles, string $siteInternet, int $codeCommune) : bool{
+    function createRestaurant(PDO $bdd, string $osmID, string $nomResto, string $tel, string $siret, int $etoiles, string $siteInternet, string $codeCommune) : bool{
         if(! empty(getRestaurantByID($bdd, $osmID))){
             return false;
         }

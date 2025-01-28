@@ -4,10 +4,10 @@
     /**
      * Renvoie une région par son code de région
      * @param PDO $bdd
-     * @param int $codeRegion
+     * @param string $codeRegion
      * @return array région ou liste vide si elle n'existe pas
      */
-    function getRegion(PDO $bdd, int $codeRegion):array{
+    function getRegion(PDO $bdd, string $codeRegion):array{
         $reqResto = $bdd->prepare("SELECT * FROM REGION WHERE codeRegion = ?");
         $reqResto->execute(array($codeRegion));
 
@@ -21,10 +21,10 @@
     /**
      * Renvoie un département par son code de département
      * @param PDO $bdd
-     * @param int $codeDepartement
+     * @param string $codeDepartement
      * @return array département ou liste vide s'il n'existe pas
      */
-    function getDepartement(PDO $bdd, int $codeDepartement):array{
+    function getDepartement(PDO $bdd, string $codeDepartement):array{
         $reqResto = $bdd->prepare("SELECT * FROM DEPARTEMENT WHERE codeDepartement = ?");
         $reqResto->execute(array($codeDepartement));
 
@@ -38,10 +38,10 @@
     /**
      * Renvoie une commune par son code de commune
      * @param PDO $bdd
-     * @param int $codeCommune
+     * @param string $codeCommune
      * @return array commune ou liste vide si elle n'existe pas
      */
-    function getCommune(PDO $bdd, int $codeCommune):array{
+    function getCommune(PDO $bdd, string $codeCommune):array{
         $reqResto = $bdd->prepare("SELECT * FROM COMMUNE WHERE codeCommune = ?");
         $reqResto->execute(array($codeCommune));
 

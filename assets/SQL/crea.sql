@@ -5,21 +5,21 @@ CREATE TABLE UTILISATEUR(
 );
 
 CREATE TABLE REGION(
-    codeRegion INT PRIMARY KEY,
+    codeRegion VARCHAR(5) PRIMARY KEY,
     nomRegion VARCHAR(32) NOT NULL
 );
 
 CREATE TABLE DEPARTEMENT(
-    codeRegion INT,
-    codeDepartement INT PRIMARY KEY,
+    codeRegion VARCHAR(5),
+    codeDepartement VARCHAR(5) PRIMARY KEY,
     nomDepartement VARCHAR(32) NOT NULL,
 
     FOREIGN KEY (codeRegion) REFERENCES REGION (codeRegion)
 );
 
 CREATE TABLE COMMUNE(
-    codeDepartement INT,
-    codeCommune INT PRIMARY KEY,
+    codeDepartement VARCHAR(5),
+    codeCommune VARCHAR(5) PRIMARY KEY,
     nomCommune VARCHAR(32) NOT NULL,
 
     FOREIGN KEY (codeDepartement) REFERENCES DEPARTEMENT (codeDepartement)
@@ -33,7 +33,7 @@ CREATE TABLE RESTAURANT(
     etoiles SMALLINT CHECK (etoiles >= 0 AND etoiles <=5),
     siteInternet VARCHAR(100),
 
-    codeCommune INT,
+    codeCommune VARCHAR(5),
 
     FOREIGN KEY (codeCommune) REFERENCES COMMUNE (codeCommune)
 );
