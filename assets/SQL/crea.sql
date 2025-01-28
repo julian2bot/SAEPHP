@@ -11,21 +11,18 @@ CREATE TABLE REGION(
 
 CREATE TABLE DEPARTEMENT(
     codeRegion INT,
-    codeDepartement INT,
+    codeDepartement INT PRIMARY KEY,
     nomDepartement VARCHAR(32) NOT NULL,
 
-    PRIMARY KEY (codeRegion,codeDepartement),
     FOREIGN KEY (codeRegion) REFERENCES REGION (codeRegion)
 );
 
 CREATE TABLE COMMUNE(
-    codeRegion INT,
     codeDepartement INT,
-    codeCommune INT,
+    codeCommune INT PRIMARY KEY,
     nomCommune VARCHAR(32) NOT NULL,
 
-    PRIMARY KEY (codeRegion,codeDepartement, codeCommune),
-    FOREIGN KEY (codeRegion,codeDepartement) REFERENCES DEPARTEMENT (codeRegion,codeDepartement)
+    FOREIGN KEY (codeDepartement) REFERENCES DEPARTEMENT (codeDepartement)
 );
 
 CREATE TABLE RESTAURANT(
@@ -36,11 +33,9 @@ CREATE TABLE RESTAURANT(
     etoiles SMALLINT CHECK (etoiles >= 0 AND etoiles <=5),
     siteInternet VARCHAR(100),
 
-    codeRegion INT,
-    codeDepartement INT,
     codeCommune INT,
 
-    FOREIGN KEY (codeRegion,codeDepartement, codeCommune) REFERENCES COMMUNE (codeRegion,codeDepartement, codeCommune)
+    FOREIGN KEY (codeCommune) REFERENCES COMMUNE (codeCommune)
 );
 
 CREATE TABLE HEURE_OUVERTURE(
@@ -94,4 +89,18 @@ CREATE TABLE RESTAURANT_FAVORIS(
     PRIMARY KEY (username, osmID),
     FOREIGN KEY (username) REFERENCES UTILISATEUR(username),
     FOREIGN KEY (osmID) REFERENCES RESTAURANT(osmID)
+);
+
+CREATE TABLE SERVICE(
+    idService INT PRIMARY KEY,
+    nomService VARCHAR(32)
+);
+
+CREATE TABLE SERVICE_PROPOSE(
+    idService INT,
+    osmID VARCHAR(32),
+
+    PRIMARY KEY(idService, osmID),
+    FOREIGN KEY(idService) REFERENCES SERVICE(idService),
+    FOREIGN KEY(osmID) REFERENCES RESTAURANT(osmID)
 );

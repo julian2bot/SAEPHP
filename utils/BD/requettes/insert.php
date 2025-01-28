@@ -5,7 +5,7 @@
     /**
      * Créer une région si elle n'existe pas encore
      * @param PDO $bdd
-     * @param int $codeRegion id de la région
+     * @param int $codeRegion id de la région ex 24
      * @param string $nomRegion
      * @return bool true si l'insertion s'est déroullé avec succès
      */
@@ -23,8 +23,8 @@
     /**
      * Créer un département si il n'existe pas encore
      * @param PDO $bdd
-     * @param int $codeRegion id de la région
-     * @param int $codeDepartement id du département
+     * @param int $codeRegion id de la région ex 24
+     * @param int $codeDepartement id du département ex 45
      * @param string $nomDepartement
      * @return bool true si l'insertion s'est déroullé avec succès
      */
@@ -38,6 +38,15 @@
         return true;
     }
 
+    /**
+     * Créer une commune si elle n'existe pas encore
+     * @param PDO $bdd
+     * @param int $codeRegion id de la région ex 24
+     * @param int $codeDepartement id du département ex 45
+     * @param int $codeCommune id de la commune ex 45000
+     * @param string $nomCommune
+     * @return bool true si l'insertion s'est déroullé avec succès
+     */
     function createCommune(PDO $bdd, int $codeRegion, int $codeDepartement, int $codeCommune, string $nomCommune):bool{
         if(! empty(getCommune($bdd, $codeRegion,$codeDepartement, $codeCommune))){
             return false;
