@@ -40,14 +40,23 @@
         createDepartement($bdd, $resto["code_region"], $resto["code_departement"], $resto["departement"]);
         $codeCommune = $resto["code_commune"] ?? $resto["com_insee"];
         $nomCommune = $resto["commune"] ?? $resto["com_nom"];
-        createCommune($bdd, $resto["code_region"], $resto["code_departement"],$codeCommune,$nomCommune);
+        createCommune($bdd, $resto["code_departement"],$codeCommune,$nomCommune);
+
+        $tel = $resto["phone"] ?? "";
+        $siret = $resto["siret"] ?? "";
+        $etoiles = $resto["stars"] ?? -1;
+        $siteInternet = $resto["website"] ?? "";
+        createRestaurant($bdd,$resto["osm_id"],$resto["name"],$tel, $siret,$etoiles,$siteInternet, $codeCommune);
+
         return true;
     }
 
     function addAllRestoFromJson(PDO $bdd, array $lesRestos){
+        set_time_limit(300); // 5 minutes
         foreach ($lesRestos as $resto) {
             addRestoFromJson($bdd, $resto);
         }
+        set_time_limit(120);
     }
 
     addAllRestoFromJson($bdd,$lesRestaurants);

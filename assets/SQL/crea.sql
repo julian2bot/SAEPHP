@@ -26,10 +26,10 @@ CREATE TABLE COMMUNE(
 );
 
 CREATE TABLE RESTAURANT(
-    osmID VARCHAR(32) PRIMARY KEY,
-    nomRestaurant VARCHAR(32),
+    osmID VARCHAR(40) PRIMARY KEY,
+    nomRestaurant VARCHAR(100),
     telephone VARCHAR(32),
-    siret VARCHAR(32) UNIQUE,
+    siret VARCHAR(40) UNIQUE,
     etoiles SMALLINT CHECK (etoiles >= 0 AND etoiles <=5),
     siteInternet VARCHAR(100),
 

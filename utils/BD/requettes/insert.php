@@ -29,7 +29,7 @@
      * @return bool true si l'insertion s'est déroullé avec succès
      */
     function createDepartement(PDO $bdd, int $codeRegion, int $codeDepartement, string $nomDepartement):bool{
-        if(! empty(getDepartement($bdd, $codeRegion,$codeDepartement))){
+        if(! empty(getDepartement($bdd, $codeDepartement))){
             return false;
         }
 
@@ -47,13 +47,23 @@
      * @param string $nomCommune
      * @return bool true si l'insertion s'est déroullé avec succès
      */
-    function createCommune(PDO $bdd, int $codeRegion, int $codeDepartement, int $codeCommune, string $nomCommune):bool{
-        if(! empty(getCommune($bdd, $codeRegion,$codeDepartement, $codeCommune))){
+    function createCommune(PDO $bdd, int $codeDepartement, int $codeCommune, string $nomCommune):bool{
+        if(! empty(getCommune($bdd, $codeCommune))){
             return false;
         }
 
-        $reqResto = $bdd->prepare("INSERT INTO COMMUNE (codeRegion,codeDepartement,codeCommune, nomCommune) VALUES (?,?,?,?)");
-        $reqResto->execute(array($codeRegion,$codeDepartement,$codeCommune, $nomCommune));
+        $reqResto = $bdd->prepare("INSERT INTO COMMUNE (codeDepartement,codeCommune, nomCommune) VALUES (?,?,?)");
+        $reqResto->execute(array($codeDepartement,$codeCommune, $nomCommune));
+        return true;
+    }
+
+    function createRestaurant(PDO $bdd, string $osmID, string $nomResto, string $tel, string $siret, int $etoiles, string $siteInternet, int $codeCommune) : bool{
+        if(! empty(getRestaurantByID($bdd, $osmID))){
+            return false;
+        }
+
+        $reqResto = $bdd->prepare("INSERT INTO RESTAURANT (osmID,nomRestaurant, telephone, siret, etoiles, siteInternet, codeCommune) VALUES (?,?,?,?,?,?,?)");
+        $reqResto->execute(array($osmID,$nomResto, ($tel === "") ? null : $tel, ($siret === "") ? null : $siret, ($etoiles === -1) ? null : $etoiles, ($siteInternet === "") ? null : $siteInternet, $codeCommune));
         return true;
     }
 ?>

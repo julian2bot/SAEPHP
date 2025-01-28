@@ -7,29 +7,29 @@
 
         $info = $reqResto->fetch();
         if(!$info){
-            return[];
+            return [];
         }
         return $info;
     }
 
-    function getDepartement(PDO $bdd, int $codeRegion, int $codeDepartement):array{
-        $reqResto = $bdd->prepare("SELECT * FROM DEPARTEMENT WHERE codeRegion = ? AND codeDepartement = ?");
-        $reqResto->execute(array($codeRegion, $codeDepartement));
+    function getDepartement(PDO $bdd, int $codeDepartement):array{
+        $reqResto = $bdd->prepare("SELECT * FROM DEPARTEMENT WHERE codeDepartement = ?");
+        $reqResto->execute(array($codeDepartement));
 
         $info = $reqResto->fetch();
         if(!$info){
-            return[];
+            return [];
         }
         return $info;
     }
 
-    function getCommune(PDO $bdd, int $codeRegion, int $codeDepartement, int $codeCommune):array{
-        $reqResto = $bdd->prepare("SELECT * FROM COMMUNE WHERE codeRegion = ? AND codeDepartement = ? AND codeCommune = ?");
-        $reqResto->execute(array($codeRegion, $codeDepartement, $codeCommune));
+    function getCommune(PDO $bdd, int $codeCommune):array{
+        $reqResto = $bdd->prepare("SELECT * FROM COMMUNE WHERE codeCommune = ?");
+        $reqResto->execute(array($codeCommune));
 
         $info = $reqResto->fetch();
         if(!$info){
-            return[];
+            return [];
         }
         return $info;
     }
@@ -40,18 +40,7 @@
 
         $info = $reqResto->fetch();
         if(!$info){
-            return[];
-        }
-        return $info;
-    }
-
-    function getRestaurantBySiret(PDO $bdd, int $siret):array{
-        $reqResto = $bdd->prepare("SELECT * FROM RESTAURANT WHERE siret = ?");
-        $reqResto->execute(array($siret));
-
-        $info = $reqResto->fetch();
-        if(!$info){
-            return[];
+            return [];
         }
         return $info;
     }
