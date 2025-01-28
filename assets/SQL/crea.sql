@@ -29,7 +29,7 @@ CREATE TABLE RESTAURANT(
     osmID VARCHAR(40) PRIMARY KEY,
     nomRestaurant VARCHAR(100),
     telephone VARCHAR(32),
-    siret VARCHAR(40) UNIQUE,
+    siret VARCHAR(40),
     etoiles SMALLINT CHECK (etoiles >= 0 AND etoiles <=5),
     siteInternet VARCHAR(100),
 
@@ -93,12 +93,13 @@ CREATE TABLE RESTAURANT_FAVORIS(
 
 CREATE TABLE SERVICE(
     idService INT PRIMARY KEY,
-    nomService VARCHAR(32)
+    nomService VARCHAR(32) UNIQUE
 );
 
 CREATE TABLE SERVICE_PROPOSE(
     idService INT,
     osmID VARCHAR(32),
+    propose BOOLEAN NOT NULL,
 
     PRIMARY KEY(idService, osmID),
     FOREIGN KEY(idService) REFERENCES SERVICE(idService),

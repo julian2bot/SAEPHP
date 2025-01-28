@@ -66,4 +66,16 @@
         $reqResto->execute(array($osmID,$nomResto, ($tel === "") ? null : $tel, ($siret === "") ? null : $siret, ($etoiles === -1) ? null : $etoiles, ($siteInternet === "") ? null : $siteInternet, $codeCommune));
         return true;
     }
+
+    function insertServicePropose(PDO $bdd, string $osmID, string $service, bool $accepte) : bool{
+        $idService = getServiceID($bdd, $service);
+        echo $service, "___", $idService,($accepte ? "true" : "false"),"<br>";
+        if($idService == -1){
+            return false;
+        }
+        $accepteInt = $accepte ? 1 : 0;
+        $reqResto = $bdd->prepare("INSERT INTO SERVICE_PROPOSE (osmID,idService,propose) VALUES (?,?,?)");
+        $reqResto->execute(array($osmID, $idService, $accepteInt));
+        return true;
+    }
 ?>

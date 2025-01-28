@@ -44,4 +44,18 @@
         }
         return $info;
     }
+
+    function getServiceID(PDO $bdd, string $serviceName):int{
+        $reqResto = $bdd->prepare("SELECT * FROM SERVICE WHERE nomService = ?");
+        $reqResto->execute(array($serviceName));
+
+        $info = $reqResto->fetch();
+        echo "<pre>";
+        print_r($info);
+        echo "</pre>";
+        if(!isset($info["idservice"])){
+            return -1;
+        }
+        return $info["idservice"];
+    }
 ?>

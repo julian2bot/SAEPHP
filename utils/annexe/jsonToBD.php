@@ -36,18 +36,46 @@
             ){
                 return false;
             }
+
+        // localisation
         createRegion($bdd,$resto["code_region"], $resto["region"]);
         createDepartement($bdd, $resto["code_region"], $resto["code_departement"], $resto["departement"]);
         $codeCommune = $resto["code_commune"] ?? $resto["com_insee"];
         $nomCommune = $resto["commune"] ?? $resto["com_nom"];
         createCommune($bdd, $resto["code_departement"],$codeCommune,$nomCommune);
 
+        // Resto
         $tel = $resto["phone"] ?? "";
         $siret = $resto["siret"] ?? "";
         $etoiles = $resto["stars"] ?? -1;
         $siteInternet = $resto["website"] ?? "";
         createRestaurant($bdd,$resto["osm_id"],$resto["name"],$tel, $siret,$etoiles,$siteInternet, $codeCommune);
 
+        // Services
+        $vegetarian = $resto["vegetarian"] ?? "";
+        if($vegetarian != "" && in_array($vegetarian,["yes","no"])){
+            insertServicePropose($bdd,$resto["osm_id"],"vegetarian",($resto["vegetarian"] == "yes"));
+        }
+        $vegan = $resto["vegan"] ?? "";
+        if($vegan != "" && in_array($vegan,["yes","no"])){
+            insertServicePropose($bdd,$resto["osm_id"],"vegan",($resto["vegan"] == "yes"));
+        }
+        $delivery = $resto["delivery"] ?? "";
+        if($delivery != "" && in_array($delivery,["yes","no"])){
+            insertServicePropose($bdd,$resto["osm_id"],"delivery",($resto["delivery"] == "yes"));
+        }
+        $takeaway = $resto["takeaway"] ?? "";
+        if($takeaway != "" && in_array($takeaway,["yes","no"])){
+            insertServicePropose($bdd,$resto["osm_id"],"takeaway",($resto["takeaway"] == "yes"));
+        }
+        $internet = $resto["internet_access"] ?? "";
+        if($internet != "" && in_array($internet,["yes","no"])){
+            insertServicePropose($bdd,$resto["osm_id"],"internet_access",($resto["internet_access"] == "yes"));
+        }
+        $drive = $resto["drive_through"] ?? "";
+        if($drive != "" && in_array($drive,["yes","no"])){
+            insertServicePropose($bdd,$resto["osm_id"],"drive_through",($resto["drive_through"] == "yes"));
+        }
         return true;
     }
 
