@@ -50,9 +50,6 @@
         $reqResto->execute(array($serviceName));
 
         $info = $reqResto->fetch();
-        echo "<pre>";
-        print_r($info);
-        echo "</pre>";
         if(!isset($info["idservice"])){
             return -1;
         }

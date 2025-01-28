@@ -69,7 +69,6 @@
 
     function insertServicePropose(PDO $bdd, string $osmID, string $service, bool $accepte) : bool{
         $idService = getServiceID($bdd, $service);
-        echo $service, "___", $idService,($accepte ? "true" : "false"),"<br>";
         if($idService == -1){
             return false;
         }
