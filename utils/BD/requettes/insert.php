@@ -41,7 +41,6 @@
     /**
      * Créer une commune si elle n'existe pas encore
      * @param PDO $bdd
-     * @param int $codeRegion id de la région ex 24
      * @param int $codeDepartement id du département ex 45
      * @param int $codeCommune id de la commune ex 45000
      * @param string $nomCommune
@@ -57,19 +56,39 @@
         return true;
     }
 
+    /**
+     * Créer un restaurant s'il n'existe pas encore
+     * @param PDO $bdd
+     * @param string $osmID
+     * @param string $nomResto
+     * @param string $tel
+     * @param string $siret
+     * @param int $etoiles
+     * @param string $siteInternet
+     * @param int $codeCommune
+     * @return bool true si l'insertion s'est déroullé avec succès
+     */
     function createRestaurant(PDO $bdd, string $osmID, string $nomResto, string $tel, string $siret, int $etoiles, string $siteInternet, int $codeCommune) : bool{
         if(! empty(getRestaurantByID($bdd, $osmID))){
             return false;
         }
 
         $reqResto = $bdd->prepare("INSERT INTO RESTAURANT (osmID,nomRestaurant, telephone, siret, etoiles, siteInternet, codeCommune) VALUES (?,?,?,?,?,?,?)");
-        $reqResto->execute(array($osmID,$nomResto, ($tel === "") ? null : $tel, ($siret === "") ? null : $siret, ($etoiles === -1) ? null : $etoiles, ($siteInternet === "") ? null : $siteInternet, $codeCommune));
+        $reqResto->execute(array($osmID,$nomResto, ($tel === "") ? null : $tel, ($siret === "") ? null : $siret, ($etoiles === -1 || $etoiles<0 || $etoiles>5) ? null : $etoiles, ($siteInternet === "") ? null : $siteInternet, $codeCommune));
         return true;
     }
 
+    /**
+     * Insert un service proposé pour un restaurant
+     * @param PDO $bdd
+     * @param string $osmID
+     * @param string $service
+     * @param bool $accepte si le service est présent ou non
+     * @return bool true si l'insertion s'est déroullé avec succès
+     */
     function insertServicePropose(PDO $bdd, string $osmID, string $service, bool $accepte) : bool{
         $idService = getServiceID($bdd, $service);
-        if($idService == -1){
+        if($idService == -1 || in_array($service, getServicePropose($bdd, $osmID))){
             return false;
         }
         $accepteInt = $accepte ? 1 : 0;
@@ -78,6 +97,12 @@
         return true;
     }
 
+    /**
+     * Créer un type de cuisine s'il n'a pas été crée
+     * @param PDO $bdd
+     * @param string $nomCuisine
+     * @return int id de la cuisine crée
+     */
     function createCuisine(PDO $bdd, string $nomCuisine):int{
         $idCuisine = getCuisineId($bdd, $nomCuisine);
         if($idCuisine != -1){
@@ -91,6 +116,13 @@
         return $idCuisine;
     }
 
+    /**
+     * Insert une proposition de cuisine pour un restaurant (Crée la cuisine si elle n'existe pas)
+     * @param PDO $bdd
+     * @param string $osmID
+     * @param string $nomCuisine
+     * @return bool true si l'insertion s'est déroullé avec succès
+     */
     function insertCuisinePropose(PDO $bdd, string $osmID, string $nomCuisine):bool{
         if(in_array($nomCuisine,getCuisinePropose($bdd, $osmID))){
             return false;
