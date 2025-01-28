@@ -76,6 +76,14 @@
         if($drive != "" && in_array($drive,["yes","no"])){
             insertServicePropose($bdd,$resto["osm_id"],"drive_through",($resto["drive_through"] == "yes"));
         }
+
+        // Cuisines proposés
+
+        if(isset($resto["cuisine"]) && $resto["cuisine"] !== null && !empty($resto["cuisine"])){
+            foreach ($resto["cuisine"] as $cuisine) {
+                insertCuisinePropose($bdd,$resto["osm_id"],$cuisine);
+            }
+        }
         return true;
     }
 

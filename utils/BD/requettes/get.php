@@ -55,4 +55,40 @@
         }
         return $info["idservice"];
     }
+
+    function getCuisineId(PDO $bdd, string $nomCuisine):int{
+        $reqResto = $bdd->prepare("SELECT * FROM CUISINE WHERE nomCuisine = ?");
+        $reqResto->execute(array($nomCuisine));
+
+        $info = $reqResto->fetch();
+        if(!isset($info["idcuisine"])){
+            return -1;
+        }
+        return $info["idcuisine"];
+    }
+
+    function getNextCuisineID(PDO $bdd):int{
+        $reqResto = $bdd->prepare("SELECT max(idCuisine) as max FROM CUISINE");
+        $reqResto->execute(array());
+
+        $info = $reqResto->fetch();
+        if(!isset($info["max"])){
+            return 0;
+        }
+        return $info["max"]+1;
+    }
+
+    function getCuisinePropose(PDO $bdd, string $osmID):array{
+        $propose = [];
+        $reqResto = $bdd->prepare("SELECT * FROM PROPOSE NATURAL JOIN CUISINE WHERE osmID = ?");
+        $reqResto->execute(array($osmID));
+        $info = $reqResto->fetchAll();
+        if(!$info){
+            return [];
+        }
+        foreach ($info as $cuisine) {
+            array_push($propose,$cuisine["nomcuisine"]);
+        }
+        return $propose;
+    }
 ?>

@@ -77,4 +77,27 @@
         $reqResto->execute(array($osmID, $idService, $accepteInt));
         return true;
     }
+
+    function createCuisine(PDO $bdd, string $nomCuisine):int{
+        $idCuisine = getCuisineId($bdd, $nomCuisine);
+        if($idCuisine != -1){
+            return $idCuisine;
+        }
+        else{
+            $idCuisine = getNextCuisineID($bdd);
+        }
+        $reqResto = $bdd->prepare("INSERT INTO CUISINE (idCuisine,nomCuisine) VALUES (?,?)");
+        $reqResto->execute(array($idCuisine, $nomCuisine));
+        return $idCuisine;
+    }
+
+    function insertCuisinePropose(PDO $bdd, string $osmID, string $nomCuisine):bool{
+        if(in_array($nomCuisine,getCuisinePropose($bdd, $osmID))){
+            return false;
+        }
+        $idCuisine = createCuisine($bdd, $nomCuisine);
+        $reqResto = $bdd->prepare("INSERT INTO PROPOSE (idCuisine,osmID) VALUES (?,?)");
+        $reqResto->execute(array($idCuisine, $osmID));
+        return true;
+    }
 ?>
