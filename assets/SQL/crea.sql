@@ -40,7 +40,7 @@ CREATE TABLE RESTAURANT(
 
 CREATE TABLE HEURE_OUVERTURE(
     osmID VARCHAR(32),
-    jourOuverture VARCHAR(10),
+    jourOuverture VARCHAR(3) CHECK (jourOuverture in ('Mo','Tu','We','Th','Fr','Sa','Su', 'PH')),
     heureDebut TIME,
     heureFin TIME,
 

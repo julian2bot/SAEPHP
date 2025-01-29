@@ -5,6 +5,7 @@
 
     echo "<pre>";
     $lesRestaurants = getData();
+    // $lesRestaurants = getData(__DIR__."/../../assets/data/restaurants_orleans_modif.json");
     // print_r($lesRestaurants);
     echo "</pre>";
 
@@ -38,6 +39,7 @@
             }
 
         // localisation
+
         createRegion($bdd,$resto["code_region"], $resto["region"]);
         createDepartement($bdd, $resto["code_region"], $resto["code_departement"], $resto["departement"]);
         $codeCommune = $resto["code_commune"] ?? $resto["com_insee"];
@@ -84,6 +86,13 @@
                 insertCuisinePropose($bdd,$resto["osm_id"],$cuisine);
             }
         }
+
+        // Horaires d'ouvertures
+
+        if(isset($resto["opening_hours"]) && $resto["opening_hours"] !== null){
+            insertHoraires($bdd, $resto["osm_id"], $resto["opening_hours"]);
+        }
+
         return true;
     }
 
@@ -95,5 +104,7 @@
         set_time_limit(120);
     }
 
+    echo "<pre>";
     addAllRestoFromJson($bdd,$lesRestaurants);
+    echo "<pre>";
 ?>

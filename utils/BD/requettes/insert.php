@@ -1,5 +1,6 @@
 <?php
     require_once __DIR__."/../connexionBD.php";
+    require_once __DIR__."/../../annexe/annexe.php";
     require_once __DIR__."/get.php";
 
     /**
@@ -130,6 +131,29 @@
         $idCuisine = createCuisine($bdd, $nomCuisine);
         $reqResto = $bdd->prepare("INSERT INTO PROPOSE (idCuisine,osmID) VALUES (?,?)");
         $reqResto->execute(array($idCuisine, $osmID));
+        return true;
+    }
+
+    /**
+     * Insert les horraires d'ouvertures d'un restaurant
+     * @param PDO $bdd
+     * @param string $osmID
+     * @param string $horaires
+     * @return bool
+     */
+    function insertHoraires(PDO $bdd, string $osmID, string $horaires):bool{
+        $reqResto = $bdd->prepare("INSERT INTO HEURE_OUVERTURE (osmID,jourOuverture,heureDebut,heureFin) VALUES (?,?,?,?)");
+        foreach (transformOpeningHours($horaires) as $unHorraire) {
+            foreach ($unHorraire["jours"] as $unJour) {
+                foreach ($unHorraire["heures"] as $unCrenau) {
+                    try {
+                        $reqResto->execute(array($osmID, $unJour,$unCrenau["debut"], $unCrenau["fin"]));
+                    } catch (PDOException $th) {
+                        echo "erreur resto : $osmID format : $horaires<br>";
+                    }
+                }
+            }
+        }
         return true;
     }
 ?>
