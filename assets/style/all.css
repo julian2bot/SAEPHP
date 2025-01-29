@@ -1,0 +1,32 @@
+*{
+    font-family: 'Koulen', sans-serif;
+}
+
+/* scrollbar */
+/* Style général pour les scrollbars */
+::-webkit-scrollbar {
+    width: 4px; /* Largeur de la scrollbar verticale */
+    height: 4px; /* Hauteur de la scrollbar horizontale */
+}
+
+/* Track (fond de la scrollbar) */
+::-webkit-scrollbar-track {
+    background: transparent; /* Transparence complète */
+}
+
+/* Thumb (la barre qu'on fait glisser) */
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2); /* Couleur semi-transparente pour la barre */
+    border-radius: 10px; /* Coins arrondis */
+}
+
+/* Thumb quand on survole */
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4); /* Un peu plus visible au survol */
+}
+
+/* Firefox-specific styles (Scrollbar) */
+* {
+    scrollbar-width: thin; /* Réduit la taille de la barre */
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent; /* Couleur de la barre et du fond */
+}

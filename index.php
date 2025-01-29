@@ -1,5 +1,7 @@
 <?php
-    require_once "utils/BD/connexionBD.php";
+    // require_once "utils/BD/connexionBD.php";
+    $bdd = new PDO('mysql:host=localhost;dbname=saeponey', "root", "marques");
+
     require_once "utils/annexe/getter.php";
     require_once "utils/annexe/annexe.php";
 
@@ -14,19 +16,15 @@
     <title>Document</title>
     <link href="https://fonts.googleapis.com/css2?family=Koulen&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="assets/style/style.css">
     <link rel="stylesheet" href="assets/style/reset.css">
+    <link rel="stylesheet" href="assets/style/all.css">
+    <link rel="stylesheet" href="assets/style/header.css">
+    <link rel="stylesheet" href="assets/style/style.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li class="titre">IUTABLES'O</li>
-                <li class="centerHaut"><button>SE CONNECTER</button></li>
-            </ul>
-        </nav>
-    </header>
-
+    <?php
+    require "assets/affichage/header.php";
+    ?>
 
     <main>
         <!-- img background image -->
