@@ -143,4 +143,24 @@
         }
         return $propose;
     }
+
+    /**
+     * Fonctions renvoyant les différents types de restaurations
+     * @param PDO $bdd
+     * @return array
+     */
+    function getAllTypeResto(PDO $bdd){
+        $reqResto = $bdd->prepare("SELECT DISTINCT type FROM RESTAURANT");
+        $reqResto->execute(array());
+        $info = $reqResto->fetchAll();
+        if(!$info){
+            return [];
+        }
+
+        $res = [];
+        foreach ($info as $type) {
+            array_push($res,$type["type"]);
+        }
+        return $res;
+    }
 ?>
