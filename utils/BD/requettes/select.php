@@ -66,7 +66,29 @@
         if(!$info){
             return [];
         }
+        $info["cuisines"] = getCuisineByResto($bdd,$osmID);
         return $info;
+    }
+
+    /**
+     * Renvoie une liste des noms de cuisines proposés par un resto
+     * @param PDO $bdd
+     * @param string $osmID
+     * @return array
+     */
+    function getCuisineByResto(PDO $bdd, string $osmID):array{
+        $reqResto = $bdd->prepare("SELECT nomCuisine FROM PROPOSE NATURAL JOIN CUISINE WHERE osmID = ?");
+        $reqResto->execute(array($osmID));
+
+        $info = $reqResto->fetchAll();
+        if(!$info){
+            return [];
+        }
+        $res = [];
+        foreach($info as $val){
+            array_push($res, $val["nomcuisine"]);
+        }
+        return $res;
     }
 
     /**

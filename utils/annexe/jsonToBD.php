@@ -113,6 +113,9 @@
         if(isset($resto["opening_hours"]) && $resto["opening_hours"] !== null){
             insertHoraires($bdd, $resto["osm_id"], $resto["opening_hours"]);
         }
+        echo "<pre>";
+        print_r(getRestaurantByID($bdd, $resto["osm_id"]));
+        echo "</pre>";
 
         return true;
     }
