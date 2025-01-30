@@ -1,7 +1,7 @@
 <?php
     require_once __DIR__."/../connexionBD.php";
     require_once __DIR__."/../../annexe/annexe.php";
-    require_once __DIR__."/get.php";
+    require_once __DIR__."/select.php";
 
     /**
      * Créer une région si elle n'existe pas encore
