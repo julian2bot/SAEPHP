@@ -58,43 +58,17 @@
     }
 
     /**
-     * Créer un restaurant s'il n'existe pas encore
+     * Crée un restaurant a partir d'une liste d'information
      * @param PDO $bdd
-     * @param string $osmID
-     * @param string $nomResto
-     * @param string $tel
-     * @param string $siret
-     * @param int $etoiles
-     * @param string $siteInternet
-     * @param string $codeCommune
-     * @return bool true si l'insertion s'est déroullé avec succès
+     * @param array $info
+     * @return bool
      */
-    function createRestaurant(PDO $bdd, string $osmID, string $nomResto, string $tel, string $siret, int $etoiles, string $siteInternet, string $codeCommune) : bool{
-        if(! empty(getRestaurantByID($bdd, $osmID))){
+    function createRestaurant(PDO $bdd, array $info) : bool{
+        if(sizeof($info)!=24 ||  ! empty(getRestaurantByID($bdd, $info[0]))){
             return false;
         }
-
-        $reqResto = $bdd->prepare("INSERT INTO RESTAURANT (osmID,nomRestaurant, telephone, siret, etoiles, siteInternet, codeCommune) VALUES (?,?,?,?,?,?,?)");
-        $reqResto->execute(array($osmID,$nomResto, ($tel === "") ? null : $tel, ($siret === "") ? null : $siret, ($etoiles === -1 || $etoiles<0 || $etoiles>5) ? null : $etoiles, ($siteInternet === "") ? null : $siteInternet, $codeCommune));
-        return true;
-    }
-
-    /**
-     * Insert un service proposé pour un restaurant
-     * @param PDO $bdd
-     * @param string $osmID
-     * @param string $service
-     * @param bool $accepte si le service est présent ou non
-     * @return bool true si l'insertion s'est déroullé avec succès
-     */
-    function insertServicePropose(PDO $bdd, string $osmID, string $service, bool $accepte) : bool{
-        $idService = getServiceID($bdd, $service);
-        if($idService == -1 || in_array($service, getServicePropose($bdd, $osmID))){
-            return false;
-        }
-        $accepteInt = $accepte ? 1 : 0;
-        $reqResto = $bdd->prepare("INSERT INTO SERVICE_PROPOSE (osmID,idService,propose) VALUES (?,?,?)");
-        $reqResto->execute(array($osmID, $idService, $accepteInt));
+        $reqResto = $bdd->prepare("INSERT INTO RESTAURANT VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        $reqResto->execute($info);
         return true;
     }
 

@@ -47,37 +47,58 @@
         createCommune($bdd, $resto["code_departement"],$codeCommune,$nomCommune);
 
         // Resto
-        $tel = $resto["phone"] ?? "";
-        $siret = $resto["siret"] ?? "";
-        $etoiles = $resto["stars"] ?? -1;
-        $siteInternet = $resto["website"] ?? "";
-        createRestaurant($bdd,$resto["osm_id"],$resto["name"],$tel, $siret,$etoiles,$siteInternet, $codeCommune);
+        $tel = $resto["phone"] ?? null;
+        $siret = $resto["siret"] ?? null;
+        $etoiles = $resto["stars"] ?? null;
+        $etoiles = ($resto["stars"] != null && $resto["stars"]>=0 && $resto["stars"]<=5) ? $resto["stars"] : null;
+        $siteInternet = $resto["website"] ?? null;
 
-        // Services
-        $vegetarian = $resto["vegetarian"] ?? "";
-        if($vegetarian != "" && in_array($vegetarian,["yes","no"])){
-            insertServicePropose($bdd,$resto["osm_id"],"vegetarian",($resto["vegetarian"] == "yes"));
+        $vegetarian = $resto["vegetarian"] ?? null;
+        $vegan = $resto["vegan"] ?? null;
+        $delivery = $resto["delivery"] ?? null;
+        $takeaway = $resto["takeaway"] ?? null;
+        $internet = $resto["internet_access"] ?? null;
+        $drive = $resto["drive_through"] ?? null;
+
+        if($internet != null){
+            $internet = $internet[0];
         }
-        $vegan = $resto["vegan"] ?? "";
-        if($vegan != "" && in_array($vegan,["yes","no"])){
-            insertServicePropose($bdd,$resto["osm_id"],"vegan",($resto["vegan"] == "yes"));
-        }
-        $delivery = $resto["delivery"] ?? "";
-        if($delivery != "" && in_array($delivery,["yes","no"])){
-            insertServicePropose($bdd,$resto["osm_id"],"delivery",($resto["delivery"] == "yes"));
-        }
-        $takeaway = $resto["takeaway"] ?? "";
-        if($takeaway != "" && in_array($takeaway,["yes","no"])){
-            insertServicePropose($bdd,$resto["osm_id"],"takeaway",($resto["takeaway"] == "yes"));
-        }
-        $internet = $resto["internet_access"] ?? "";
-        if($internet != "" && in_array($internet,["yes","no"])){
-            insertServicePropose($bdd,$resto["osm_id"],"internet_access",($resto["internet_access"] == "yes"));
-        }
-        $drive = $resto["drive_through"] ?? "";
-        if($drive != "" && in_array($drive,["yes","no"])){
-            insertServicePropose($bdd,$resto["osm_id"],"drive_through",($resto["drive_through"] == "yes"));
-        }
+
+        $infoResto = [];
+
+        array_push($infoResto,$resto["osm_id"]);
+        array_push($infoResto,$resto["name"]);
+        array_push($infoResto,$tel);
+        array_push($infoResto,$siret);
+        array_push($infoResto,$etoiles);
+        array_push($infoResto,$siteInternet);
+
+        array_push($infoResto,$codeCommune);
+        
+        array_push($infoResto,$vegetarian);
+        array_push($infoResto,$vegan);
+        array_push($infoResto,$delivery);
+        array_push($infoResto,$takeaway);
+        array_push($infoResto,$drive);
+        array_push($infoResto,$internet);
+
+        $capacite = $resto["capacity"] ?? null;
+        array_push($infoResto,$capacite);
+
+        array_push($infoResto,$resto["brand"] ?? null);
+        array_push($infoResto,$resto["operator"] ?? null);
+        array_push($infoResto,$resto["type"] ?? null);
+        array_push($infoResto,$resto["wikidata"] ?? null);
+        array_push($infoResto,$resto["brand_wikidata"] ?? null);
+
+        array_push($infoResto,$resto["smoking"] ?? null);
+        array_push($infoResto,$resto["wheelchair"] ?? null);
+        array_push($infoResto,$resto["facebook"] ?? null);
+
+        array_push($infoResto,strval($resto["geo_point_2d"]["lon"]) ?? null);
+        array_push($infoResto,strval($resto["geo_point_2d"]["lat"]) ?? null);
+
+        createRestaurant($bdd,$infoResto);
 
         // Cuisines proposés
 

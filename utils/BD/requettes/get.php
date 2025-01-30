@@ -70,43 +70,6 @@
     }
 
     /**
-     * Renvoie l'id d'un service en fonction de son nom
-     * @param PDO $bdd
-     * @param string $serviceName
-     * @return int id du service, -1 s'il n'existe pas
-     */
-    function getServiceID(PDO $bdd, string $serviceName):int{
-        $reqResto = $bdd->prepare("SELECT * FROM SERVICE WHERE nomService = ?");
-        $reqResto->execute(array($serviceName));
-
-        $info = $reqResto->fetch();
-        if(!isset($info["idservice"])){
-            return -1;
-        }
-        return $info["idservice"];
-    }
-
-    /**
-     * Renvoie la liste des services proposés par un restaurants
-     * @param PDO $bdd
-     * @param string $osmID
-     * @return array liste de string des noms de services proposés
-     */
-    function getServicePropose(PDO $bdd, string $osmID):array{
-        $propose = [];
-        $reqResto = $bdd->prepare("SELECT * FROM SERVICE_PROPOSE NATURAL JOIN SERVICE WHERE osmID = ?");
-        $reqResto->execute(array($osmID));
-        $info = $reqResto->fetchAll();
-        if(!$info){
-            return [];
-        }
-        foreach ($info as $service) {
-            array_push($propose,$service["nomservice"]);
-        }
-        return $propose;
-    }
-
-    /**
      * Renvoie l'id d'une cuisine en fonction de son nom
      * @param PDO $bdd
      * @param string $nomCuisine

@@ -34,6 +34,28 @@ CREATE TABLE RESTAURANT(
     siteInternet VARCHAR(100),
 
     codeCommune VARCHAR(5),
+    
+    vegetarien VARCHAR(32),
+    vegan VARCHAR(32),
+    livraison VARCHAR(32),
+    aEmporter VARCHAR(32),
+    drive VARCHAR(32),
+    accessInternet VARCHAR(32),
+
+    capacite INT,
+
+    marque VARCHAR(32),
+    operateur VARCHAR(32),
+    type VARCHAR(32),
+    wikidata VARCHAR(32),
+    marqueWikidata VARCHAR(32),
+
+    espaceFumeur VARCHAR(32),
+    fauteuilRoulant VARCHAR(32),
+    facebook VARCHAR(100),
+
+    longitude VARCHAR(32),
+    latitude VARCHAR(32),
 
     FOREIGN KEY (codeCommune) REFERENCES COMMUNE (codeCommune)
 );
@@ -89,19 +111,4 @@ CREATE TABLE RESTAURANT_FAVORIS(
     PRIMARY KEY (username, osmID),
     FOREIGN KEY (username) REFERENCES UTILISATEUR(username),
     FOREIGN KEY (osmID) REFERENCES RESTAURANT(osmID)
-);
-
-CREATE TABLE SERVICE(
-    idService INT PRIMARY KEY,
-    nomService VARCHAR(32) UNIQUE
-);
-
-CREATE TABLE SERVICE_PROPOSE(
-    idService INT,
-    osmID VARCHAR(32),
-    propose BOOLEAN NOT NULL,
-
-    PRIMARY KEY(idService, osmID),
-    FOREIGN KEY(idService) REFERENCES SERVICE(idService),
-    FOREIGN KEY(osmID) REFERENCES RESTAURANT(osmID)
 );
