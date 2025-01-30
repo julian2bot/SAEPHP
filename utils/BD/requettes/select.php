@@ -147,7 +147,7 @@
     /**
      * Fonctions renvoyant les différents types de restaurations
      * @param PDO $bdd
-     * @return array
+     * @return array liste des noms de types
      */
     function getAllTypeResto(PDO $bdd){
         $reqResto = $bdd->prepare("SELECT DISTINCT type FROM RESTAURANT");
@@ -160,6 +160,26 @@
         $res = [];
         foreach ($info as $type) {
             array_push($res,$type["type"]);
+        }
+        return $res;
+    }
+
+    /**
+     * Fonctions renvoyant les différentes cuisines
+     * @param PDO $bdd
+     * @return array liste des noms des différentes cuisines
+     */
+    function getAllCuisinesResto(PDO $bdd){
+        $reqResto = $bdd->prepare("SELECT DISTINCT nomCuisine FROM CUISINE;");
+        $reqResto->execute(array());
+        $info = $reqResto->fetchAll();
+        if(!$info){
+            return [];
+        }
+
+        $res = [];
+        foreach ($info as $cuisine) {
+            array_push($res,$cuisine["nomcuisine"]);
         }
         return $res;
     }
