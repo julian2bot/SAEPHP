@@ -66,7 +66,29 @@
         if(!$info){
             return [];
         }
+        $info["cuisines"] = getCuisineByResto($bdd,$osmID);
         return $info;
+    }
+
+    /**
+     * Renvoie une liste des noms de cuisines proposés par un resto
+     * @param PDO $bdd
+     * @param string $osmID
+     * @return array
+     */
+    function getCuisineByResto(PDO $bdd, string $osmID):array{
+        $reqResto = $bdd->prepare("SELECT nomCuisine FROM PROPOSE NATURAL JOIN CUISINE WHERE osmID = ?");
+        $reqResto->execute(array($osmID));
+
+        $info = $reqResto->fetchAll();
+        if(!$info){
+            return [];
+        }
+        $res = [];
+        foreach($info as $val){
+            array_push($res, $val["nomcuisine"]);
+        }
+        return $res;
     }
 
     /**
@@ -120,5 +142,45 @@
             array_push($propose,$cuisine["nomcuisine"]);
         }
         return $propose;
+    }
+
+    /**
+     * Fonctions renvoyant les différents types de restaurations
+     * @param PDO $bdd
+     * @return array liste des noms de types
+     */
+    function getAllTypeResto(PDO $bdd){
+        $reqResto = $bdd->prepare("SELECT DISTINCT type FROM RESTAURANT");
+        $reqResto->execute(array());
+        $info = $reqResto->fetchAll();
+        if(!$info){
+            return [];
+        }
+
+        $res = [];
+        foreach ($info as $type) {
+            array_push($res,$type["type"]);
+        }
+        return $res;
+    }
+
+    /**
+     * Fonctions renvoyant les différentes cuisines
+     * @param PDO $bdd
+     * @return array liste des noms des différentes cuisines
+     */
+    function getAllCuisinesResto(PDO $bdd){
+        $reqResto = $bdd->prepare("SELECT DISTINCT nomCuisine FROM CUISINE;");
+        $reqResto->execute(array());
+        $info = $reqResto->fetchAll();
+        if(!$info){
+            return [];
+        }
+
+        $res = [];
+        foreach ($info as $cuisine) {
+            array_push($res,$cuisine["nomcuisine"]);
+        }
+        return $res;
     }
 ?>
