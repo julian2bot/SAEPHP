@@ -66,29 +66,8 @@
         if(!$info){
             return [];
         }
-        $info["cuisines"] = getCuisineByResto($bdd,$osmID);
+        $info["cuisines"] = getCuisinePropose($bdd,$osmID);
         return $info;
-    }
-
-    /**
-     * Renvoie une liste des noms de cuisines proposés par un resto
-     * @param PDO $bdd
-     * @param string $osmID
-     * @return array
-     */
-    function getCuisineByResto(PDO $bdd, string $osmID):array{
-        $reqResto = $bdd->prepare("SELECT nomCuisine FROM PROPOSE NATURAL JOIN CUISINE WHERE osmID = ?");
-        $reqResto->execute(array($osmID));
-
-        $info = $reqResto->fetchAll();
-        if(!$info){
-            return [];
-        }
-        $res = [];
-        foreach($info as $val){
-            array_push($res, $val["nomcuisine"]);
-        }
-        return $res;
     }
 
     /**
@@ -149,7 +128,7 @@
      * @param PDO $bdd
      * @return array liste des noms de types
      */
-    function getAllTypeResto(PDO $bdd){
+    function getAllTypeResto(PDO $bdd):array{
         $reqResto = $bdd->prepare("SELECT DISTINCT type FROM RESTAURANT");
         $reqResto->execute(array());
         $info = $reqResto->fetchAll();
@@ -169,8 +148,8 @@
      * @param PDO $bdd
      * @return array liste des noms des différentes cuisines
      */
-    function getAllCuisinesResto(PDO $bdd){
-        $reqResto = $bdd->prepare("SELECT DISTINCT nomCuisine FROM CUISINE;");
+    function getAllCuisinesResto(PDO $bdd):array{
+        $reqResto = $bdd->prepare("SELECT DISTINCT nomCuisine FROM CUISINE");
         $reqResto->execute(array());
         $info = $reqResto->fetchAll();
         if(!$info){
@@ -182,5 +161,43 @@
             array_push($res,$cuisine["nomcuisine"]);
         }
         return $res;
+    }
+
+    /**
+     * Fonction renvoyant les différentes marques
+     * @param PDO $bdd
+     * @return array liste des noms des marque
+     */
+    function getAllMarques(PDO $bdd):array{
+        $reqResto = $bdd->prepare("SELECT DISTINCT marque FROM RESTAURANT");
+        $reqResto->execute(array());
+        $info = $reqResto->fetchAll();
+        if(!$info){
+            return [];
+        }
+
+        $res = [];
+        foreach ($info as $type) {
+            if($type["marque"] != null)
+                array_push($res,$type["marque"]);
+        }
+        return $res;
+    }
+
+    /**
+     * Fonction renvoyant la liste des restos pour une marque
+     * @param PDO $bdd
+     * @param string $marque
+     * @return array
+     */
+    function getRestoByMarque(PDO $bdd, string $marque):array{
+        $reqResto = $bdd->prepare("SELECT * FROM RESTAURANT WHERE marque=?");
+        $reqResto->execute(array($marque));
+        $info = $reqResto->fetchAll();
+        if(!$info){
+            return [];
+        }
+
+        return $info;
     }
 ?>
