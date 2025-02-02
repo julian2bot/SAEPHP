@@ -75,15 +75,17 @@
                         <div><?php echo $value["etoiles"]??0?>/5</div>
                     </div>
                     <div class="adresse">
-                        <p><?php echo $value["codeCommune"]." ".$value["nomCommune"]?></p>
+                        <p><?php echo formatAdresseCommune($value)?></p>
                     </div>
                     <div class="attr">
                         <p>🍽</p>
                         <p>
                         <?php
-                        foreach($value["type"] as $typeResto){
-                            echo implode(",\n", $value["type"]);
-                        }
+                        // foreach($value["cuisines"] as $typeResto){
+                            // echo implode(",\n", $value["cuisines"]);
+                            echo formatCuisine($value);       
+
+                        // }
                             
                         ?>
                         </p>
@@ -120,9 +122,10 @@
                     <p>🍽</p>
                     <p>
                         <?php
-                            foreach($value["type"] as $typeResto){
-                                echo implode(",\n", $value["type"]);
-                            }      
+                            // foreach($value["cuisines"] as $typeResto){
+                                // echo implode(",\n", $value["cuisines"]);
+                            echo formatCuisine($value);       
+                            // }      
                         ?>
                     </p>
                 </div>

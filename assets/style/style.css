@@ -6,7 +6,11 @@
 main{
     background-image: url("../img/backgroundImage.png");
     /* background-color: aquamarine; */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 
+    
     max-height: 80vh;
     height: 80vh;
 
