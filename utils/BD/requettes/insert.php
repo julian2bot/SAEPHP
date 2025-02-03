@@ -131,6 +131,15 @@
         return true;
     }
 
+    /**
+     * Ajoute un commentaire d'un utilisateur pour un restaurant
+     * @param PDO $bdd
+     * @param string $osmID
+     * @param string $username
+     * @param int $note
+     * @param string $commentaire
+     * @return bool
+     */
     function insertCommentaire(PDO $bdd, string $osmID, string $username, int $note, string $commentaire):bool{
         $date = date_format(new DateTime(), "Y-m-d");
         $reqResto = $bdd->prepare("INSERT INTO AVIS (osmID,username,note,commentaire,dateCommentaire) VALUES (?,?,?,?,?)");
