@@ -291,4 +291,35 @@
         }
         return $info;
     }
+
+    /**
+     * Renvois une liste des commentaires et de la note du restaurant 
+     * @param PDO $bdd
+     * @param string $osmID
+     * @return array liste avec les clefs noteMoy qui donne la note du resto et commentaires avec la liste des commentaires
+     */
+    function getCommentairesResto(PDO $bdd, string $osmID):array{
+        $reqResto = $bdd->prepare("SELECT * FROM AVIS WHERE osmID=?");
+        $reqResto->execute(array($osmID));
+        $info = $reqResto->fetchAll();
+
+        $res = [];
+        $res["noteMoy"] = 0;
+        $res["commentaires"] = [];
+        if(!$info){
+            return $res;
+        }
+        $res["commentaires"] = $info;
+
+        $note = 0;
+        foreach ($info as $comm) {
+            if ($comm["note"] != null){
+                $note += $comm["note"];
+            }
+        }
+
+        $res["noteMoy"] = $note/sizeof($info);
+
+        return $res;
+    } 
 ?>

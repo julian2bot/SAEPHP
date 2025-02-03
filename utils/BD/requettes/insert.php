@@ -130,4 +130,16 @@
         }
         return true;
     }
+
+    function insertCommentaire(PDO $bdd, string $osmID, string $username, int $note, string $commentaire):bool{
+        $date = date_format(new DateTime(), "Y-m-d");
+        $reqResto = $bdd->prepare("INSERT INTO AVIS (osmID,username,note,commentaire,dateCommentaire) VALUES (?,?,?,?,?)");
+        try {
+            $reqResto->execute(array($osmID,$username,$note,$commentaire,$date));
+            return true;
+        } catch (PDOException $th) {
+            echo "erreur $th";
+            return false;
+        }
+    }
 ?>
