@@ -238,4 +238,41 @@
 
         return $res;
     }
+
+    /**
+     * Liste des services proposés 
+     * @return string[]
+     */
+    function getAllServices():array{
+        return ["vegetarien","vegan","livraison", "aEmporter", "drive", "accessInternet", "espaceFumeur", "fauteuilRoulant"];
+    }
+
+    /**
+     * Renvoie une liste de restos possèdant au moins un service
+     * @param PDO $bdd
+     * @param array $services
+     * @return array
+     */
+    function getRestoByServices(PDO $bdd, array $services):array{
+        $requete = "SELECT * FROM RESTAURANT WHERE";
+        if(empty($services)){
+            return [];
+        }
+
+        if (sizeof($services)>=1){
+            $requete = "$requete ($services[0] NOTNULL AND $services[0]!='no')";
+        }
+
+        for ($i=1; $i < sizeof($services); $i++) { 
+            $requete = "$requete OR ($services[$i] NOTNULL AND $services[$i]!='no')";
+        }
+
+        $reqResto = $bdd->prepare($requete);
+        $reqResto->execute();
+        $info = $reqResto->fetchAll();
+        if(!$info){
+            return [];
+        }
+        return $info;
+    }
 ?>
