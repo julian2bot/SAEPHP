@@ -144,6 +144,22 @@
     }
 
     /**
+     * Renvoie les restos par types de restos
+     * @param PDO $bdd
+     * @param string $type
+     * @return array
+     */
+    function getRestoByType(PDO $bdd, string $type):array{
+        $reqResto = $bdd->prepare("SELECT * FROM RESTAURANT WHERE type=?");
+        $reqResto->execute(array($type));
+        $info = $reqResto->fetchAll();
+        if(!$info){
+            return [];
+        }
+        return $info;
+    }
+
+    /**
      * Fonctions renvoyant les différentes cuisines
      * @param PDO $bdd
      * @return array liste des noms des différentes cuisines
