@@ -200,4 +200,42 @@
 
         return $info;
     }
+
+    /**
+     * Renvoie les restaurants proposant les cuisines par une liste de cuisines
+     * Liste trié par ordre de cuisines correspondantes dans l'ordre décroissante (Plus de correspondance en premier)
+     * @param PDO $bdd
+     * @param array $cuisines
+     * @return array
+     */
+    function getRestoByCuisine(PDO $bdd, array $cuisines):array{
+        $requete = "SELECT DISTINCT osmID, count(osmID) as nb FROM PROPOSE NATURAL JOIN CUISINE WHERE nomCuisine=?";
+        if(empty($cuisines)){
+            return [];
+        }
+
+        // $requete = "$requete";
+
+        for ($i=1; $i < sizeof($cuisines); $i++) { 
+            $requete = "$requete OR nomCuisine=?";
+        }
+
+        $requete = "$requete GROUP BY osmID ORDER BY nb DESC";
+
+        $reqResto = $bdd->prepare($requete);
+        $reqResto->execute($cuisines);
+        $info = $reqResto->fetchAll();
+        if(!$info){
+            return [];
+        }
+
+        // A améliorer
+
+        $res = [];
+        foreach ($info as $rest) {
+            array_push($res, getRestaurantByID($bdd, $rest["osmid"]));
+        }
+
+        return $res;
+    }
 ?>
