@@ -41,8 +41,13 @@ main{
 .colorEtoile{
     color:#feb624;
     text-shadow: 0px 0px 2px rgba(0,0,0,0.86);
-
 }
+
+
+.colorEtoileNoShadow{
+    color:#feb624;
+}
+
 .container {
     margin-top: 10em;
     display: grid; 
@@ -139,3 +144,151 @@ a{
 a:hover{
     text-decoration: underline;
 }
+
+
+.avis  *{
+    /* border-radius: 0 !important; */
+    /* border: none !important;  */
+    box-shadow:none !important;
+    display: inherit !important;
+    text-align: inherit !important;
+    max-height:500px;
+}
+
+
+.avis{
+    display: flex;
+    justify-content: space-around !important;
+    align-items: start !important;
+    gap: 20px;
+}
+.note-moyenne{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+
+}
+.note-moyenne h2{
+    font-size: 2rem;
+}
+
+.avis .commentaires, .avis .listComm{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    justify-content: start !important;
+}
+
+.commentaire{
+    text-align: left;
+    justify-content: flex-start !important;
+    align-items: start !important;
+    width: 100%;
+}
+
+.noter form{
+    display: flex;
+    flex-direction: column;
+}
+.avis textarea{
+    width: 100%;
+    max-height: 5rem;
+    /* no resize largeur + hauteur */
+    resize: vertical;
+    padding: 10px;
+    border: 1px solid #CCCCCC;
+}
+
+.commentaire{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+}
+.etoiles{
+    margin-bottom: 10px;
+}
+
+.mettreNote{
+    display: flex !important;
+    justify-content: end !important;
+    gap: 10px;
+    translate: 0 !important;
+}
+
+
+.publier {
+    cursor: pointer;
+    font-size: 22px;
+    color: rgb(0, 0, 0);
+    padding: 5px 30px;
+    transition: .5s;
+    border-radius: 10px;
+    background: rgb(105, 180, 255);
+    border: none;
+}
+
+.publier:hover{
+    background: rgba(57, 127, 197, 0.94) none repeat scroll 0% 0% / auto padding-box border-box;
+}
+
+.etoiles{
+    font-size: 2em;
+}
+
+
+.commentaires {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important; 
+}
+
+.noter {
+    flex-shrink: 0 !important; 
+}
+
+.listComm {
+    flex-grow: 1 !important; 
+    overflow: auto !important; 
+    width: 100%;
+}
+.nonCo{
+    max-height: 80% !important; 
+}
+.co{
+    max-height: 60% !important; 
+}
+
+
+div:has(> .etoiles):nth-child(n + 2) {
+    /* background-color: red; */
+    margin-top: 0;
+    translate: 0 -.8rem;
+}
+
+
+.stars {
+    font-size: 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.stargrey {
+    color: #96969d;
+}
+
+.stars > a {
+    text-decoration: none;
+}
+
+.staryellow i {
+    color: #feb624;
+}
+.stars .star:hover,
+.stars .star:hover ~ .star i{
+    color: #fac251 !important;
+    cursor: pointer;
+}
+

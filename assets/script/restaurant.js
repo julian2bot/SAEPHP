@@ -15,3 +15,54 @@ function initMap(restaurant){
         .openPopup();
 
 }
+
+
+
+
+// note
+function noteStar(maNote){
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const stars = document.querySelectorAll(".stars .star i");
+        const hiddenInput = document.querySelector("input[name='nbEtoile']");
+        const starsContainer = document.querySelector(".stars");
+        if(maNote>5){
+            maNote=5;
+        }
+        let selectedRating = maNote; 
+        hiddenInput.value = selectedRating;
+        updateStars(selectedRating);
+
+        stars.forEach(star => {
+            // Gestion du clic
+            star.addEventListener("click", function (event) {
+                event.preventDefault(); // Empêche le saut de page
+                selectedRating = this.getAttribute("data-index");
+                hiddenInput.value = selectedRating;
+                starsContainer.classList.add("clicked"); // Active l'état cliqué
+                updateStars(selectedRating);
+            });
+
+            // Gestion du hover
+            star.addEventListener("mouseover", function () {
+                updateStars(this.getAttribute("data-index"));
+            });
+
+            // Retour à la note sélectionnée en quittant le hover
+            star.addEventListener("mouseout", function () {
+                updateStars(selectedRating);
+            });
+        });
+
+        function updateStars(rating) {
+            stars.forEach(s => {
+                const index = s.getAttribute("data-index");
+                if (index <= rating) {
+                    s.parentElement.classList.add("staryellow");
+                } else {
+                    s.parentElement.classList.remove("staryellow");
+                }
+            });
+        }
+    });
+}

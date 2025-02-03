@@ -11,6 +11,16 @@ function formatetoile($nbEtoile):string {
     return '<span class="colorEtoile">' . $etoilesDorees . '</span>' . $etoilesVides;
 }
 
+function formatetoileV2($nbEtoile):string {
+    $nbEtoile = max(0, min(5, $nbEtoile));
+
+    $etoilesDorees = str_repeat('★', $nbEtoile);
+
+    $etoilesVides = str_repeat('☆', 5 - $nbEtoile);
+
+    return '<span class="colorEtoileNoShadow">' . $etoilesDorees . '</span>' . $etoilesVides;
+}
+
 
 function formatAdresse($dataResto):string {
     return $dataResto["address"]["house_number"] ." ". $dataResto["address"]["retail"] ." ". $dataResto["address"]["city"]  ." ". $dataResto["address"]["postcode"] ." ".$dataResto["address"]["country"];

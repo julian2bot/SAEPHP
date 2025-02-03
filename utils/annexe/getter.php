@@ -171,3 +171,165 @@ function getRestaurantByID(){
 
     );
 }
+
+function getCommentaireByResto(){
+    return array (
+        "noteMoy" => 4.2,
+        "commentaires" => [
+            array(
+                "username" => "Alice75",
+                "osmID" => "123456",
+                "note" => 5.0,
+                "commentaire" => "Meilleur restaurant dans lequel j’ai pu manger dans cette ville d’aigri, je recommande Super restaurant, service impeccable !",
+                "datecommentaire" => "2024-02-01"
+            ),
+            array(
+                "username" => "JeanMichel",
+                "osmID" => "654321",
+                "note" => 3.8,
+                "commentaire" => "Bonne cuisine mais un peu cher.",
+                "datecommentaire" => "2024-01-15"
+            ),
+            array(
+                "username" => "SophieB",
+                "osmID" => "789456",
+                "note" => 4.5,
+                "commentaire" => "Excellente ambiance et plats délicieux !",
+                "datecommentaire" => "2024-01-30"
+            ),
+            array(
+                "username" => "Tommy88",
+                "osmID" => "321789",
+                "note" => 2.7,
+                "commentaire" => "Service un peu lent, mais la nourriture était correcte.",
+                "datecommentaire" => "2024-01-10"
+            ),
+            array(
+                "username" => "Laura92",
+                "osmID" => "963852",
+                "note" => 4.9,
+                "commentaire" => "Un régal du début à la fin !",
+                "datecommentaire" => "2024-02-02"
+            ),
+            array(
+                "username" => "Laura92",
+                "osmID" => "963852",
+                "note" => 4.9,
+                "commentaire" => "Un régal du début à la fin !",
+                "datecommentaire" => "2024-02-02"
+            ),
+            array(
+                "username" => "Laura92",
+                "osmID" => "963852",
+                "note" => 4.9,
+                "commentaire" => "Un régal du début à la fin !",
+                "datecommentaire" => "2024-02-02"
+            ),
+            array(
+                "username" => "Laura92",
+                "osmID" => "963852",
+                "note" => 4.9,
+                "commentaire" => "Un régal du début à la fin !",
+                "datecommentaire" => "2024-02-02"
+            ),
+            array(
+                "username" => "Laura92",
+                "osmID" => "963852",
+                "note" => 4.9,
+                "commentaire" => "Un régal du début à la fin !",
+                "datecommentaire" => "2024-02-02"
+            ),
+            array(
+                "username" => "Laura92",
+                "osmID" => "963852",
+                "note" => 4.9,
+                "commentaire" => "Un régal du début à la fin !",
+                "datecommentaire" => "2024-02-02"
+            ),
+            array(
+                "username" => "Laura92",
+                "osmID" => "963852",
+                "note" => 4.9,
+                "commentaire" => "Un régal du début à la fin !",
+                "datecommentaire" => "2024-02-02"
+            ),
+            array(
+                "username" => "Laura92",
+                "osmID" => "963852",
+                "note" => 4.9,
+                "commentaire" => "Un régal du début à la fin !",
+                "datecommentaire" => "2024-02-02"
+            ),
+            array(
+                "username" => "Laura92",
+                "osmID" => "963852",
+                "note" => 4.9,
+                "commentaire" => "Un régal du début à la fin !",
+                "datecommentaire" => "2024-02-02"
+            ),
+            array(
+                "username" => "Laura92",
+                "osmID" => "963852",
+                "note" => 4.9,
+                "commentaire" => "Un régal du début à la fin !",
+                "datecommentaire" => "2024-02-02"
+            ),
+            array(
+                "username" => "Laura92",
+                "osmID" => "963852",
+                "note" => 4.9,
+                "commentaire" => "Un régal du début à la fin !",
+                "datecommentaire" => "2024-02-02"
+            ),
+            array(
+                "username" => "Laura92",
+                "osmID" => "963852",
+                "note" => 4.9,
+                "commentaire" => "Un régal du début à la fin !",
+                "datecommentaire" => "2024-02-02"
+            ),
+            array(
+                "username" => "Laura92",
+                "osmID" => "963852",
+                "note" => 4.9,
+                "commentaire" => "Un régal du début à la fin !",
+                "datecommentaire" => "2024-02-02"
+            ),
+            array(
+                "username" => "Laura92",
+                "osmID" => "963852",
+                "note" => 4.9,
+                "commentaire" => "Un régal du début à la fin !",
+                "datecommentaire" => "2024-02-02"
+            ),
+            array(
+                "username" => "Laura92",
+                "osmID" => "963852",
+                "note" => 4.9,
+                "commentaire" => "Un régal du début à la fin !",
+                "datecommentaire" => "2024-02-02"
+            ),
+            array(
+                "username" => "Laura92",
+                "osmID" => "963852",
+                "note" => 4.9,
+                "commentaire" => "Un régal du début à la fin !",
+                "datecommentaire" => "2024-02-02"
+            ),
+            array(
+                "username" => "Laura92",
+                "osmID" => "963852",
+                "note" => 4.9,
+                "commentaire" => "Un régal du début à la fin !",
+                "datecommentaire" => "2024-02-02"
+            ),
+            array(
+                "username" => "jeanMich",
+                "osmID" => "963852",
+                "note" => 4.9,
+                "commentaire" => "Un régal du début à la fin !",
+                "datecommentaire" => "2024-02-02"
+            )
+        ]
+    );
+}

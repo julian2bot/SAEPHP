@@ -21,6 +21,11 @@
     // echo "<pre>";
     // print_r($dataResto);
     // echo "</pre>";
+
+
+
+    $avisEtComm = getCommentaireByResto();
+
 ?>
 
 
@@ -84,7 +89,98 @@
             <div id="map" class="map">
 
             </div>
-            <div class="avis">rien</div>
+            <div id='avis' class="avis">
+    
+                <div class="note-moyenne">
+                    <h2><?php echo $avisEtComm["noteMoy"]?></h2>
+                    <div class="etoiles"><?php echo formatetoileV2((int)$avisEtComm["noteMoy"]??0)?></div>
+
+                </div>
+
+                <div class="commentaires">
+                    <?php
+                    if(true): // TODO if(isset($_SESSION["connecte"]))
+
+                    ?>
+                    
+                        <div class="noter">
+                            <form action="" methode="post">
+                                
+                                <textarea name="avis" placeholder="Laissez votre avis..." cols="100" rows="4" minlength="65" maxlength="500" spellcheck required></textarea>
+                                <input type="hidden" name="nbEtoile" value='-1'>
+                                <div class="mettreNote">
+                                    <p>Ma Note:</p>
+                                    <div class="stars">
+                                            <a href="#lanote=5" class="star stargrey" ><i data-index="5">★</i></a>
+                                            <a href="#lanote=4" class="star stargrey" ><i data-index="4">★</i></a>
+                                            <a href="#lanote=3" class="star stargrey" ><i data-index="3">★</i></a>
+                                            <a href="#lanote=2" class="star stargrey" ><i data-index="2">★</i></a>
+                                            <a href="#lanote=1" class="star stargrey" ><i data-index="1">★</i></a>
+                                    </div>   
+                                    <button class="publier" type="sumbit">Publier</button>
+                                </div>
+                            </form>
+                        </div>
+                    
+                    <div class="listComm co">
+                        
+                    <?php
+                    else:
+                    ?>
+                    <div class="listComm nonCo">
+                    
+                    <?php
+                    endif;
+                    
+                    ?>
+                    <?php
+                    foreach($avisEtComm["commentaires"] as $CommUser):
+                        // print_r($CommUser); 
+                    ?>
+
+                    <div class="commentaire">
+                        <h3><?php echo $CommUser["username"]?></h3>
+                        <div>
+
+                            <div class="etoiles"><?php echo formatetoileV2((int)$CommUser["note"]??0)?></div>
+                            <span class="date"><?php echo $CommUser["datecommentaire"]?></span>
+                        </div>                        
+                        <div>
+                            <?php echo $CommUser["commentaire"]?>
+                        </div>
+                    </div>
+                    <?php
+                    endforeach;
+                    ?>
+                    </div>
+
+
+<!--                    <div class="commentaire">
+                        <h3>JOHNNY SHALLOW</h3>
+                        <div>
+
+                            <div class="etoiles">⭐⭐⭐⭐⭐</div>
+                            <span class="date">17/02/2077</span>
+                        </div>
+                        <p>I poured myself a large glass of wine</p>
+                    </div>
+
+                    <div class="commentaire">
+                        <h3>TIMOTHEE SALAMECHE</h3>
+                        <div>
+
+                            <div class="etoiles">⭐⭐⭐⭐⭐</div>
+                            <span class="date">17/02/2077</span>
+                        </div>
+                        <p>Les rêves font de bonnes histoires, mais le chef fait de bons plats</p>
+                    </div> -->
+                    
+                </div>
+            </div>
+
+
+
+
         </div>
     </main>
 
@@ -92,6 +188,10 @@
     <script>
         var restaurant = <?php echo json_encode($leresto); ?>;
         initMap(restaurant);
+
+        noteStar(<?php echo 4; ?>)
     </script>
 </body>
 </html>
+
+
