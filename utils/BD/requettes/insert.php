@@ -151,4 +151,24 @@
             return false;
         }
     }
+
+    /**
+     * Ajoute ou retire un restaurant aux favoris de l'utilisateur
+     * @param PDO $bdd
+     * @param string $osmID
+     * @param string $username
+     * @return bool true si ajout, false sinon
+     */
+    function ajouteRetirerFavoris(PDO $bdd, string $osmID, string $username):bool{
+        if(estFavoris($bdd, $osmID, $username)){
+            $reqResto = $bdd->prepare("DELETE FROM RESTAURANT_FAVORIS WHERE osmID=? AND username=?");
+            $reqResto->execute(array($osmID,$username));
+            return false;
+        }
+        else{
+            $reqResto = $bdd->prepare("INSERT INTO RESTAURANT_FAVORIS (osmID,username) VALUES (?,?)");
+            $reqResto->execute(array($osmID,$username));
+            return true;
+        }
+    }
 ?>

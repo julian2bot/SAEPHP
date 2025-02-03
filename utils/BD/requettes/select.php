@@ -322,4 +322,14 @@
 
         return $res;
     } 
+
+    function estFavoris(PDO $bdd, string $osmID, string $username):bool{
+        $requser = $bdd->prepare("SELECT * FROM RESTAURANT_FAVORIS WHERE username=? AND osmID=?");
+        $requser->execute(array($username, $osmID));
+        $info = $requser->fetch();
+        if(!$info){
+            return false;
+        }
+        return true;
+    }
 ?>
