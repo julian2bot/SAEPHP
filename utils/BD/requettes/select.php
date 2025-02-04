@@ -1,5 +1,5 @@
 <?php
-    require_once __DIR__."/../connexionBD.php";
+    // require_once __DIR__."/../connexionBD.php";
 
     /**
      * Renvoie une région par son code de région

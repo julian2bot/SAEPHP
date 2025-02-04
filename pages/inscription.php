@@ -30,6 +30,8 @@
                     <input type="password" id="repassword" name="repassword" required>
 
                     <button type="submit">S'INSCRIRE</button>
+                    <a href="login.php" class="switch">Se connecter </a>
+
                 </form>
             </div>
         </div>

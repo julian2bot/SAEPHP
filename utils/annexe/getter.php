@@ -1,7 +1,7 @@
 <?php
 
 
-function getRecommendation(PDO $bdd):array{
+function getRecommendation2(PDO $bdd):array{
     return array(
         [
             "nomRestaurant"=>"Nom",
@@ -26,7 +26,7 @@ function getRecommendation(PDO $bdd):array{
         ]);
 }
 
-function getLesRestaurants(PDO $bdd):array{
+function getLesRestaurants2(PDO $bdd):array{
 
 
     return array(
@@ -104,7 +104,7 @@ function getLesRestaurants(PDO $bdd):array{
 }
 
 
-// function getLesRestaurants(PDO $bdd):array{
+// function getLesRestaurants2(PDO $bdd):array{
 
 //     return array(
 //         [
@@ -116,7 +116,7 @@ function getLesRestaurants(PDO $bdd):array{
 //         ] 
 // }
 
-function getRestaurantByID(){
+function getRestaurantByID2(){
     return Array
     (
     "osmid" => "node/3422189698"
@@ -172,7 +172,7 @@ function getRestaurantByID(){
     );
 }
 
-function getCommentaireByResto(){
+function getCommentaireByResto2(){
     return array (
         "noteMoy" => 4.2,
         "commentaires" => [

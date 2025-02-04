@@ -1,8 +1,9 @@
 <?php
-    // require_once "utils/BD/connexionBD.php";
-    $bdd = new PDO('mysql:host=localhost;dbname=saeponey', "root", "marques");
+    require_once "utils/BD/connexionBD.php";
+    // $bdd = new PDO('mysql:host=localhost;dbname=saeponey', "root", "marques");
 
     require_once "utils/annexe/getter.php";
+    require_once "utils/BD/requettes/select.php";
     require_once "utils/annexe/annexe.php";
 
 ?>
@@ -59,7 +60,7 @@
 
         <?php
 
-        $resto = getLesRestaurants($bdd);
+        $resto = getLesRestaurants2($bdd);
             // dans annexe:
             
 
@@ -104,7 +105,7 @@
         <div id="recommendationRestoContainer">
 
        <?php 
-       $resto = getRecommendation($bdd);
+       $resto = getRecommendation2($bdd);
        
        foreach($resto as $value):?>
 
@@ -130,7 +131,7 @@
                     </p>
                 </div>
 
-                <p>Voir plus</p>
+                <p><a href="#" style="text-decoration:none; color:black;">Voir plus</a></p>
             </div>
 
             <?php endforeach; ?>

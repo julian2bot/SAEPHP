@@ -24,7 +24,11 @@ function formatetoileV2($nbEtoile):string {
 
 
 function formatAdresse($dataResto):string {
-    return $dataResto["address"]["house_number"] ." ". $dataResto["address"]["retail"] ." ". $dataResto["address"]["city"]  ." ". $dataResto["address"]["postcode"] ." ".$dataResto["address"]["country"];
+    return ($dataResto["address"]["house_number"] ?? '') ." ".
+    ($dataResto["address"]["retail"] ?? 'rue ..?') ." ".
+    ($dataResto["address"]["city"] ?? '') ." ".
+    ($dataResto["address"]["postcode"] ?? '') ." ".
+    ($dataResto["address"]["country"] ?? '');
 }
 
 
@@ -34,7 +38,7 @@ function formatCuisine($leresto):string {
 }
 
 function formatAdresseCommune($value):string{
-    return $value["codeCommune"]." ".$value["nomCommune"];
+    return $value["codeCommune"]??''." ".$value["nomCommune"]??'';
 }
 
 function getAPIKey():string {
@@ -234,9 +238,9 @@ function getImageByPlaceId(string $placeId):array{
     $response_img = file_get_contents($url_img);
     $data_img = json_decode($response_img, true);
     
-    if (!$data_img || $data_img['status'] !== "OK") {
-        die(json_encode(["error" => "Aucun résultat trouvé ou erreur API.", "status" => $data_img['status'] ?? "Unknown"]));
-    }
+    // if (!$data_img || $data_img['status'] !== "OK") {
+    //     die(json_encode(["error" => "Aucun résultat trouvé ou erreur API.", "status" => $data_img['status'] ?? "Unknown"]));
+    // }
     
     $photos = [];
     if (!empty($data_img['result']['photos'])) {
@@ -246,7 +250,9 @@ function getImageByPlaceId(string $placeId):array{
             $photos[] = $photoUrl;
         }
     }
-    
+    if(empty($photo)){
+        return[];
+    }
     // header('Content-Type: application/json');
     return categorizeImagesByOrientation($photos);
 }

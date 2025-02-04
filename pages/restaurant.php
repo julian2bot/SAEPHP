@@ -1,11 +1,33 @@
 <?php
-    // require_once "../utils/BD/connexionBD.php";
-    $bdd = new PDO('mysql:host=localhost;dbname=saeponey', "root", "marques");
+    require_once "../utils/BD/connexionBD.php";
+    // $bdd = new PDO('mysql:host=localhost;dbname=saeponey', "root", "marques");
 
     require_once "../utils/annexe/getter.php";
+    require_once "../utils/BD/requettes/select.php";
     require_once "../utils/annexe/annexe.php";
 
-    $leresto = getRestaurantByID();
+    // echo "<pre>";
+    // print_r($_GET);
+    // echo "</pre>";
+
+    if (!empty($_GET["osmID"])) {
+        $leresto = getRestaurantByID($bdd, $_GET["osmID"]);
+    }
+    
+    if (empty($leresto) && !empty($_GET["resto"])) {
+        // $leresto = getRestaurantByName($bdd, $_GET["resto"]);
+        header("Location: 404.php");
+        exit;
+    }
+    
+    if (empty($leresto)) {
+        header("Location: 404.php");
+        exit;
+    }
+
+    
+
+    // $leresto = getRestaurantByID2();
 
     // echo "<pre>";
     // print_r($leresto);
@@ -33,7 +55,7 @@
     // print_r(getimagesize($imagesResto["photos"][0]))  ;
     
     
-    $avisEtComm = getCommentaireByResto();
+    $avisEtComm = getCommentaireByResto2();
 
 ?>
 
@@ -81,18 +103,18 @@
             </div>
             <div class="img">
                 <!-- <img src="../assets/img/Boeuf.png" alt="resto:"> -->
-                <img src="<?php echo $imagesResto["horizontal"][0]?>" alt="resto:">
+                <img src="<?php echo $imagesResto["horizontal"][0]??"../assets/img/Boeuf.png"?>" alt="resto:">
 
             </div>
             <div class="img2">
-                <img src="<?php echo $imagesResto["vertical"][0]?>" alt="resto:">
+                <img src="<?php echo $imagesResto["vertical"][0]??"../assets/img/Jarret.png"?>" alt="resto:">
                 <!-- <img src="../assets/img/Jarret.png" alt="resto:"> -->
             </div>
             <div class="numtel">
-                <?php echo $leresto["telephone"]?>
+                <?php echo $leresto["telephone"]??"pas de téléphone"?>
             </div>
             <div class="siteweb">
-                <a href="<?php echo $leresto["siteinternet"] ?>">SiteWeb</a>        
+                <a href="<?php echo $leresto["siteinternet"]??"#"?>">SiteWeb</a>        
                 
             </div>
             <div class="jsp"> </div>
