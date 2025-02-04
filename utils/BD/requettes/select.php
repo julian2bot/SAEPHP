@@ -53,6 +53,22 @@
     }
 
     /**
+     * Renvois tous les restos
+     * @param PDO $bdd
+     * @return array
+     */
+    function getResto(PDO $bdd):array{
+        $reqResto = $bdd->prepare("SELECT * FROM RESTAURANT");
+        $reqResto->execute(array());
+
+        $info = $reqResto->fetch();
+        if(!$info){
+            return [];
+        }
+        return $info;
+    }
+
+    /**
      * Renvoie les informations d'un restaurant
      * @param PDO $bdd
      * @param string $osmID
