@@ -5,47 +5,64 @@ CREATE TABLE UTILISATEUR(
 );
 
 CREATE TABLE REGION(
-    codeRegion INT PRIMARY KEY,
+    codeRegion VARCHAR(5) PRIMARY KEY,
     nomRegion VARCHAR(32) NOT NULL
 );
 
 CREATE TABLE DEPARTEMENT(
-    codeRegion INT,
-    codeDepartement INT,
+    codeRegion VARCHAR(5),
+    codeDepartement VARCHAR(5) PRIMARY KEY,
     nomDepartement VARCHAR(32) NOT NULL,
 
-    PRIMARY KEY (codeRegion,codeDepartement),
     FOREIGN KEY (codeRegion) REFERENCES REGION (codeRegion)
 );
 
 CREATE TABLE COMMUNE(
-    codeRegion INT,
-    codeDepartement INT,
-    codeCommune INT,
+    codeDepartement VARCHAR(5),
+    codeCommune VARCHAR(5) PRIMARY KEY,
     nomCommune VARCHAR(32) NOT NULL,
 
-    PRIMARY KEY (codeRegion,codeDepartement, codeCommune),
-    FOREIGN KEY (codeRegion,codeDepartement) REFERENCES DEPARTEMENT (codeRegion,codeDepartement)
+    FOREIGN KEY (codeDepartement) REFERENCES DEPARTEMENT (codeDepartement)
 );
 
 CREATE TABLE RESTAURANT(
-    osmID INT PRIMARY KEY,
-    nomRestaurant VARCHAR(32),
+    osmID VARCHAR(40) PRIMARY KEY,
+    nomRestaurant VARCHAR(100),
     telephone VARCHAR(32),
-    siret VARCHAR(32),
+    siret VARCHAR(40),
     etoiles SMALLINT CHECK (etoiles >= 0 AND etoiles <=5),
     siteInternet VARCHAR(100),
 
-    codeRegion INT,
-    codeDepartement INT,
-    codeCommune INT,
+    codeCommune VARCHAR(5),
+    
+    vegetarien VARCHAR(32),
+    vegan VARCHAR(32),
+    livraison VARCHAR(32),
+    aEmporter VARCHAR(32),
+    drive VARCHAR(32),
+    accessInternet VARCHAR(32),
 
-    FOREIGN KEY (codeRegion,codeDepartement, codeCommune) REFERENCES COMMUNE (codeRegion,codeDepartement, codeCommune)
+    capacite INT,
+
+    marque VARCHAR(32),
+    operateur VARCHAR(32),
+    type VARCHAR(32),
+    wikidata VARCHAR(32),
+    marqueWikidata VARCHAR(32),
+
+    espaceFumeur VARCHAR(32),
+    fauteuilRoulant VARCHAR(32),
+    facebook VARCHAR(100),
+
+    longitude VARCHAR(32),
+    latitude VARCHAR(32),
+
+    FOREIGN KEY (codeCommune) REFERENCES COMMUNE (codeCommune)
 );
 
 CREATE TABLE HEURE_OUVERTURE(
-    osmID INT,
-    jourOuverture VARCHAR(10),
+    osmID VARCHAR(32),
+    jourOuverture VARCHAR(3) CHECK (jourOuverture in ('Mo','Tu','We','Th','Fr','Sa','Su', 'PH')),
     heureDebut TIME,
     heureFin TIME,
 
@@ -59,7 +76,7 @@ CREATE TABLE CUISINE(
 );
 
 CREATE TABLE PROPOSE(
-    osmID INT,
+    osmID VARCHAR(32),
     idCuisine INT,
 
     PRIMARY KEY (osmID, idCuisine),
@@ -78,7 +95,7 @@ CREATE TABLE CUISINE_FAVORITES(
 
 CREATE TABLE AVIS(
     username VARCHAR(32),
-    osmID INT,
+    osmID VARCHAR(32),
     note SMALLINT CHECK (note <= 0 AND note >= 5),
     commentaire VARCHAR(255),
 
@@ -89,7 +106,7 @@ CREATE TABLE AVIS(
 
 CREATE TABLE RESTAURANT_FAVORIS(
     username VARCHAR(32),
-    osmID INT,
+    osmID VARCHAR(32),
 
     PRIMARY KEY (username, osmID),
     FOREIGN KEY (username) REFERENCES UTILISATEUR(username),
