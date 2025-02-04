@@ -22,8 +22,17 @@
     // print_r($dataResto);
     // echo "</pre>";
 
+    
+    $placeId = getPlaceId($lat, $lon, $leresto["nomrestaurant"], 10);
+    $imagesResto = getImageByPlaceId($placeId);
 
-
+    // print_r($imagesResto);
+    // echo "<img src=\"".$imagesResto["vertical"][0]."\" alt=''>";
+    // echo "<img src=\"".$imagesResto["horizontal"][0]."\" alt=''>";
+    
+    // print_r(getimagesize($imagesResto["photos"][0]))  ;
+    
+    
     $avisEtComm = getCommentaireByResto();
 
 ?>
@@ -71,11 +80,13 @@
                 ?>
             </div>
             <div class="img">
-                <img src="../assets/img/Boeuf.png" alt="resto:">
+                <!-- <img src="../assets/img/Boeuf.png" alt="resto:"> -->
+                <img src="<?php echo $imagesResto["horizontal"][0]?>" alt="resto:">
 
             </div>
             <div class="img2">
-                <img src="../assets/img/Jarret.png" alt="resto:">
+                <img src="<?php echo $imagesResto["vertical"][0]?>" alt="resto:">
+                <!-- <img src="../assets/img/Jarret.png" alt="resto:"> -->
             </div>
             <div class="numtel">
                 <?php echo $leresto["telephone"]?>
