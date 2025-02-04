@@ -55,7 +55,11 @@
     // print_r(getimagesize($imagesResto["photos"][0]))  ;
     
     
-    $avisEtComm = getCommentaireByResto2();
+    // $avisEtComm = getCommentaireByResto2();
+    $avisEtComm = getCommentairesResto($bdd, $leresto["osmid"]);
+    // echo "<pre>";
+    // print_r($avisEtComm);
+    // echo "</pre>";
 
 ?>
 
@@ -132,7 +136,7 @@
 
                 <div class="commentaires">
                     <?php
-                    if(true): // TODO if(isset($_SESSION["connecte"]))
+                    if(true): // todo login if(isset($_SESSION["connecte"]))
 
                     ?>
                     

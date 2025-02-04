@@ -1,5 +1,5 @@
 <?php
-if(true): // TODO if(isset($_SESSION["connecte"]))
+if(true): //  todo login if(isset($_SESSION["connecte"]))
 ?>
 
 <header>
