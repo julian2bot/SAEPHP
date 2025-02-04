@@ -453,10 +453,10 @@
 
         
 
-        echo "Cuisines : <br>";
-        print_r($lesCuisines);
-        echo "Types : <br>";
-        print_r($lesTypes);
+        // echo "Cuisines : <br>";
+        // print_r($lesCuisines);
+        // echo "Types : <br>";
+        // print_r($lesTypes);
 
         arsort($lesCuisines);
         arsort($lesTypes);

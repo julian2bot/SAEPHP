@@ -31,14 +31,28 @@ function formatAdresse($dataResto):string {
     ($dataResto["address"]["country"] ?? '');
 }
 
+function formatUrlResto(string $id, string $name):string{
+    return "pages/restaurant.php?osmID=".$id."&resto=".$name."";
+}
 
+function formatCuisine($value):string {
+    // return implode(",\n",$leresto["cuisines"]);
+    $cuisine= "";
+    if(isset($value["cuisines"])){
 
-function formatCuisine($leresto):string {
-    return implode(",\n",$leresto["cuisines"]);
+        foreach($value["cuisines"] as $typeResto){
+            $cuisine.=implode(",\n", $value["cuisines"]);
+            // echo formatCuisine($value["cuisines"]);       
+        }      
+    }
+    else{
+        return "pas de cuisine dispo";
+    }
+    return $cuisine;
 }
 
 function formatAdresseCommune($value):string{
-    return $value["codeCommune"]??''." ".$value["nomCommune"]??'';
+    return $value["codecommune"]??''." ".$value["nomcommune"]??'';
 }
 
 function getAPIKey():string {
