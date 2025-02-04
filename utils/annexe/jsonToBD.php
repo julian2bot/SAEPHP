@@ -128,7 +128,7 @@
         set_time_limit(120);
     }
 
-    echo "<pre>";
-    addAllRestoFromJson($bdd,$lesRestaurants);
-    echo "<pre>";
+    // echo "<pre>";
+    // addAllRestoFromJson($bdd,$lesRestaurants);
+    // echo "<pre>";
 ?>
