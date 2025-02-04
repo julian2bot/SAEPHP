@@ -53,6 +53,22 @@
     }
 
     /**
+     * Renvois tous les restos
+     * @param PDO $bdd
+     * @return array
+     */
+    function getResto(PDO $bdd):array{
+        $reqResto = $bdd->prepare("SELECT * FROM RESTAURANT");
+        $reqResto->execute(array());
+
+        $info = $reqResto->fetch();
+        if(!$info){
+            return [];
+        }
+        return $info;
+    }
+
+    /**
      * Renvoie les informations d'un restaurant
      * @param PDO $bdd
      * @param string $osmID
@@ -66,29 +82,8 @@
         if(!$info){
             return [];
         }
-        $info["cuisines"] = getCuisineByResto($bdd,$osmID);
+        $info["cuisines"] = getCuisinePropose($bdd,$osmID);
         return $info;
-    }
-
-    /**
-     * Renvoie une liste des noms de cuisines proposés par un resto
-     * @param PDO $bdd
-     * @param string $osmID
-     * @return array
-     */
-    function getCuisineByResto(PDO $bdd, string $osmID):array{
-        $reqResto = $bdd->prepare("SELECT nomCuisine FROM PROPOSE NATURAL JOIN CUISINE WHERE osmID = ?");
-        $reqResto->execute(array($osmID));
-
-        $info = $reqResto->fetchAll();
-        if(!$info){
-            return [];
-        }
-        $res = [];
-        foreach($info as $val){
-            array_push($res, $val["nomcuisine"]);
-        }
-        return $res;
     }
 
     /**
@@ -149,7 +144,7 @@
      * @param PDO $bdd
      * @return array liste des noms de types
      */
-    function getAllTypeResto(PDO $bdd){
+    function getAllTypeResto(PDO $bdd):array{
         $reqResto = $bdd->prepare("SELECT DISTINCT type FROM RESTAURANT");
         $reqResto->execute(array());
         $info = $reqResto->fetchAll();
@@ -165,12 +160,38 @@
     }
 
     /**
+     * Renvoie les restos par types de restos
+     * @param PDO $bdd
+     * @param array $types
+     * @return array
+     */
+    function getRestoByType(PDO $bdd, array $types):array{
+        $requete = "SELECT * FROM RESTAURANT WHERE type = ?";
+
+        if(empty($types)){
+            return [];
+        }
+
+        for ($i=1; $i < sizeof($types); $i++) { 
+            $requete = "$requete OR type=?";
+        }
+
+        $reqResto = $bdd->prepare($requete);
+        $reqResto->execute($types);
+        $info = $reqResto->fetchAll();
+        if(!$info){
+            return [];
+        }
+        return $info;
+    }
+
+    /**
      * Fonctions renvoyant les différentes cuisines
      * @param PDO $bdd
      * @return array liste des noms des différentes cuisines
      */
-    function getAllCuisinesResto(PDO $bdd){
-        $reqResto = $bdd->prepare("SELECT DISTINCT nomCuisine FROM CUISINE;");
+    function getAllCuisinesResto(PDO $bdd):array{
+        $reqResto = $bdd->prepare("SELECT DISTINCT nomCuisine FROM CUISINE");
         $reqResto->execute(array());
         $info = $reqResto->fetchAll();
         if(!$info){
@@ -182,5 +203,304 @@
             array_push($res,$cuisine["nomcuisine"]);
         }
         return $res;
+    }
+
+    /**
+     * Fonction renvoyant les différentes marques
+     * @param PDO $bdd
+     * @return array liste des noms des marque
+     */
+    function getAllMarques(PDO $bdd):array{
+        $reqResto = $bdd->prepare("SELECT DISTINCT marque FROM RESTAURANT");
+        $reqResto->execute(array());
+        $info = $reqResto->fetchAll();
+        if(!$info){
+            return [];
+        }
+
+        $res = [];
+        foreach ($info as $type) {
+            if($type["marque"] != null)
+                array_push($res,$type["marque"]);
+        }
+        return $res;
+    }
+
+    /**
+     * Fonction renvoyant la liste des restos pour une marque
+     * @param PDO $bdd
+     * @param string $marque
+     * @return array
+     */
+    function getRestoByMarque(PDO $bdd, string $marque):array{
+        $reqResto = $bdd->prepare("SELECT * FROM RESTAURANT WHERE marque=?");
+        $reqResto->execute(array($marque));
+        $info = $reqResto->fetchAll();
+        if(!$info){
+            return [];
+        }
+
+        return $info;
+    }
+
+    /**
+     * Renvoie les restaurants proposant les cuisines par une liste de cuisines
+     * Liste trié par ordre de cuisines correspondantes dans l'ordre décroissante (Plus de correspondance en premier)
+     * @param PDO $bdd
+     * @param array $cuisines
+     * @return array
+     */
+    function getRestoByCuisine(PDO $bdd, array $cuisines):array{
+        $requete = "SELECT DISTINCT osmID, count(osmID) as nb FROM PROPOSE NATURAL JOIN CUISINE WHERE nomCuisine=?";
+        if(empty($cuisines)){
+            return [];
+        }
+
+        // $requete = "$requete";
+
+        for ($i=1; $i < sizeof($cuisines); $i++) { 
+            $requete = "$requete OR nomCuisine=?";
+        }
+
+        $requete = "$requete GROUP BY osmID ORDER BY nb DESC";
+
+        $reqResto = $bdd->prepare($requete);
+        $reqResto->execute($cuisines);
+        $info = $reqResto->fetchAll();
+        if(!$info){
+            return [];
+        }
+
+        // A améliorer
+
+        $res = [];
+        foreach ($info as $rest) {
+            array_push($res, getRestaurantByID($bdd, $rest["osmid"]));
+        }
+
+        return $res;
+    }
+
+    /**
+     * Liste des services proposés 
+     * @return string[]
+     */
+    function getAllServices():array{
+        return ["vegetarien","vegan","livraison", "aEmporter", "drive", "accessInternet", "espaceFumeur", "fauteuilRoulant"];
+    }
+
+    /**
+     * Renvoie une liste de restos possèdant au moins un service
+     * @param PDO $bdd
+     * @param array $services
+     * @return array
+     */
+    function getRestoByServices(PDO $bdd, array $services):array{
+        $requete = "SELECT * FROM RESTAURANT WHERE";
+        if(empty($services)){
+            return [];
+        }
+
+        if (sizeof($services)>=1){
+            $requete = "$requete ($services[0] NOTNULL AND $services[0]!='no')";
+        }
+
+        for ($i=1; $i < sizeof($services); $i++) { 
+            $requete = "$requete OR ($services[$i] NOTNULL AND $services[$i]!='no')";
+        }
+
+        $reqResto = $bdd->prepare($requete);
+        $reqResto->execute();
+        $info = $reqResto->fetchAll();
+        if(!$info){
+            return [];
+        }
+        return $info;
+    }
+
+    /**
+     * Renvois une liste des commentaires et de la note du restaurant 
+     * @param PDO $bdd
+     * @param string $osmID
+     * @return array liste avec les clefs noteMoy qui donne la note du resto et commentaires avec la liste des commentaires
+     */
+    function getCommentairesResto(PDO $bdd, string $osmID):array{
+        $reqResto = $bdd->prepare("SELECT * FROM AVIS WHERE osmID=?");
+        $reqResto->execute(array($osmID));
+        $info = $reqResto->fetchAll();
+
+        $res = [];
+        $res["noteMoy"] = 0;
+        $res["commentaires"] = [];
+        if(!$info){
+            return $res;
+        }
+        $res["commentaires"] = $info;
+
+        $note = 0;
+        foreach ($info as $comm) {
+            if ($comm["note"] != null){
+                $note += $comm["note"];
+            }
+        }
+
+        $res["noteMoy"] = $note/sizeof($info);
+
+        return $res;
+    } 
+
+    /**
+     * Renvois la liste des favoris de l'utilisateur
+     * @param PDO $bdd
+     * @param string $username
+     * @return array
+     */
+    function getLesFavoris(PDO $bdd, string $username):array{
+        $requser = $bdd->prepare("SELECT * FROM RESTAURANT_FAVORIS NATURAL JOIN RESTAURANT WHERE username=?");
+        $requser->execute(array($username));
+        $info = $requser->fetchAll();
+        if(!$info){
+            return [];
+        }
+        return $info;
+    }
+
+    /**
+     * Renvoie si le resto est dans les favoris de l'utilisateur
+     * @param PDO $bdd
+     * @param string $osmID
+     * @param string $username
+     * @return bool
+     */
+    function estFavoris(PDO $bdd, string $osmID, string $username):bool{
+        $requser = $bdd->prepare("SELECT * FROM RESTAURANT_FAVORIS WHERE username=? AND osmID=?");
+        $requser->execute(array($username, $osmID));
+        $info = $requser->fetch();
+        if(!$info){
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Liste des avis écrits par un utilisateur
+     * @param PDO $bdd
+     * @param string $username
+     * @return array
+     */
+    function getMesAvis(PDO $bdd, string $username):array{
+        $reqResto = $bdd->prepare("SELECT * FROM AVIS NATURAL JOIN RESTAURANT WHERE username=?");
+        $reqResto->execute(array($username));
+        $info = $reqResto->fetchAll();
+
+        if(!$info){
+            return [];
+        }
+        return $info;
+    }
+
+    /**
+     * Fonctions renvoyant une liste de recommandations de restaurants en fonctions des restaurants favoris et des avis de l'utilisateurs
+     * @param PDO $bdd
+     * @param string $username
+     * @param int $max Nombre de reco max
+     * @return array
+     */
+    function getMesRecommandations(PDO $bdd, string $username, int $max=10):array{
+        $favoris = getLesFavoris($bdd, $username);
+        $reqResto = $bdd->prepare("SELECT * FROM AVIS NATURAL JOIN RESTAURANT WHERE username=? AND note>=3");
+        $reqResto->execute(array($username));
+        $meilleurs = $reqResto->fetchAll();
+
+        $avis = getMesAvis($bdd,$username);
+
+        if(!$meilleurs){
+            $meilleurs = [];
+        }
+
+        $lesCuisines = [];
+        $lesTypes = [];
+        
+        foreach ($favoris as $favResto) {
+            // Types
+            if(!isset($lesTypes[$favResto["type"]])){
+                $lesTypes[$favResto["type"]] = 0;
+            }
+            $lesTypes[$favResto["type"]] += 1;
+            // Cuisines
+            foreach (getCuisinePropose($bdd,$favResto["osmid"]) as $cuisine) {
+                if(!isset($lesCuisines[$cuisine])){
+                    $lesCuisines[$cuisine] = 0;
+                }
+                $lesCuisines[$cuisine] += 1;
+            }
+        }
+
+        foreach ($meilleurs as $favResto) {
+            // Types
+            if(!isset($lesTypes[$favResto["type"]])){
+                $lesTypes[$favResto["type"]] = 0;
+            }
+            $lesTypes[$favResto["type"]] += 1;
+            // Cuisines
+            foreach (getCuisinePropose($bdd,$favResto["osmid"]) as $cuisine) {
+                if(!isset($lesCuisines[$cuisine])){
+                    $lesCuisines[$cuisine] = 0;
+                }
+                $lesCuisines[$cuisine] += 1;
+            }
+        }
+
+        
+
+        echo "Cuisines : <br>";
+        print_r($lesCuisines);
+        echo "Types : <br>";
+        print_r($lesTypes);
+
+        arsort($lesCuisines);
+        arsort($lesTypes);
+
+        // echo "Cuisines : <br>";
+        // print_r($lesCuisines);
+        // echo "Types : <br>";
+        // print_r($lesTypes);
+
+        // Réduires aux 2 critères max
+
+        $lesCuisines = array_slice($lesCuisines,0,2);
+        $lesTypes = array_slice($lesTypes,0,2);
+
+        // echo "Cuisines : <br>";
+        // print_r($lesCuisines);
+        // echo "Types : <br>";
+        // print_r($lesTypes);
+
+        $lesCuisines = getRestoByCuisine($bdd, array_keys($lesCuisines));
+        $lesTypes = getRestoByType($bdd, array_keys($lesTypes));
+
+        // echo "Cuisines : <br>";
+        // print_r($lesCuisines);
+        // echo "Types : <br>";
+        // print_r($lesTypes);
+
+        $lesRecos = [];
+
+        // Ajouter les recos si le resto n'est pas dans les avis ou dans les favoris et que la liste des recos n'a pas atteint le nombre max
+
+        foreach ($lesCuisines as $restoByCuisine) {
+            if(! in_array($restoByCuisine,$avis) && ! in_array($restoByCuisine,$favoris) && sizeof($lesRecos)<$max){
+                array_push($lesRecos, $restoByCuisine);
+            }
+        }
+
+        foreach ($lesTypes as $restoByType) {
+            if(! in_array($restoByType,$avis) && ! in_array($restoByType,$favoris) && sizeof($lesRecos)<$max){
+                array_push($lesRecos, $restoByType);
+            }
+        }
+
+
+        return $lesRecos;
     }
 ?>
