@@ -146,12 +146,22 @@
     /**
      * Renvoie les restos par types de restos
      * @param PDO $bdd
-     * @param string $type
+     * @param array $types
      * @return array
      */
-    function getRestoByType(PDO $bdd, string $type):array{
-        $reqResto = $bdd->prepare("SELECT * FROM RESTAURANT WHERE type=?");
-        $reqResto->execute(array($type));
+    function getRestoByType(PDO $bdd, array $types):array{
+        $requete = "SELECT * FROM RESTAURANT WHERE type = ?";
+
+        if(empty($types)){
+            return [];
+        }
+
+        for ($i=1; $i < sizeof($types); $i++) { 
+            $requete = "$requete OR type=?";
+        }
+
+        $reqResto = $bdd->prepare($requete);
+        $reqResto->execute($types);
         $info = $reqResto->fetchAll();
         if(!$info){
             return [];
@@ -323,6 +333,29 @@
         return $res;
     } 
 
+    /**
+     * Renvois la liste des favoris de l'utilisateur
+     * @param PDO $bdd
+     * @param string $username
+     * @return array
+     */
+    function getLesFavoris(PDO $bdd, string $username):array{
+        $requser = $bdd->prepare("SELECT * FROM RESTAURANT_FAVORIS NATURAL JOIN RESTAURANT WHERE username=?");
+        $requser->execute(array($username));
+        $info = $requser->fetchAll();
+        if(!$info){
+            return [];
+        }
+        return $info;
+    }
+
+    /**
+     * Renvoie si le resto est dans les favoris de l'utilisateur
+     * @param PDO $bdd
+     * @param string $osmID
+     * @param string $username
+     * @return bool
+     */
     function estFavoris(PDO $bdd, string $osmID, string $username):bool{
         $requser = $bdd->prepare("SELECT * FROM RESTAURANT_FAVORIS WHERE username=? AND osmID=?");
         $requser->execute(array($username, $osmID));
@@ -331,5 +364,127 @@
             return false;
         }
         return true;
+    }
+
+    /**
+     * Liste des avis écrits par un utilisateur
+     * @param PDO $bdd
+     * @param string $username
+     * @return array
+     */
+    function getMesAvis(PDO $bdd, string $username):array{
+        $reqResto = $bdd->prepare("SELECT * FROM AVIS NATURAL JOIN RESTAURANT WHERE username=?");
+        $reqResto->execute(array($username));
+        $info = $reqResto->fetchAll();
+
+        if(!$info){
+            return [];
+        }
+        return $info;
+    }
+
+    /**
+     * Fonctions renvoyant une liste de recommandations de restaurants en fonctions des restaurants favoris et des avis de l'utilisateurs
+     * @param PDO $bdd
+     * @param string $username
+     * @param int $max Nombre de reco max
+     * @return array
+     */
+    function getMesRecommandations(PDO $bdd, string $username, int $max=10):array{
+        $favoris = getLesFavoris($bdd, $username);
+        $reqResto = $bdd->prepare("SELECT * FROM AVIS NATURAL JOIN RESTAURANT WHERE username=? AND note>=3");
+        $reqResto->execute(array($username));
+        $meilleurs = $reqResto->fetchAll();
+
+        $avis = getMesAvis($bdd,$username);
+
+        if(!$meilleurs){
+            $meilleurs = [];
+        }
+
+        $lesCuisines = [];
+        $lesTypes = [];
+        
+        foreach ($favoris as $favResto) {
+            // Types
+            if(!isset($lesTypes[$favResto["type"]])){
+                $lesTypes[$favResto["type"]] = 0;
+            }
+            $lesTypes[$favResto["type"]] += 1;
+            // Cuisines
+            foreach (getCuisinePropose($bdd,$favResto["osmid"]) as $cuisine) {
+                if(!isset($lesCuisines[$cuisine])){
+                    $lesCuisines[$cuisine] = 0;
+                }
+                $lesCuisines[$cuisine] += 1;
+            }
+        }
+
+        foreach ($meilleurs as $favResto) {
+            // Types
+            if(!isset($lesTypes[$favResto["type"]])){
+                $lesTypes[$favResto["type"]] = 0;
+            }
+            $lesTypes[$favResto["type"]] += 1;
+            // Cuisines
+            foreach (getCuisinePropose($bdd,$favResto["osmid"]) as $cuisine) {
+                if(!isset($lesCuisines[$cuisine])){
+                    $lesCuisines[$cuisine] = 0;
+                }
+                $lesCuisines[$cuisine] += 1;
+            }
+        }
+
+        
+
+        echo "Cuisines : <br>";
+        print_r($lesCuisines);
+        echo "Types : <br>";
+        print_r($lesTypes);
+
+        arsort($lesCuisines);
+        arsort($lesTypes);
+
+        // echo "Cuisines : <br>";
+        // print_r($lesCuisines);
+        // echo "Types : <br>";
+        // print_r($lesTypes);
+
+        // Réduires aux 2 critères max
+
+        $lesCuisines = array_slice($lesCuisines,0,2);
+        $lesTypes = array_slice($lesTypes,0,2);
+
+        // echo "Cuisines : <br>";
+        // print_r($lesCuisines);
+        // echo "Types : <br>";
+        // print_r($lesTypes);
+
+        $lesCuisines = getRestoByCuisine($bdd, array_keys($lesCuisines));
+        $lesTypes = getRestoByType($bdd, array_keys($lesTypes));
+
+        // echo "Cuisines : <br>";
+        // print_r($lesCuisines);
+        // echo "Types : <br>";
+        // print_r($lesTypes);
+
+        $lesRecos = [];
+
+        // Ajouter les recos si le resto n'est pas dans les avis ou dans les favoris et que la liste des recos n'a pas atteint le nombre max
+
+        foreach ($lesCuisines as $restoByCuisine) {
+            if(! in_array($restoByCuisine,$avis) && ! in_array($restoByCuisine,$favoris) && sizeof($lesRecos)<$max){
+                array_push($lesRecos, $restoByCuisine);
+            }
+        }
+
+        foreach ($lesTypes as $restoByType) {
+            if(! in_array($restoByType,$avis) && ! in_array($restoByType,$favoris) && sizeof($lesRecos)<$max){
+                array_push($lesRecos, $restoByType);
+            }
+        }
+
+
+        return $lesRecos;
     }
 ?>
