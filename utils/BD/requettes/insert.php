@@ -1,5 +1,5 @@
 <?php
-    require_once __DIR__."/../connexionBD.php";
+    // require_once __DIR__."/../connexionBD.php";
     require_once __DIR__."/../../annexe/annexe.php";
     require_once __DIR__."/select.php";
 

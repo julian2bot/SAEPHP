@@ -27,6 +27,7 @@
                     <input type="password" id="password" name="password" required>
 
                     <button type="submit">SE CONNECTER</button>
+                    <a href="inscription.php" class="switch">S'inscrire</a>
                 </form>
             </div>
         </div>
