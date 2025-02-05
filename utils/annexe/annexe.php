@@ -1,7 +1,6 @@
 <?php
 
 
-
 function formatetoile($nbEtoile):string {
     $nbEtoile = max(0, min(5, $nbEtoile));
 
@@ -40,10 +39,10 @@ function formatCuisine($value):string {
     $cuisine= "";
     if(isset($value["cuisines"])){
 
-        foreach($value["cuisines"] as $typeResto){
+        // foreach($value["cuisines"] as $typeResto){
             $cuisine.=implode(",\n", $value["cuisines"]);
             // echo formatCuisine($value["cuisines"]);       
-        }      
+        // }      
     }
     else{
         return "pas de cuisine dispo";
