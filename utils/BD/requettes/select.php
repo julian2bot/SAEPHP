@@ -451,38 +451,17 @@
             }
         }
 
-        
-
-        echo "Cuisines : <br>";
-        print_r($lesCuisines);
-        echo "Types : <br>";
-        print_r($lesTypes);
-
         arsort($lesCuisines);
         arsort($lesTypes);
-
-        // echo "Cuisines : <br>";
-        // print_r($lesCuisines);
-        // echo "Types : <br>";
-        // print_r($lesTypes);
 
         // Réduires aux 2 critères max
 
         $lesCuisines = array_slice($lesCuisines,0,2);
         $lesTypes = array_slice($lesTypes,0,2);
 
-        // echo "Cuisines : <br>";
-        // print_r($lesCuisines);
-        // echo "Types : <br>";
-        // print_r($lesTypes);
-
         $lesCuisines = getRestoByCuisine($bdd, array_keys($lesCuisines));
         $lesTypes = getRestoByType($bdd, array_keys($lesTypes));
 
-        // echo "Cuisines : <br>";
-        // print_r($lesCuisines);
-        // echo "Types : <br>";
-        // print_r($lesTypes);
 
         $lesRecos = [];
 
@@ -497,6 +476,12 @@
         foreach ($lesTypes as $restoByType) {
             if(! in_array($restoByType,$avis) && ! in_array($restoByType,$favoris) && sizeof($lesRecos)<$max){
                 array_push($lesRecos, $restoByType);
+            }
+        }
+
+        for ($i=0; $i < sizeof($lesRecos); $i++) { 
+            if(!isset($lesRecos[$i]["cuisines"])){
+                $lesRecos[$i]["cuisines"] = getCuisinePropose($bdd, $lesRecos[$i]["osmid"]);
             }
         }
 
