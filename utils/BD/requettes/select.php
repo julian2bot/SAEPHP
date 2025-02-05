@@ -1,5 +1,5 @@
 <?php
-    require_once __DIR__."/../connexionBD.php";
+    // require_once __DIR__."/../connexionBD.php";
 
     /**
      * Renvoie une région par son code de région
@@ -453,10 +453,10 @@
 
         
 
-        echo "Cuisines : <br>";
-        print_r($lesCuisines);
-        echo "Types : <br>";
-        print_r($lesTypes);
+        // echo "Cuisines : <br>";
+        // print_r($lesCuisines);
+        // echo "Types : <br>";
+        // print_r($lesTypes);
 
         arsort($lesCuisines);
         arsort($lesTypes);

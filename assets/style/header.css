@@ -14,7 +14,7 @@ ul{
     display: flex;
     justify-content: center;
 }
-.centerHaut >button {
+.centerHaut >a {
 	background:linear-gradient(to bottom, #69b4ff 5%, #9de8f5 100%);
 	background-color:#69b4ff;
 	border-radius:28px;
@@ -29,11 +29,11 @@ ul{
 	text-shadow:0px 1px 0px #595959;
     height: min-content;
 }
-.centerHaut >button:hover {
+.centerHaut >a:hover {
 	background:linear-gradient(to bottom, #9de8f5 5%, #69b4ff 100%);
 	background-color:#9de8f5;
 }
-.centerHaut >button:active {
+.centerHaut >a:active {
 	position:relative;
 	top:1px;
 }

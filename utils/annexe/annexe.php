@@ -1,7 +1,6 @@
 <?php
 
 
-
 function formatetoile($nbEtoile):string {
     $nbEtoile = max(0, min(5, $nbEtoile));
 
@@ -24,17 +23,35 @@ function formatetoileV2($nbEtoile):string {
 
 
 function formatAdresse($dataResto):string {
-    return $dataResto["address"]["house_number"] ." ". $dataResto["address"]["retail"] ." ". $dataResto["address"]["city"]  ." ". $dataResto["address"]["postcode"] ." ".$dataResto["address"]["country"];
+    return ($dataResto["address"]["house_number"] ?? '') ." ".
+    ($dataResto["address"]["retail"] ?? 'rue ..?') ." ".
+    ($dataResto["address"]["city"] ?? '') ." ".
+    ($dataResto["address"]["postcode"] ?? '') ." ".
+    ($dataResto["address"]["country"] ?? '');
 }
 
+function formatUrlResto(string $id, string $name):string{
+    return "pages/restaurant.php?osmID=".$id."&resto=".$name."";
+}
 
+function formatCuisine($value):string {
+    // return implode(",\n",$leresto["cuisines"]);
+    $cuisine= "";
+    if(isset($value["cuisines"]) || !empty($value["cuisines"])){
 
-function formatCuisine($leresto):string {
-    return implode(",\n",$leresto["cuisines"]);
+        // foreach($value["cuisines"] as $typeResto){
+            $cuisine.=implode(",\n", $value["cuisines"]);
+            // echo formatCuisine($value["cuisines"]);       
+        // }      
+    }
+    else{
+        return "pas de cuisine dispo";
+    }
+    return $cuisine;
 }
 
 function formatAdresseCommune($value):string{
-    return $value["codeCommune"]." ".$value["nomCommune"];
+    return $value["codecommune"]??''." ".$value["nomcommune"]??'';
 }
 
 function getAPIKey():string {
@@ -106,93 +123,185 @@ function lienItineraire(float $lat, float $lon):string {
     return  "https://www.google.com/maps/dir/?api=1&destination=$lat,$lon";
 }
 
-require_once __DIR__."/../BD/connexionBD.php";
 
-    /**
-     * Renvoie une liste de jours à partir d'un jour de départ et d'un jour d'arrivé
-     * @param string $firstDay
-     * @param string $lastDay
-     * @return array
-     */
-    function getAllDays(string $firstDay, string $lastDay):array{
-        $days = ["Mo","Tu","We","Th","Fr","Sa","Su"];
+/**
+ * Renvoie une liste de jours à partir d'un jour de départ et d'un jour d'arrivé
+ * @param string $firstDay
+ * @param string $lastDay
+ * @return array
+ */
+function getAllDays(string $firstDay, string $lastDay):array{
+    $days = ["Mo","Tu","We","Th","Fr","Sa","Su"];
 
-        $res = [];
+    $res = [];
 
-        $firstIndex = array_search($firstDay, $days);
-        $lastIndex = array_search($lastDay, $days);
+    $firstIndex = array_search($firstDay, $days);
+    $lastIndex = array_search($lastDay, $days);
 
-        if ($firstIndex === false || $lastIndex === false) {
-            return [];
-        }
-
-        for ($i=$firstIndex; $i < $lastIndex+1; $i++) { 
-            array_push($res, $days[$i]);
-        }
-
-        return $res;
+    if ($firstIndex === false || $lastIndex === false) {
+        return [];
     }
-    
-    /**
-     * Transforme un string d'heure d'ouverture en liste de jour et de créneau horaire
-     * @param string $opening
-     * @return array Liste de liste contenant une liste de jours et une liste d'horaires 
-     */
-    function transformOpeningHours(string $opening):array{
-        $res = [];
 
-        $lesHoraires = explode("; ",$opening);
-        foreach ($lesHoraires as $value) {
-            $truc = [];
-            $temp = explode(" ", $value,2);
-            // $tempJour1 = explode(",",$temp[0]);
-            $lesJours = [];
-            foreach(explode(",",$temp[0]) as $key => $value) {
-                $oui = [];
-                $tempJour = explode("-",$value);
-                if(sizeof($tempJour)>1){
-                    $oui= getAllDays($tempJour[0],$tempJour[1]);
-                }
-                else{
-                    $oui= $tempJour;
-                }
+    for ($i=$firstIndex; $i < $lastIndex+1; $i++) { 
+        array_push($res, $days[$i]);
+    }
 
-                $lesJours = array_merge($lesJours, $oui);
+    return $res;
+}
+
+/**
+ * Transforme un string d'heure d'ouverture en liste de jour et de créneau horaire
+ * @param string $opening
+ * @return array Liste de liste contenant une liste de jours et une liste d'horaires 
+ */
+function transformOpeningHours(string $opening):array{
+    $res = [];
+
+    $lesHoraires = explode("; ",$opening);
+    foreach ($lesHoraires as $value) {
+        $truc = [];
+        $temp = explode(" ", $value,2);
+        // $tempJour1 = explode(",",$temp[0]);
+        $lesJours = [];
+        foreach(explode(",",$temp[0]) as $key => $value) {
+            $oui = [];
+            $tempJour = explode("-",$value);
+            if(sizeof($tempJour)>1){
+                $oui= getAllDays($tempJour[0],$tempJour[1]);
             }
-            $truc["jours"] = $lesJours;
-            $truc["heures"] = [];
+            else{
+                $oui= $tempJour;
+            }
 
-            if(! empty($truc["jours"])){
-                if(sizeof($temp)>1){
-                    $temp[1] = str_replace(" ", "",$temp[1]);
-                    $tempHeures = explode(",",$temp[1]);
-        
-                    foreach($tempHeures as $uneHeure){
-                        $resUneHeure = [];
-                        $tempUneHeure = explode("-", $uneHeure);
-                        $resUneHeure["debut"] = $tempUneHeure[0];
-                        if(sizeof($tempUneHeure)>1){
-                            $resUneHeure["fin"] = $tempUneHeure[1];
-                        }
-                        else{
-                            $resUneHeure["fin"] = "00:00";
-                        }
-        
-                        array_push($truc["heures"],$resUneHeure);
+            $lesJours = array_merge($lesJours, $oui);
+        }
+        $truc["jours"] = $lesJours;
+        $truc["heures"] = [];
+
+        if(! empty($truc["jours"])){
+            if(sizeof($temp)>1){
+                $temp[1] = str_replace(" ", "",$temp[1]);
+                $tempHeures = explode(",",$temp[1]);
+    
+                foreach($tempHeures as $uneHeure){
+                    $resUneHeure = [];
+                    $tempUneHeure = explode("-", $uneHeure);
+                    $resUneHeure["debut"] = $tempUneHeure[0];
+                    if(sizeof($tempUneHeure)>1){
+                        $resUneHeure["fin"] = $tempUneHeure[1];
                     }
-                }
-                else{
-                    $resUneHeure["debut"] = "00:00";
-                    $resUneHeure["fin"] = "00:00";
-                    // $resUneHeure["fin"] = null;
+                    else{
+                        $resUneHeure["fin"] = "00:00";
+                    }
     
                     array_push($truc["heures"],$resUneHeure);
                 }
-    
-                array_push($res,$truc);
+            }
+            else{
+                $resUneHeure["debut"] = "00:00";
+                $resUneHeure["fin"] = "00:00";
+                // $resUneHeure["fin"] = null;
+
+                array_push($truc["heures"],$resUneHeure);
             }
 
+            array_push($res,$truc);
         }
-        return $res;
+
     }
-?>
+    return $res;
+}
+
+
+
+function getPlaceId(float $lat, float $lng, string $name, int $rad = 10){ 
+    $apiKey = getAPIKey();
+    $placeId = "";
+    $url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$apiKey&location=$lat,$lng&radius=$rad";
+    $response = file_get_contents($url);
+    $data = json_decode($response, true);
+    // echo "<pre>";
+    // print_r($data["results"]);
+    // echo "</pre>";
+    
+    try{
+        foreach($data["results"] as $resto){
+            // echo $resto["$resto"]
+            // foreach($resto as $val) {
+            //     if (is_string($val)) {
+            //         $val = json_decode($val, true); // true pour obtenir un tableau associatif
+            //     }
+            
+            if ($resto["name"]==$name){
+                $placeId = $resto["place_id"];
+                break;
+            // }
+            }
+        }
+    } catch( Exception $e ){
+        // Juste parce que le foreach resto fait chier
+    }
+    return $placeId;
+}
+
+function getImageByPlaceId(string $placeId):array{
+    $apiKey = getAPIKey();
+    $url_img = "https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&fields=name,photos&key=$apiKey";
+
+    $response_img = file_get_contents($url_img);
+    $data_img = json_decode($response_img, true);
+    
+    // if (!$data_img || $data_img['status'] !== "OK") {
+    //     die(json_encode(["error" => "Aucun résultat trouvé ou erreur API.", "status" => $data_img['status'] ?? "Unknown"]));
+    // }
+    
+    $photos = [];
+    if (!empty($data_img['result']['photos'])) {
+        foreach ($data_img['result']['photos'] as $photo) {
+            $photoRef = $photo['photo_reference'];
+            $photoUrl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=$photoRef&key=$apiKey";
+            $photos[] = $photoUrl;
+        }
+    }
+    if(empty($photo)){
+        return[];
+    }
+    // header('Content-Type: application/json');
+    return categorizeImagesByOrientation($photos);
+}
+
+
+function categorizeImagesByOrientation($imageUrls) {
+    $categorizedImages = [
+        'vertical' => [],
+        'horizontal' => [],
+    ];
+
+    foreach ($imageUrls as $imageUrl) {
+        // Télécharger l'image depuis l'URL
+        $imageData = file_get_contents($imageUrl);
+
+        if ($imageData === false) {
+            continue; // Passer à l'image suivante si erreur
+        }
+
+        // Obtenir les dimensions de l'image
+        $imageSize = getimagesizefromstring($imageData);
+
+        if ($imageSize === false) {
+            continue; // Passer à l'image suivante si erreur
+        }
+
+        $width = $imageSize[0];
+        $height = $imageSize[1];
+
+        // Classer l'image en fonction de l'orientation
+        if ($width > $height) {
+            $categorizedImages['horizontal'][] = $imageUrl;
+        } else {
+            $categorizedImages['vertical'][] = $imageUrl;
+        }
+    }
+
+    return $categorizedImages;
+}

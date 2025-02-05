@@ -1,8 +1,9 @@
 <?php
-    // require_once "utils/BD/connexionBD.php";
-    $bdd = new PDO('mysql:host=localhost;dbname=saeponey', "root", "marques");
+    require_once "utils/BD/connexionBD.php";
+    // $bdd = new PDO('mysql:host=localhost;dbname=saeponey', "root", "marques");
 
     require_once "utils/annexe/getter.php";
+    require_once "utils/BD/requettes/select.php";
     require_once "utils/annexe/annexe.php";
 
 ?>
@@ -58,19 +59,25 @@
 
 
         <?php
+            if(isset($_GET["donnee"])){
+                $resto = getMesRecommandations($bdd, "visiteur"); // todo login changé admin par $_SESSION["connecte"]["username"] et changé le favorie en se qu'il faut apres ? (quand on fait une recherche)
 
-        $resto = getLesRestaurants($bdd);
+            }else{
+                $resto = getMesRecommandations($bdd, "admin"); // todo login changé admin par $_SESSION["connecte"]["username"] et changé le favorie en se qu'il faut apres ? (quand on fait une recherche)
+            }
             // dans annexe:
-            
+        // echo "<pre>";
+        // print_r($resto);
+        // echo "</pre>";
 
 
-            foreach($resto as $value):
+        foreach($resto as $value):
 
         ?>
             <div class="resto">
-                <a href="#">
+                <a href="<?php echo formatUrlResto($value["osmid"],$value["nomrestaurant"]);?>">
                     <div class="nomnote">
-                        <p class="soustitre"><?php echo $value["nomRestaurant"]?></p>  
+                        <p class="soustitre"><?php echo $value["nomrestaurant"]?></p>  
                         <div class="note"><?php echo formatetoile($value["etoiles"]??0)?></div>
                         <div><?php echo $value["etoiles"]??0?>/5</div>
                     </div>
@@ -81,12 +88,7 @@
                         <p>🍽</p>
                         <p>
                         <?php
-                        // foreach($value["cuisines"] as $typeResto){
-                            // echo implode(",\n", $value["cuisines"]);
-                            echo formatCuisine($value);       
-
-                        // }
-                            
+                            echo formatCuisine($value)
                         ?>
                         </p>
                     </div>
@@ -104,36 +106,48 @@
         <div id="recommendationRestoContainer">
 
        <?php 
-       $resto = getRecommendation($bdd);
+       $resto = getMesRecommandations($bdd, "visiteur"); // todo login changé visiteur par $_SESSION["connecte"]["username"]
        
-       foreach($resto as $value):?>
+    //    echo "<pre>";
+    //    print_r($resto[0]);
+    //    echo "</pre>";
 
+
+    $limite = 3;
+    $cpt=0;
+    foreach($resto as $value):
+        if($cpt >= $limite){
+            break;
+        }
+        $cpt++;
+    //    echo "<pre>";
+    //    print_r($value);
+    //    echo "</pre>";
+
+    ?>
         <div class="recommendationResto">
                 <img src="assets/img/backgroundImage2.png" alt="resto:">
 
                 <div class="nomnote">
-                        <p class="soustitre"><?php echo $value["nomRestaurant"]?></p>  
+                        <p class="soustitre"><?php echo $value["nomrestaurant"]?></p>  
                         <div class="note"><?php echo formatetoile($value["etoiles"]??0)?></div>
                 </div>
                 <div class="adresse">
-                    <p><?php echo $value["codeCommune"]." ".$value["nomCommune"]?></p>
+                <p><?php echo formatAdresseCommune($value)?></p>
                 </div>
                 <div class="attr">
                     <p>🍽</p>
                     <p>
                         <?php
-                            // foreach($value["cuisines"] as $typeResto){
-                                // echo implode(",\n", $value["cuisines"]);
-                            echo formatCuisine($value);       
-                            // }      
+                            echo formatCuisine($value)
                         ?>
                     </p>
                 </div>
-
-                <p>Voir plus</p>
+                
+                <p><a href="<?php echo formatUrlResto($value["osmid"],$value["nomrestaurant"]);?>" style="text-decoration:none; color:black;">Voir plus</a></p>
             </div>
-
-            <?php endforeach; ?>
+            <?php  endforeach; ?> 
+          
 
         </div>
     </section>
