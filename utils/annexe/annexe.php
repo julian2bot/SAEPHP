@@ -225,19 +225,22 @@ function getPlaceId(float $lat, float $lng, string $name, int $rad = 10){
     // echo "</pre>";
     
     try{
-        foreach($data["results"] as $resto){
-            // echo $resto["$resto"]
-            // foreach($resto as $val) {
-            //     if (is_string($val)) {
-            //         $val = json_decode($val, true); // true pour obtenir un tableau associatif
-            //     }
-            
-            if ($resto["name"]==$name){
-                $placeId = $resto["place_id"];
-                break;
-            // }
-            }
+        if(isset($data["results"]) || !empty($data["results"]) ){
+
+            foreach($data["results"] as $resto){
+                // echo $resto["$resto"]
+                // foreach($resto as $val) {
+                    //     if (is_string($val)) {
+                        //         $val = json_decode($val, true); // true pour obtenir un tableau associatif
+                        //     }
+                        
+                if ($resto["name"]==$name){
+                    $placeId = $resto["place_id"];
+                    break;
+                    // }
+                }
         }
+    }
     } catch( Exception $e ){
         // Juste parce que le foreach resto fait chier
     }
