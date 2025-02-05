@@ -37,7 +37,7 @@ function formatUrlResto(string $id, string $name):string{
 function formatCuisine($value):string {
     // return implode(",\n",$leresto["cuisines"]);
     $cuisine= "";
-    if(isset($value["cuisines"])){
+    if(isset($value["cuisines"]) || !empty($value["cuisines"])){
 
         // foreach($value["cuisines"] as $typeResto){
             $cuisine.=implode(",\n", $value["cuisines"]);
