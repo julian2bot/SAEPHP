@@ -87,6 +87,26 @@
     }
 
     /**
+     * Renvoie les informations d'un restaurant
+     * @param PDO $bdd
+     * @param string $name
+     * @return array informations du restaurant ou liste vide s'il n'existe pas
+     */
+    function getRestaurantByName(PDO $bdd, string $name):array{
+        $reqResto = $bdd->prepare("SELECT * FROM RESTAURANT WHERE nomrestaurant = ?");
+        $reqResto->execute(array($name));
+
+        $info = $reqResto->fetchAll();
+        if(!$info){
+            return [];
+        }
+        for ($i=0; $i < sizeof($info); $i++) { 
+            $info[$i]["cuisines"] = getCuisinePropose($bdd,$info[$i]["osmid"]);
+        }
+        return $info;
+    }
+
+    /**
      * Renvoie l'id d'une cuisine en fonction de son nom
      * @param PDO $bdd
      * @param string $nomCuisine
