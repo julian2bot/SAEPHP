@@ -94,7 +94,7 @@
      */
     function getRestaurantByName(PDO $bdd, string $name):array{
         $reqResto = $bdd->prepare("SELECT * FROM RESTAURANT WHERE nomrestaurant = ?");
-        $reqResto->execute(array($name));
+        $reqResto->execute(array("%$name%"));
 
         $info = $reqResto->fetchAll();
         if(!$info){
@@ -186,14 +186,18 @@
      * @return array
      */
     function getRestoByType(PDO $bdd, array $types):array{
-        $requete = "SELECT * FROM RESTAURANT WHERE type = ?";
+        $requete = "SELECT * FROM RESTAURANT WHERE type LIKE ?";
 
         if(empty($types)){
             return [];
         }
 
         for ($i=1; $i < sizeof($types); $i++) { 
-            $requete = "$requete OR type=?";
+            $requete = "$requete OR type LIKE ?";
+        }
+
+        for ($i=0; $i < sizeof($types); $i++) { 
+            $types[$i] = "%$types[$i]%";
         }
 
         $reqResto = $bdd->prepare($requete);
@@ -253,8 +257,8 @@
      * @return array
      */
     function getRestoByMarque(PDO $bdd, string $marque):array{
-        $reqResto = $bdd->prepare("SELECT * FROM RESTAURANT WHERE marque=?");
-        $reqResto->execute(array($marque));
+        $reqResto = $bdd->prepare("SELECT * FROM RESTAURANT WHERE marque LIKE ?");
+        $reqResto->execute(array("%$marque%"));
         $info = $reqResto->fetchAll();
         if(!$info){
             return [];
@@ -271,7 +275,7 @@
      * @return array
      */
     function getRestoByCuisine(PDO $bdd, array $cuisines):array{
-        $requete = "SELECT DISTINCT osmID, count(osmID) as nb FROM PROPOSE NATURAL JOIN CUISINE WHERE nomCuisine=?";
+        $requete = "SELECT DISTINCT osmID, count(osmID) as nb FROM PROPOSE NATURAL JOIN CUISINE WHERE nomCuisine LIKE ?";
         if(empty($cuisines)){
             return [];
         }
@@ -279,7 +283,11 @@
         // $requete = "$requete";
 
         for ($i=1; $i < sizeof($cuisines); $i++) { 
-            $requete = "$requete OR nomCuisine=?";
+            $requete = "$requete OR nomCuisine LIKE ?";
+        }
+
+        for ($i=0; $i < sizeof($cuisines); $i++) { 
+            $cuisines[$i] = "%$cuisines[$i]%";
         }
 
         $requete = "$requete GROUP BY osmID ORDER BY nb DESC";
