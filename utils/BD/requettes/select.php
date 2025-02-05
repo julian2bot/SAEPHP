@@ -467,24 +467,45 @@
 
         // Ajouter les recos si le resto n'est pas dans les avis ou dans les favoris et que la liste des recos n'a pas atteint le nombre max
 
-        foreach ($lesCuisines as $restoByCuisine) {
-            if(! in_array($restoByCuisine,$avis) && ! in_array($restoByCuisine,$favoris) && sizeof($lesRecos)<$max){
-                array_push($lesRecos, $restoByCuisine);
+        $indexCuisines = 0;
+        $indexTypes = 0;
+
+        while($indexCuisines<$max && $indexCuisines < sizeof($lesCuisines) && sizeof($lesRecos)<$max){
+            if(! in_array($lesCuisines[$indexCuisines],$avis) && ! in_array($lesCuisines[$indexCuisines],$favoris)  && ! in_array($lesCuisines[$indexCuisines],$lesRecos)){
+                array_push($lesRecos, $lesCuisines[$indexCuisines]);
+            }
+
+            $indexCuisines++;
+        }
+
+        while($indexTypes<$max && $indexTypes < sizeof($lesTypes) && sizeof($lesRecos)<$max){
+            if(! in_array($lesTypes[$indexTypes],$avis) && ! in_array($lesTypes[$indexTypes],$favoris)  && ! in_array($lesTypes[$indexTypes],$lesRecos)){
+                array_push($lesRecos, $lesTypes[$indexTypes]);
+            }
+
+            $indexTypes++;
+        }
+
+        // Si la liste n'est pas remplis, la remplir avec des restos l'embdas
+        
+        if(sizeof($lesRecos)<$max){
+            $indexLambda = 0;
+            $lesRestosLamba = getLesRestaurants($bdd);
+            while($indexLambda<$max && $indexLambda < sizeof($lesRestosLamba) && sizeof($lesRecos)<$max){
+                if(! in_array($lesRestosLamba[$indexLambda],$avis) && ! in_array($lesRestosLamba[$indexLambda],$favoris)  && ! in_array($lesRestosLamba[$indexLambda],$lesRecos)){
+                    array_push($lesRecos, $lesRestosLamba[$indexLambda]);
+                }
+                $indexLambda++;
             }
         }
 
-        foreach ($lesTypes as $restoByType) {
-            if(! in_array($restoByType,$avis) && ! in_array($restoByType,$favoris) && sizeof($lesRecos)<$max){
-                array_push($lesRecos, $restoByType);
-            }
-        }
+        // Ajouter la liste des cuisines des restos si elle n'est pas déjà mise
 
         for ($i=0; $i < sizeof($lesRecos); $i++) { 
             if(!isset($lesRecos[$i]["cuisines"])){
                 $lesRecos[$i]["cuisines"] = getCuisinePropose($bdd, $lesRecos[$i]["osmid"]);
             }
         }
-
 
         return $lesRecos;
     }
