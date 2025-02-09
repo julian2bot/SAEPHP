@@ -12,10 +12,29 @@
 
 $resto = getMesRecommandations($bdd, "visiteur"); // todo login changé visiteur par $_SESSION["connecte"]["username"]
 
-echo "<pre>";
-print_r($resto);
-echo "</pre>";
+// echo "<pre>";
+// print_r($resto);
+// echo "</pre>";
 
+// function rechercheResto(PDO $bdd, string $value):array{
+
+	
+// 	$cuis = getRestoByCuisine($bdd, array($value));
+// 	$resto = getRestaurantByName($bdd, $value);
+	
+// 	// print_r($cuis);
+// 	// print_r($resto);
+
+//     // echo "melange";
+//     return array_merge($cuis, $resto);
+
+// }
+
+echo "<pre>";
+print_r(rechercheResto($bdd, "ita"));
+echo "</pre>";
+// $resto = getRestaurantByName($bdd,"O'Tacos");
+// print_r($resto);
 
 
 ?>

@@ -93,7 +93,7 @@
      * @return array informations du restaurant ou liste vide s'il n'existe pas
      */
     function getRestaurantByName(PDO $bdd, string $name):array{
-        $reqResto = $bdd->prepare("SELECT * FROM RESTAURANT WHERE nomrestaurant = ?");
+        $reqResto = $bdd->prepare("SELECT * FROM RESTAURANT WHERE nomrestaurant ILIKE ?");
         $reqResto->execute(array("%$name%"));
 
         $info = $reqResto->fetchAll();
@@ -275,7 +275,7 @@
      * @return array
      */
     function getRestoByCuisine(PDO $bdd, array $cuisines):array{
-        $requete = "SELECT DISTINCT osmID, count(osmID) as nb FROM PROPOSE NATURAL JOIN CUISINE WHERE nomCuisine LIKE ?";
+        $requete = "SELECT DISTINCT osmID, count(osmID) as nb FROM PROPOSE NATURAL JOIN CUISINE WHERE nomCuisine ILIKE ?";
         if(empty($cuisines)){
             return [];
         }
@@ -537,4 +537,19 @@
 
         return $lesRecos;
     }
-?>
+
+
+    
+    function rechercheResto(PDO $bdd, string $value):array{
+
+        
+        $cuis = getRestoByCuisine($bdd, array($value));
+        $resto = getRestaurantByName($bdd, $value);
+        
+        // print_r($cuis);
+        // print_r($resto);
+
+        // echo "melange";
+        return array_merge($cuis, $resto);
+
+    }
