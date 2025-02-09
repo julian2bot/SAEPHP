@@ -115,7 +115,7 @@
                 <!-- <img src="../assets/img/Jarret.png" alt="resto:"> -->
             </div>
             <div class="numtel">
-                <?php echo $leresto["telephone"]??"pas de téléphone"?>
+                <a href="tel:+<?php echo $leresto["telephone"]?>"><?php echo $leresto["telephone"]??"pas de téléphone"?></a>
             </div>
             <div class="siteweb">
                 <a href="<?php echo $leresto["siteinternet"]??"#"?>">SiteWeb</a>        
@@ -143,7 +143,7 @@
                         <div class="noter">
                             <form action="" methode="post">
                                 
-                                <textarea name="avis" placeholder="Laissez votre avis..." cols="100" rows="4" minlength="65" maxlength="500" spellcheck required></textarea>
+                                <textarea name="avis" placeholder="Laissez votre avis..." cols="100" rows="4" minlength="5" maxlength="500" spellcheck required></textarea>
                                 <input type="hidden" name="nbEtoile" value='-1'>
                                 <div class="mettreNote">
                                     <p>Ma Note:</p>
