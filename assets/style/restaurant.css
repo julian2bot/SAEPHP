@@ -20,18 +20,19 @@ main{
 
 }
 .fond > div{
-    font-size: 10em;
+    /* font-size: 10em; */
     position: absolute;
     left: 50%;
     translate: -50%;
-    bottom: -.7em;
+    /* bottom: -.7em; */
+    bottom: 0em;
     
     color: white;
     text-shadow: 0px 0px 22px rgba(0,0,0,0.86);
 }
 .note{
     position: absolute;
-    top: 14rem;
+    /* top: 14rem; */
     left: 50%;
     translate: -50%;
     font-size: 4rem;

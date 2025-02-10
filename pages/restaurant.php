@@ -1,6 +1,5 @@
 <?php
     require_once "../utils/BD/connexionBD.php";
-    // $bdd = new PDO('mysql:host=localhost;dbname=saeponey', "root", "marques");
 
     require_once "../utils/annexe/getter.php";
     require_once "../utils/BD/requettes/select.php";
@@ -46,10 +45,12 @@
 
     
     $placeId = getPlaceId($lat, $lon, $leresto["nomrestaurant"], 10);
-    $imagesResto = getImageByPlaceId($placeId);
-
+    $imagesResto = getImageByPlaceId($bdd, $leresto["osmid"], $placeId);
+    // echo "<pre>";
     // print_r($imagesResto);
+    // echo "</pre>";
     // echo "<img src=\"".$imagesResto["vertical"][0]."\" alt=''>";
+
     // echo "<img src=\"".$imagesResto["horizontal"][0]."\" alt=''>";
     
     // print_r(getimagesize($imagesResto["photos"][0]))  ;
@@ -107,15 +108,15 @@
             </div>
             <div class="img">
                 <!-- <img src="../assets/img/Boeuf.png" alt="resto:"> -->
-                <img src="<?php echo $imagesResto["horizontal"][0]??"../assets/img/Boeuf.png"?>" alt="resto:">
+                <img src="<?php echo $imagesResto["horizontal"]??"../assets/img/Boeuf.png"?>" alt="resto:">
 
             </div>
             <div class="img2">
-                <img src="<?php echo $imagesResto["vertical"][0]??"../assets/img/Jarret.png"?>" alt="resto:">
+                <img src="<?php echo $imagesResto["vertical"]??"../assets/img/Jarret.png"?>" alt="resto:">
                 <!-- <img src="../assets/img/Jarret.png" alt="resto:"> -->
             </div>
             <div class="numtel">
-                <?php echo $leresto["telephone"]??"pas de téléphone"?>
+                <a href="tel:+<?php echo $leresto["telephone"]?>"><?php echo $leresto["telephone"]??"pas de téléphone"?></a>
             </div>
             <div class="siteweb">
                 <a href="<?php echo $leresto["siteinternet"]??"#"?>">SiteWeb</a>        
@@ -143,7 +144,7 @@
                         <div class="noter">
                             <form action="" methode="post">
                                 
-                                <textarea name="avis" placeholder="Laissez votre avis..." cols="100" rows="4" minlength="65" maxlength="500" spellcheck required></textarea>
+                                <textarea name="avis" placeholder="Laissez votre avis..." cols="100" rows="4" minlength="5" maxlength="500" spellcheck required></textarea>
                                 <input type="hidden" name="nbEtoile" value='-1'>
                                 <div class="mettreNote">
                                     <p>Ma Note:</p>
