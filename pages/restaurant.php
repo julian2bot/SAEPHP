@@ -46,9 +46,11 @@
     
     $placeId = getPlaceId($lat, $lon, $leresto["nomrestaurant"], 10);
     $imagesResto = getImageByPlaceId($bdd, $leresto["osmid"], $placeId);
-
+    // echo "<pre>";
     // print_r($imagesResto);
+    // echo "</pre>";
     // echo "<img src=\"".$imagesResto["vertical"][0]."\" alt=''>";
+
     // echo "<img src=\"".$imagesResto["horizontal"][0]."\" alt=''>";
     
     // print_r(getimagesize($imagesResto["photos"][0]))  ;

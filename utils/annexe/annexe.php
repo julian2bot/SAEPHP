@@ -285,10 +285,13 @@ function getImageByPlaceId(PDO $bdd, string $osmid, string $placeId):array{
       
         if(!empty($lesimages["vertical"]) && !empty($lesimages["horizontal"])  ){
             
-            echo ("insert image dans la bd");
+            // echo ("insert image dans la bd");
             addImageRestaurantById($bdd, $osmid, $lesimages["horizontal"][0], $lesimages["vertical"][0]);
         }
-        return $lesimages;
+        return  [
+            'vertical' => $lesimages["vertical"][0],
+            'horizontal' => $lesimages["horizontal"][0],
+        ];
     }
 
 }
