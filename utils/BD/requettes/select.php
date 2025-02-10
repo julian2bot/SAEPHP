@@ -553,3 +553,28 @@
         return array_merge($cuis, $resto);
 
     }
+
+
+    function getImagesResto($bdd, $osmid){
+        try {
+            $reqResto = $bdd->prepare("SELECT horizontal, vertical FROM RESTAURANT WHERE osmid = ?");
+            $reqResto->execute(array($osmid));
+    
+            $info = $reqResto->fetch();
+            
+            if(!$info){
+                return [
+                    'vertical' => [],
+                    'horizontal' => [],
+                ];
+            }
+            return $info;
+        } catch (\Throwable $th) {
+            return [
+                'vertical' => [],
+                'horizontal' => [],
+            ];
+        }
+
+
+    }

@@ -1,5 +1,7 @@
 <?php
-
+// require_once "../BD/requettes/select.php";
+require_once __DIR__."/../BD/requettes/select.php";
+require_once __DIR__."/../BD/requettes/update.php";
 
 function formatetoile($nbEtoile):string {
     $nbEtoile = max(0, min(5, $nbEtoile));
@@ -242,37 +244,54 @@ function getPlaceId(float $lat, float $lng, string $name, int $rad = 10){
         }
     }
     } catch( Exception $e ){
-        // Juste parce que le foreach resto fait chier
+        // Juste parce que le foreach resto fait nimp
     }
     return $placeId;
 }
 
-function getImageByPlaceId(string $placeId):array{
-    $apiKey = getAPIKey();
-    $url_img = "https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&fields=name,photos&key=$apiKey";
+function getImageByPlaceId(PDO $bdd, string $osmid, string $placeId):array{
 
-    $response_img = file_get_contents($url_img);
-    $data_img = json_decode($response_img, true);
-    
-    // if (!$data_img || $data_img['status'] !== "OK") {
-    //     die(json_encode(["error" => "Aucun résultat trouvé ou erreur API.", "status" => $data_img['status'] ?? "Unknown"]));
-    // }
-    
-    $photos = [];
-    if (!empty($data_img['result']['photos'])) {
-        foreach ($data_img['result']['photos'] as $photo) {
-            $photoRef = $photo['photo_reference'];
-            $photoUrl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=$photoRef&key=$apiKey";
-            $photos[] = $photoUrl;
+    $lesimages = getImagesResto($bdd, $osmid);
+    if(!empty($lesimages["vertical"]) && !empty($lesimages["horizontal"])  ){
+        
+
+        return $lesimages;
+    }else{
+        
+
+        $apiKey = getAPIKey();
+        $url_img = "https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&fields=name,photos&key=$apiKey";
+
+        $response_img = file_get_contents($url_img);
+        $data_img = json_decode($response_img, true);
+        
+        // if (!$data_img || $data_img['status'] !== "OK") {
+        //     die(json_encode(["error" => "Aucun résultat trouvé ou erreur API.", "status" => $data_img['status'] ?? "Unknown"]));
+        // }
+        
+        $photos = [];
+        if (!empty($data_img['result']['photos'])) {
+            foreach ($data_img['result']['photos'] as $photo) {
+                $photoRef = $photo['photo_reference'];
+                $photoUrl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=$photoRef&key=$apiKey";
+                $photos[] = $photoUrl;
+            }
         }
+        if(empty($photo)){
+            return[];
+        }
+        // header('Content-Type: application/json');
+        $lesimages = categorizeImagesByOrientation($photos);
+      
+        if(!empty($lesimages["vertical"]) && !empty($lesimages["horizontal"])  ){
+            
+            echo ("insert image dans la bd");
+            addImageRestaurantById($bdd, $osmid, $lesimages["horizontal"][0], $lesimages["vertical"][0]);
+        }
+        return $lesimages;
     }
-    if(empty($photo)){
-        return[];
-    }
-    // header('Content-Type: application/json');
-    return categorizeImagesByOrientation($photos);
-}
 
+}
 
 function categorizeImagesByOrientation($imageUrls) {
     $categorizedImages = [

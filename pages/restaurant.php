@@ -1,6 +1,5 @@
 <?php
     require_once "../utils/BD/connexionBD.php";
-    // $bdd = new PDO('mysql:host=localhost;dbname=saeponey', "root", "marques");
 
     require_once "../utils/annexe/getter.php";
     require_once "../utils/BD/requettes/select.php";
@@ -46,7 +45,7 @@
 
     
     $placeId = getPlaceId($lat, $lon, $leresto["nomrestaurant"], 10);
-    $imagesResto = getImageByPlaceId($placeId);
+    $imagesResto = getImageByPlaceId($bdd, $leresto["osmid"], $placeId);
 
     // print_r($imagesResto);
     // echo "<img src=\"".$imagesResto["vertical"][0]."\" alt=''>";
@@ -107,11 +106,11 @@
             </div>
             <div class="img">
                 <!-- <img src="../assets/img/Boeuf.png" alt="resto:"> -->
-                <img src="<?php echo $imagesResto["horizontal"][0]??"../assets/img/Boeuf.png"?>" alt="resto:">
+                <img src="<?php echo $imagesResto["horizontal"]??"../assets/img/Boeuf.png"?>" alt="resto:">
 
             </div>
             <div class="img2">
-                <img src="<?php echo $imagesResto["vertical"][0]??"../assets/img/Jarret.png"?>" alt="resto:">
+                <img src="<?php echo $imagesResto["vertical"]??"../assets/img/Jarret.png"?>" alt="resto:">
                 <!-- <img src="../assets/img/Jarret.png" alt="resto:"> -->
             </div>
             <div class="numtel">
