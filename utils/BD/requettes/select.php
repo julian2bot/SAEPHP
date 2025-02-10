@@ -518,7 +518,7 @@
         
         if(sizeof($lesRecos)<$max){
             $indexLambda = 0;
-            $lesRestosLamba = getLesRestaurants($bdd);
+            $lesRestosLamba = getResto($bdd);
             while($indexLambda<$max && $indexLambda < sizeof($lesRestosLamba) && sizeof($lesRecos)<$max){
                 if(! in_array($lesRestosLamba[$indexLambda],$avis) && ! in_array($lesRestosLamba[$indexLambda],$favoris)  && ! in_array($lesRestosLamba[$indexLambda],$lesRecos)){
                     array_push($lesRecos, $lesRestosLamba[$indexLambda]);
