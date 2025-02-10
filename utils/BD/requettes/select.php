@@ -93,8 +93,8 @@
      * @return array informations du restaurant ou liste vide s'il n'existe pas
      */
     function getRestaurantByName(PDO $bdd, string $name):array{
-        $reqResto = $bdd->prepare("SELECT * FROM RESTAURANT WHERE nomrestaurant ILIKE ?");
-        $reqResto->execute(array("%$name%"));
+        $reqResto = $bdd->prepare("SELECT * FROM RESTAURANT WHERE nomrestaurant ILIKE ? or osmid ILIKE ?");
+        $reqResto->execute(array("%$name%","%$name%"));
 
         $info = $reqResto->fetchAll();
         if(!$info){
