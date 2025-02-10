@@ -61,7 +61,7 @@
         $reqResto = $bdd->prepare("SELECT * FROM RESTAURANT");
         $reqResto->execute(array());
 
-        $info = $reqResto->fetch();
+        $info = $reqResto->fetchAll();
         if(!$info){
             return [];
         }
