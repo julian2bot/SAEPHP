@@ -8,7 +8,7 @@
      * @return array région ou liste vide si elle n'existe pas
      */
     function getRegion(PDO $bdd, string $codeRegion):array{
-        $reqResto = $bdd->prepare("SELECT * FROM REGION WHERE codeRegion = ?");
+        $reqResto = $bdd->prepare("SELECT * FROM REGION WHERE coderegion = ?");
         $reqResto->execute(array($codeRegion));
 
         $info = $reqResto->fetch();
@@ -25,7 +25,7 @@
      * @return array département ou liste vide s'il n'existe pas
      */
     function getDepartement(PDO $bdd, string $codeDepartement):array{
-        $reqResto = $bdd->prepare("SELECT * FROM DEPARTEMENT WHERE codeDepartement = ?");
+        $reqResto = $bdd->prepare("SELECT * FROM DEPARTEMENT WHERE codedepartement = ?");
         $reqResto->execute(array($codeDepartement));
 
         $info = $reqResto->fetch();
@@ -42,7 +42,7 @@
      * @return array commune ou liste vide si elle n'existe pas
      */
     function getCommune(PDO $bdd, string $codeCommune):array{
-        $reqResto = $bdd->prepare("SELECT * FROM COMMUNE WHERE codeCommune = ?");
+        $reqResto = $bdd->prepare("SELECT * FROM COMMUNE WHERE codecommune = ?");
         $reqResto->execute(array($codeCommune));
 
         $info = $reqResto->fetch();
@@ -75,7 +75,7 @@
      * @return array informations du restaurant ou liste vide s'il n'existe pas
      */
     function getRestaurantByID(PDO $bdd, string $osmID):array{
-        $reqResto = $bdd->prepare("SELECT * FROM RESTAURANT WHERE osmID = ?");
+        $reqResto = $bdd->prepare("SELECT * FROM RESTAURANT WHERE osmid = ?");
         $reqResto->execute(array($osmID));
 
         $info = $reqResto->fetch();
@@ -113,7 +113,7 @@
      * @return int id de la cuisine, -1 si elle n'existe pas
      */
     function getCuisineId(PDO $bdd, string $nomCuisine):int{
-        $reqResto = $bdd->prepare("SELECT * FROM CUISINE WHERE nomCuisine = ?");
+        $reqResto = $bdd->prepare("SELECT * FROM CUISINE WHERE nomcuisine = ?");
         $reqResto->execute(array($nomCuisine));
 
         $info = $reqResto->fetch();
@@ -129,7 +129,7 @@
      * @return int
      */
     function getNextCuisineID(PDO $bdd):int{
-        $reqResto = $bdd->prepare("SELECT max(idCuisine) as max FROM CUISINE");
+        $reqResto = $bdd->prepare("SELECT max(idcuisine) as max FROM CUISINE");
         $reqResto->execute(array());
 
         $info = $reqResto->fetch();
@@ -147,7 +147,7 @@
      */
     function getCuisinePropose(PDO $bdd, string $osmID):array{
         $propose = [];
-        $reqResto = $bdd->prepare("SELECT * FROM PROPOSE NATURAL JOIN CUISINE WHERE osmID = ?");
+        $reqResto = $bdd->prepare("SELECT * FROM PROPOSE NATURAL JOIN CUISINE WHERE osmid = ?");
         $reqResto->execute(array($osmID));
         $info = $reqResto->fetchAll();
         if(!$info){
@@ -215,7 +215,7 @@
      * @return array liste des noms des différentes cuisines
      */
     function getAllCuisinesResto(PDO $bdd):array{
-        $reqResto = $bdd->prepare("SELECT DISTINCT nomCuisine FROM CUISINE");
+        $reqResto = $bdd->prepare("SELECT DISTINCT nomcuisine FROM CUISINE");
         $reqResto->execute(array());
         $info = $reqResto->fetchAll();
         if(!$info){
@@ -275,7 +275,7 @@
      * @return array
      */
     function getRestoByCuisine(PDO $bdd, array $cuisines):array{
-        $requete = "SELECT DISTINCT osmID, count(osmID) as nb FROM PROPOSE NATURAL JOIN CUISINE WHERE nomCuisine ILIKE ?";
+        $requete = "SELECT DISTINCT osmid, count(osmid) as nb FROM PROPOSE NATURAL JOIN CUISINE WHERE nomcuisine ILIKE ?";
         if(empty($cuisines)){
             return [];
         }
@@ -283,14 +283,14 @@
         // $requete = "$requete";
 
         for ($i=1; $i < sizeof($cuisines); $i++) { 
-            $requete = "$requete OR nomCuisine LIKE ?";
+            $requete = "$requete OR nomcuisine LIKE ?";
         }
 
         for ($i=0; $i < sizeof($cuisines); $i++) { 
             $cuisines[$i] = "%$cuisines[$i]%";
         }
 
-        $requete = "$requete GROUP BY osmID ORDER BY nb DESC";
+        $requete = "$requete GROUP BY osmid ORDER BY nb DESC";
 
         $reqResto = $bdd->prepare($requete);
         $reqResto->execute($cuisines);
@@ -314,7 +314,7 @@
      * @return string[]
      */
     function getAllServices():array{
-        return ["vegetarien","vegan","livraison", "aEmporter", "drive", "accessInternet", "espaceFumeur", "fauteuilRoulant"];
+        return ["vegetarien","vegan","livraison", "aemporter", "drive", "accessinternet", "espacefumeur", "fauteuilroulant"];
     }
 
     /**
@@ -353,7 +353,7 @@
      * @return array liste avec les clefs noteMoy qui donne la note du resto et commentaires avec la liste des commentaires
      */
     function getCommentairesResto(PDO $bdd, string $osmID):array{
-        $reqResto = $bdd->prepare("SELECT * FROM AVIS WHERE osmID=?");
+        $reqResto = $bdd->prepare("SELECT * FROM AVIS WHERE osmid=?");
         $reqResto->execute(array($osmID));
         $info = $reqResto->fetchAll();
 
@@ -401,7 +401,7 @@
      * @return bool
      */
     function estFavoris(PDO $bdd, string $osmID, string $username):bool{
-        $requser = $bdd->prepare("SELECT * FROM RESTAURANT_FAVORIS WHERE username=? AND osmID=?");
+        $requser = $bdd->prepare("SELECT * FROM RESTAURANT_FAVORIS WHERE username = ? AND osmid = ?");
         $requser->execute(array($username, $osmID));
         $info = $requser->fetch();
         if(!$info){
