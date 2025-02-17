@@ -1,0 +1,23 @@
+main{
+    flex-direction: column;
+    background: none;
+}
+h1{
+    margin-left: 3em;
+    align-self: flex-start;
+}
+.hearts{
+    color: red;
+}
+.lesFavoris{
+    max-width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+}
+.positionHeart{
+    margin-left: calc(22rem - 2rem);
+    position: absolute;
+    font-size: 2rem;
+}
