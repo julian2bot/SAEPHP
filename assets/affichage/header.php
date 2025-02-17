@@ -1,5 +1,5 @@
 <?php
-if(true): //  todo login if(isset($_SESSION["connecte"]))
+if(false): //  todo login if(isset($_SESSION["connecte"]))
 ?>
 
 <header>
@@ -19,6 +19,11 @@ else:
     <nav>
         <ul>
             <li class="titre"><a href="../../">IUTABLES'O</a></li>
+            <div style="display:flex; gap:20px;">
+
+                <li class="centerHaut"><a href="../pages/favoris.php">Vos favoris</a></li>
+                <li class="centerHaut"><a href="#">Profile</a></li>
+            </div>
         </ul>
     </nav>
 </header>
