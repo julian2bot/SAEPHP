@@ -137,7 +137,8 @@
 
                 <div class="commentaires">
                     <?php
-                    if(true): // todo login if(isset($_SESSION["connecte"]))
+                    // if(true): // todo login 
+                    if(isset($_SESSION["connecte"])):
 
                     ?>
                     

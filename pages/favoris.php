@@ -33,7 +33,7 @@
     <div class="lesFavoris">
 
         <?php 
-       $resto = getMesRecommandations($bdd, "visiteur"); // todo login changé visiteur par $_SESSION["connecte"]["username"]
+       $resto = getMesRecommandations($bdd, $_SESSION["connecte"]["username"]); // todo login changé visiteur par $_SESSION["connecte"]["username"]
        
         //   echo "<pre>";
         //   print_r($resto[0]);

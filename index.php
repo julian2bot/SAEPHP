@@ -5,7 +5,7 @@
     require_once "utils/annexe/getter.php";
     require_once "utils/BD/requettes/select.php";
     require_once "utils/annexe/annexe.php";
-
+    print_r($_SESSION);
 ?>
 
 
