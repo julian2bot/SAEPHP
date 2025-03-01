@@ -5,7 +5,8 @@
     require_once "utils/annexe/getter.php";
     require_once "utils/BD/requettes/select.php";
     require_once "utils/annexe/annexe.php";
-    print_r($_SESSION);
+    require_once "utils/class/restaurant.php";
+    // print_r($_SESSION);
 ?>
 
 
@@ -77,23 +78,26 @@
 
 
         foreach($resto as $value):
+            $restoClass = new Restaurant($value["osmid"],$value["nomrestaurant"],$value["etoiles"],$value["codecommune"]??'',$value["nomcommune"]??'',$value["cuisines"]);
 
+            // echo $restoClass ->getNom(); 
         ?>
             <div class="resto">
-                <a href="<?php echo formatUrlResto($value["osmid"],$value["nomrestaurant"]);?>">
+                <a href="<?php echo $restoClass -> formatUrlResto();?>">
                     <div class="nomnote">
-                        <p class="soustitre"><?php echo $value["nomrestaurant"]?></p>  
-                        <div class="note"><?php echo formatetoile($value["etoiles"]??0)?></div>
-                        <div><?php echo $value["etoiles"]??0?>/5</div>
+                        <p class="soustitre"><?php echo  $restoClass ->getNom()?></p>  
+                        <div class="note"><?php echo $restoClass->formatetoile()?></div>
+                        <div><?php echo $restoClass ->getNbEtoile()?>/5</div>
                     </div>
                     <div class="adresse">
-                        <p><?php echo formatAdresseCommune($value)?></p>
+                        <p><?php echo $restoClass->formatAdresseCommune()?></p>
                     </div>
                     <div class="attr">
                         <p>🍽</p>
                         <p>
                         <?php
-                            echo formatCuisine($value)
+                        // print_r($restoClass->getCuisines());
+                            echo $restoClass->formatCuisine();
                         ?>
                         </p>
                     </div>
@@ -107,11 +111,11 @@
 
 
     <section id="recommendation">
-        <h1>Nos recommendations</h1>
+        <h1>Nos recommandations</h1>
         <div id="recommendationRestoContainer">
 
        <?php 
-       $resto = getMesRecommandations($bdd, "visiteur"); // todo login changé visiteur par $_SESSION["connecte"]["username"]
+       $resto = getMesRecommandations($bdd, $_SESSION["connecte"]["username"]); // todo OK? login changé visiteur par $_SESSION["connecte"]["username"]
        
     //    echo "<pre>";
     //    print_r($resto[0]);
@@ -125,6 +129,9 @@
             break;
         }
         $cpt++;
+
+        $restoClass = new Restaurant($value["osmid"],$value["nomrestaurant"],$value["etoiles"],$value["codecommune"]??'',$value["nomcommune"]??'',$value["cuisines"]);
+
     //    echo "<pre>";
     //    print_r($value);
     //    echo "</pre>";
@@ -134,22 +141,22 @@
                 <img src="assets/img/backgroundImage2.png" alt="resto:">
 
                 <div class="nomnote">
-                        <p class="soustitre"><?php echo $value["nomrestaurant"]?></p>  
-                        <div class="note"><?php echo formatetoile($value["etoiles"]??0)?></div>
+                        <p class="soustitre"><?php echo $restoClass->getNom()?></p>  
+                        <div class="note"><?php echo $restoClass->formatetoile()?></div>
                 </div>
                 <div class="adresse">
-                <p><?php echo formatAdresseCommune($value)?></p>
+                <p><?php echo $restoClass->formatAdresseCommune()?></p>
                 </div>
                 <div class="attr">
                     <p>🍽</p>
                     <p>
                         <?php
-                            echo formatCuisine($value)
+                            echo $restoClass->formatCuisine();
                         ?>
                     </p>
                 </div>
                 
-                <p><a href="<?php echo formatUrlResto($value["osmid"],$value["nomrestaurant"]);?>" style="text-decoration:none; color:black;">Voir plus</a></p>
+                <p><a href="<?php echo $restoClass->formatUrlResto();?>" style="text-decoration:none; color:black;">Voir plus</a></p>
             </div>
             <?php  endforeach; ?> 
           
