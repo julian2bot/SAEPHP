@@ -76,6 +76,7 @@
         $leresto["siteinternet"]??null,
         $imagesResto["vertical"]??null,
         $imagesResto["horizontal"]??null,
+        $avisEtComm["noteMoy"]??null,
     );
 
 ?>
@@ -156,7 +157,7 @@
             <div id='avis' class="avis">
     
                 <div class="note-moyenne">
-                    <h2><?php echo $avisEtComm["noteMoy"]?></h2>
+                    <h2><?php $restoClass-> getNoteMoyenne()?></h2>
                     <div class="etoiles"><?php echo formatetoileV2((int)$avisEtComm["noteMoy"]??0)?></div>
 
                 </div>
@@ -201,22 +202,18 @@
                     <?php
                     foreach($avisEtComm["commentaires"] as $CommUser):
                         // print_r($CommUser); 
-                    ?>
 
-                    <div class="commentaire">
-                        <h3><?php echo $CommUser["username"]?></h3>
-                        <div>
 
-                            <div class="etoiles"><?php echo formatetoileV2((int)$CommUser["note"]??0)?></div>
-                            <span class="date"><?php echo $CommUser["datecommentaire"]?></span>
-                        </div>                        
-                        <div>
-                            <?php echo $CommUser["commentaire"]?>
-                        </div>
-                    </div>
-                    <?php
+                        $commentaireClass = new Commentaire(
+                            $CommUser["username"],
+                            $CommUser["note"]??0,
+                            $CommUser["datecommentaire"],
+                            $CommUser["commentaire"]
+                        )  ;
+                        $commentaireClass->renderCommentaire();
                     endforeach;
                     ?>
+
                     </div>
 
 
@@ -254,7 +251,7 @@
         var restaurant = <?php echo json_encode($leresto); ?>;
         initMap(restaurant);
 
-        noteStar(<?php echo 4; ?>)
+        noteStar(<?php echo 4; ?>) // todo get la note du client pour se resto et le mettre a la place du 4
     </script>
 </body>
 </html>

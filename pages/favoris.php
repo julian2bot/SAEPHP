@@ -34,6 +34,7 @@
     <div class="lesFavoris">
 
         <?php 
+    //    todo chnager reco en fav lool
        $resto = getMesRecommandations($bdd, $_SESSION["connecte"]["username"]); // todo login changé visiteur par $_SESSION["connecte"]["username"]
        
         //   echo "<pre>";
@@ -44,40 +45,21 @@
        $limite = 5;
        $cpt=0;
        foreach($resto as $value):
-        if($cpt >= $limite){
-            break;
-        }
-        $cpt++;
-        $restoClass = new Restaurant($value["osmid"],$value["nomrestaurant"],$value["etoiles"],$value["codecommune"]??'',$value["nomcommune"]??'',$value["cuisines"]);
-        
-        //    echo "<pre>";
-        //    print_r($value);
-        //    echo "</pre>";
-        
+            if($cpt >= $limite){
+                break;
+            }
+            $cpt++;
+            $restoClass = new Restaurant($value["osmid"],$value["nomrestaurant"],$value["etoiles"],$value["codecommune"]??'',$value["nomcommune"]??'',$value["cuisines"]);
+
+            //    echo "<pre>";
+            //    print_r($value);
+            //    echo "</pre>";
+
+            $restoClass->renderFavoris();
+
+        endforeach;
         ?>
-        <div class="recommendationResto">
-            <span class="hearts positionHeart"> &#10084 </span>
-            <img src="../assets/img/backgroundImage2.png" alt="resto:">
-            
-            <div class="nomnote">
-                <p class="soustitre"><?php echo $restoClass->getNom()?></p>  
-                <div class="note"><?php echo $restoClass->formatetoile()?></div>
-            </div>
-            <div class="adresse">
-                <p><?php echo $restoClass->formatAdresseCommune()?></p>
-            </div>
-            <div class="attr">
-                <p>🍽</p>
-                <p>
-                    <?php
-                            echo $restoClass->formatCuisine()
-                            ?>
-                    </p>
-                </div>
-                
-                <p><a href="<?php echo $restoClass->formatUrlRestoFavoris();?>" style="text-decoration:none; color:black;">Voir plus</a></p>
-            </div>
-            <?php  endforeach; ?> 
+
             
             
         </div>
