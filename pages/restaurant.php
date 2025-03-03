@@ -4,6 +4,7 @@
     require_once "../utils/annexe/getter.php";
     require_once "../utils/BD/requettes/select.php";
     require_once "../utils/annexe/annexe.php";
+    require_once "../utils/class/restaurant.php";
 
     // echo "<pre>";
     // print_r($_GET);
@@ -62,6 +63,22 @@
     // print_r($avisEtComm);
     // echo "</pre>";
 
+
+
+    $restoClass = new Restaurant(
+        $leresto["osmid"],
+        $leresto["nomrestaurant"],
+        $leresto["etoiles"],
+        $leresto["codecommune"]??'',
+        $leresto["nomcommune"]??'',
+        $leresto["cuisines"],
+        $leresto["telephone"]??null,
+        $leresto["siteinternet"]??null,
+        $imagesResto["vertical"]??null,
+        $imagesResto["horizontal"]??null,
+        $avisEtComm["noteMoy"]??null,
+    );
+
 ?>
 
 
@@ -87,8 +104,8 @@
     
     <section class="fond">
         <div>
-            <H1><?php echo $leresto["nomrestaurant"]??"Pas de restaurant trouvé"?></H1>
-            <p class="note"><?php echo formatetoile($leresto["etoiles"]??0)?></p>
+            <H1><?php echo $restoClass-> getNom()??"Pas de restaurant trouvé"?></H1>
+            <p class="note"><?php echo $restoClass-> formatetoile()?></p>
         </div>
 
     </section>
@@ -97,29 +114,29 @@
         <div class="container">
             <div class="adresse">
                 <a href="<?php echo lienItineraire($lat, $lon);?>">
-                    <?php echo formatAdresse($dataResto)??"Pas d'adresse trouvé" ?>
+                    <?php echo $restoClass-> formatAdresse($dataResto)??"Pas d'adresse trouvé" ?>
 
                 </a>
             </div>
             <div class="type"> 
                 <?php
-                    echo formatCuisine($leresto);       
+                    echo $restoClass-> formatCuisine();       
                 ?>
             </div>
             <div class="img">
                 <!-- <img src="../assets/img/Boeuf.png" alt="resto:"> -->
-                <img src="<?php echo $imagesResto["horizontal"]??"../assets/img/Boeuf.png"?>" alt="resto:">
+                <img src="<?php echo $restoClass->getImageHorizontal()??"../assets/img/Boeuf.png"?>" alt="resto:">
 
             </div>
             <div class="img2">
-                <img src="<?php echo $imagesResto["vertical"]??"../assets/img/Jarret.png"?>" alt="resto:">
+                <img src="<?php echo $restoClass->getImageVertical()??"../assets/img/Jarret.png"?>" alt="resto:">
                 <!-- <img src="../assets/img/Jarret.png" alt="resto:"> -->
             </div>
             <div class="numtel">
-                <a href="tel:+<?php echo $leresto["telephone"]?>"><?php echo $leresto["telephone"]??"pas de téléphone"?></a>
+                <a href="tel:+<?php echo $restoClass->getTelephone()?>"><?php echo $restoClass->getTelephone()??"pas de téléphone"?></a>
             </div>
             <div class="siteweb">
-                <a href="<?php echo $leresto["siteinternet"]??"#"?>">SiteWeb</a>        
+                <a href="<?php echo $restoClass->getSite()??"#"?>">SiteWeb</a>     
                 
             </div>
             <div class="jsp"> </div>
@@ -127,17 +144,28 @@
             <div id="map" class="map">
 
             </div>
+
+
+
+
+<!-- a faire plus tard -->
+
+
+
+
+
             <div id='avis' class="avis">
     
                 <div class="note-moyenne">
-                    <h2><?php echo $avisEtComm["noteMoy"]?></h2>
+                    <h2><?php $restoClass-> getNoteMoyenne()?></h2>
                     <div class="etoiles"><?php echo formatetoileV2((int)$avisEtComm["noteMoy"]??0)?></div>
 
                 </div>
 
                 <div class="commentaires">
                     <?php
-                    if(true): // todo login if(isset($_SESSION["connecte"]))
+                    // if(true): // todo login 
+                    if(isset($_SESSION["connecte"])):
 
                     ?>
                     
@@ -174,22 +202,18 @@
                     <?php
                     foreach($avisEtComm["commentaires"] as $CommUser):
                         // print_r($CommUser); 
-                    ?>
 
-                    <div class="commentaire">
-                        <h3><?php echo $CommUser["username"]?></h3>
-                        <div>
 
-                            <div class="etoiles"><?php echo formatetoileV2((int)$CommUser["note"]??0)?></div>
-                            <span class="date"><?php echo $CommUser["datecommentaire"]?></span>
-                        </div>                        
-                        <div>
-                            <?php echo $CommUser["commentaire"]?>
-                        </div>
-                    </div>
-                    <?php
+                        $commentaireClass = new Commentaire(
+                            $CommUser["username"],
+                            $CommUser["note"]??0,
+                            $CommUser["datecommentaire"],
+                            $CommUser["commentaire"]
+                        )  ;
+                        $commentaireClass->renderCommentaire();
                     endforeach;
                     ?>
+
                     </div>
 
 
@@ -227,7 +251,7 @@
         var restaurant = <?php echo json_encode($leresto); ?>;
         initMap(restaurant);
 
-        noteStar(<?php echo 4; ?>)
+        noteStar(<?php echo 4; ?>) // todo get la note du client pour se resto et le mettre a la place du 4
     </script>
 </body>
 </html>

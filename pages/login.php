@@ -19,14 +19,14 @@
         <div class="login-container">
             <div class="login-box">
                 <h2 class="title">CONNEXION</h2>
-                <form action="#" method="POST">
+                <form  action="../modele/login.php" method="POST">
                     <label for="username">NOM D'UTILISATEUR</label>
                     <input type="text" id="username" name="username" required>
 
                     <label for="password">MOT DE PASSE</label>
                     <input type="password" id="password" name="password" required>
 
-                    <button type="submit">SE CONNECTER</button>
+                    <button type="submit" name="formLogin" >SE CONNECTER</button>
                     <a href="inscription.php" class="switch">S'inscrire</a>
                 </form>
             </div>
