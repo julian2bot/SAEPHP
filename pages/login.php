@@ -19,7 +19,7 @@
         <div class="login-container">
             <div class="login-box">
                 <h2 class="title">CONNEXION</h2>
-                <form  action="../modele/login.php" method="POST">
+                <form  action="../controleur/login.php" method="POST">
                     <label for="username">NOM D'UTILISATEUR</label>
                     <input type="text" id="username" name="username" required>
 

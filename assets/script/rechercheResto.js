@@ -2,7 +2,7 @@ import { formatUrlResto, formatCuisine, formatetoile, formatAdresseCommune } fro
 
 
 function getRestoChercher(valueInput) {
-    const url = "../modele/rechercheResto.php"; // todo : edit si le nom du fichier change
+    const url = "../controleur/rechercheResto.php"; // todo : edit si le nom du fichier change
     
     // Utilisation de fetch avec une requête POST
     fetch(url, {
