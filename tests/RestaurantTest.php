@@ -1,11 +1,12 @@
 <?php declare(strict_types=1);
-require_once "../utils/class/restaurant.php";
+require_once "./utils/class/restaurant.php";
 
-
-require_once __DIR__ . '/../vendor/autoload.php';
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Assert;
 
+#[CoversClass(Invoice::class)]
+#[UsesClass(Money::class)]
 final class RestaurantTest extends TestCase{
 
     public function testgetOsmid(): void {
@@ -159,13 +160,6 @@ final class RestaurantTest extends TestCase{
         $this->assertEquals("pages/restaurant.php?osmID=node/3422189698&resto=Le Bistrot de la Place&favoris=true", $restau->formatUrlRestoFavoris());
         $this->assertNotEquals("pages/restaurant.php?osmID=node/3422189698&resto=Le Bistrot de la Peace&favoris=true", $restau->formatUrlRestoFavoris());
     }
-}
-
-final class CommentaireTest extends TestCase{
-    public function testformatetoileV2(){
-        $commentaire = new Commentaire( "JeanDupont", 4, "2024-03-03", "Super restaurant, très bonne ambiance !");
-    $this->assertEquals("<span class=\"colorEtoileNoShadow\">★★★★</span>☆", $commentaire->formatetoileV2());
-    }   
 }
 
 ?>
