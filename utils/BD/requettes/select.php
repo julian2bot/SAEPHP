@@ -375,7 +375,40 @@
         $res["noteMoy"] = $note/sizeof($info);
 
         return $res;
-    } 
+    }
+
+    /**
+     * Renvoie un commentaire d'un utilisateur pour un resto
+     * @param PDO $bdd
+     * @param string $osmID
+     * @param string $username
+     * @return array
+     */
+    function getCommentairesRestoUser(PDO $bdd, string $osmID, string $username):array{
+        $reqResto = $bdd->prepare("SELECT * FROM AVIS WHERE osmid=? AND username=?");
+        $reqResto->execute(array($osmID,$username));
+        $info = $reqResto->fetchAll();
+
+        if(!$info){
+            return [];
+        }
+        return $info;
+    }
+
+    /**
+     * Renvoie si un commentaire d'un utilisateur pour un resto existe
+     * @param PDO $bdd
+     * @param string $osmID
+     * @param string $username
+     * @return bool
+     */
+    function existCommentairesRestoUser(PDO $bdd, string $osmID, string $username):bool{
+        $reqResto = $bdd->prepare("SELECT * FROM AVIS WHERE osmid=? AND username=?");
+        $reqResto->execute(array($osmID,$username));
+        $info = $reqResto->fetchAll();
+
+        return !$info ? false : true;
+    }
 
     /**
      * Renvois la liste des favoris de l'utilisateur
