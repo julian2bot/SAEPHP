@@ -9,6 +9,9 @@ h1{
 .hearts{
     color: red;
 }
+.heartsgrey{
+    color: #96969d;
+}
 .lesFavoris{
     max-width: 90%;
     display: flex;

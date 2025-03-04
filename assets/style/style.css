@@ -165,3 +165,11 @@ main{
     padding-bottom: 2px;
     margin: 0;
 }
+
+
+.hearts{
+    color: red;
+}
+.heartsgrey{
+    color: #96969d;
+}

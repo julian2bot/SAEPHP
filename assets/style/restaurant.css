@@ -303,3 +303,10 @@ div:has(> .etoiles):nth-child(n + 2) {
     
     border-radius: 0 !important; 
 }
+
+.hearts{
+    color: red;
+}
+.heartsgrey{
+    color: #96969d;
+}
