@@ -31,6 +31,6 @@ else:
 
 <?php
 endif;
+affichePopUp();
 ?>
-
 

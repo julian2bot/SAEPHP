@@ -66,14 +66,16 @@
 
         /**
          * Envoie ou modifie un commentaire
-         * @return void
+         * @return bool true si modifié, false si crée
          */
-        function sendCommentaire(PDO $bdd):void{
+        function sendCommentaire(PDO $bdd):bool{
             if (existCommentairesRestoUser($bdd, $this->resto, $this->username)){
                 updateCommentaire($bdd, $this->resto, $this->username, $this->commentaire, $this->nbEtoile);
+                return true;
             }
             else{
                 insertCommentaire($bdd, $this->resto, $this->username, $this->nbEtoile, $this->commentaire);
+                return false;
             }
         }
 

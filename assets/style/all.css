@@ -30,3 +30,25 @@
     scrollbar-width: thin; /* Réduit la taille de la barre */
     scrollbar-color: rgba(0, 0, 0, 0.2) transparent; /* Couleur de la barre et du fond */
 }
+
+.erreur, .succes{
+    padding:10px; 
+    border-radius:10px; 
+    border: solid 2px black; 
+    height:20px; 
+    position:fixed; 
+    top:10px; 
+    right: 10px;
+    display: flex;
+    align-items: center;
+    z-index: 999999;
+}
+
+.erreur{
+    background-color:red; 
+}
+
+
+.succes{
+    background-color:greenyellow; 
+}

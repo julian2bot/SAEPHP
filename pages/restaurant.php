@@ -100,6 +100,7 @@
     <link rel="stylesheet" href="../assets/style/restaurant.css">
     <script src="../assets/script/restaurant.js"></script>
     <script src="../assets/script/deleteComm.js"></script>
+    <script src="../assets/script/popUpGestionErr.js"></script>
 </head>
 <body>
     <?php

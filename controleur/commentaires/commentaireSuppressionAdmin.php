@@ -16,7 +16,7 @@
 
             try {
                 $comm->deleteCommentaire($bdd);
-                $response = ["success" => true, "message" => "Commentaire supprimé avec succès"];
+                $response = ["success" => true, "message" => "Commentaire supprimé avec succès !"];
             } catch (Exception $e) {
                 $response = ["success" => false, "message" => "Erreur : " . $e->getMessage()];
             }

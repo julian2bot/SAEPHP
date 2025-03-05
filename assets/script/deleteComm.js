@@ -12,15 +12,17 @@ function supprimerCommentaire(username, osmID) {
         .then(data => {
             if (data.success) {
                 document.getElementById(username).remove();
-                alert(data.message);
             } else {
-                alert("Erreur : " + data.message);
+                // alert("Erreur : " + data.message);
                 document.getElementById(username).setAttribute('style', 'display:inherit !important');
             }
+            showPopUp(data.message, data.success);
+
         })
         .catch(error =>{
-          console.error("Erreur :", error);  
-          document.getElementById(username).setAttribute('style', 'display:inherit !important');
+            console.error("Erreur :", error);  
+            showPopUp("Erreur : " + error, false);
+            document.getElementById(username).setAttribute('style', 'display:inherit !important');
         })
     }
 }

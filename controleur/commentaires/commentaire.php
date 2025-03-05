@@ -13,7 +13,8 @@
         && isset($_POST["resto"])
         && isset($_POST["avis"])){
             $comm = new Commentaire($_SESSION["connecte"]["username"],$_POST["nbEtoile"],"",$_POST["resto"],$_POST["avis"]);
-            $comm->sendCommentaire($bdd);
+            $res = $comm->sendCommentaire($bdd);
+            createPopUp("Commentaire ".($res?"modifié":"ajouté")." avec succès !");
         }
 
     header("Location: ../../pages/restaurant.php?osmID=$_POST[resto]#avis");
