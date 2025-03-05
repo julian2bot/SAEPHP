@@ -310,3 +310,9 @@ div:has(> .etoiles):nth-child(n + 2) {
 .heartsgrey{
     color: #96969d;
 }
+
+.positionHeart{
+    margin-left: calc(22rem - 2rem);
+    position: absolute;
+    font-size: 2rem;
+}

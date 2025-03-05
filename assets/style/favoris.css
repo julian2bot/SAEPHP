@@ -20,7 +20,6 @@ h1{
     justify-content: space-around;
 }
 .positionHeart{
-    margin-left: calc(22rem - 2rem);
-    position: absolute;
-    font-size: 2rem;
+    font-size: 30px;
+    text-align: right;
 }

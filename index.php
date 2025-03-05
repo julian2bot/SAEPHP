@@ -81,7 +81,7 @@
             $restoClass = new Restaurant($value["osmid"],$value["nomrestaurant"],$value["etoiles"],$value["codecommune"]??'',$value["nomcommune"]??'',$value["cuisines"]);
 
             // echo $restoClass ->getNom(); 
-            $restoClass-> renderIndexLesRestosRecherche();
+            $restoClass-> renderIndexLesRestosRecherche($bdd);
         
         endforeach;
         ?>
@@ -116,7 +116,7 @@
         //    echo "<pre>";
         //    print_r($value);
         //    echo "</pre>";
-        $restoClass-> renderIndexLesRecommandations();
+        $restoClass-> renderIndexLesRecommandations($bdd);
     
     endforeach;
     ?>

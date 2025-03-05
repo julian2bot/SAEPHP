@@ -67,6 +67,7 @@
         }
 
         function deleteCommentaire(PDO $bdd):void{
+            // todo do proper user class
             deleteCommentaireUser($bdd, $this->resto, $this->username);
         }
     }

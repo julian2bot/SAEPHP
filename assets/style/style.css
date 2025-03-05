@@ -173,3 +173,8 @@ main{
 .heartsgrey{
     color: #96969d;
 }
+.positionHeart{
+    font-size: 30px;
+    text-align: right;
+    flex-grow: 1;
+}

@@ -5,6 +5,7 @@
     require_once "../utils/BD/requettes/select.php";
     require_once "../utils/annexe/annexe.php";
     require_once "../utils/class/restaurant.php";
+    require_once "../utils/class/commentaire.php";
 
     // echo "<pre>";
     // print_r($_GET);
@@ -106,6 +107,10 @@
         <div>
             <H1><?php echo $restoClass-> getNom()??"Pas de restaurant trouvé"?></H1>
             <p class="note"><?php echo $restoClass-> formatetoile()?></p>
+            <?php
+            // si user est co ; dessiner le coeur de favoris
+            echo $restoClass->renderCoeur($bdd);
+            ?>
         </div>
 
     </section>
@@ -159,7 +164,6 @@
                 <div class="note-moyenne">
                     <h2><?php $restoClass-> getNoteMoyenne()?></h2>
                     <div class="etoiles"><?php echo formatetoileV2((int)$avisEtComm["noteMoy"]??0)?></div>
-
                 </div>
 
                 <div class="commentaires">
@@ -208,6 +212,7 @@
                             $CommUser["username"],
                             $CommUser["note"]??0,
                             $CommUser["datecommentaire"],
+                            $restoClass->getOsmid(),
                             $CommUser["commentaire"]
                         )  ;
                         $commentaireClass->renderCommentaire();

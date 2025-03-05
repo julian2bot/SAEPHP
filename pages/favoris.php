@@ -55,7 +55,7 @@
             //    print_r($value);
             //    echo "</pre>";
 
-            $restoClass->renderFavoris();
+            $restoClass->renderFavoris($bdd);
 
         endforeach;
         ?>
