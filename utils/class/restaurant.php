@@ -239,5 +239,49 @@ class Restaurant{
         }
     }
 
+    /**
+     * Liste des services proposés 
+     * @return string[]
+     */
+    function getAllServices(): array {
+        return [
+            "vegetarien" => "vegetarien.png",
+            "vegan" => "vegan.png",
+            "livraison" => "livraison.png",
+            "aemporter" => "aemporter.png",
+            "drive" => "drive.png",
+            "accessinternet" => "accessinternet.png",
+            "espacefumeur" => "espacefumeur.png",
+            "fauteuilroulant" => "fauteuilroulant.png"
+        ];
+    }
+    
+
+    function lesServices(){
+        $result = [];
+        $services = $this->getAllServices();
+        
+        foreach ($services as $service => $image) {
+            
+            $sql = "SELECT $service FROM RESTAURANT WHERE osmid = :osmid";
+        
+            $stmt = $this->bdd->prepare($sql);
+            $stmt->bindParam(':osmid', $this->osmid, PDO::PARAM_STR);
+        
+            $stmt->execute();
+        
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+            if ($row && $row[$service] !== null) {
+                $result[$service] = [
+                    'res' => $row[$service], 
+                    'img' => $image          
+                ];
+            }
+        }
+    
+        return $result;
+    }
+    
 
 }

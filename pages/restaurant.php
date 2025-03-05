@@ -144,7 +144,15 @@
                 
             </div>
             <div class="jsp"> 
+
+                <?php
+            foreach($restoClass -> lesServices()  as $value):
+                echo '
+                <img src="../assets/img/'.$value["img"].'" alt="'.$value["res"].'">
+                ' ;
+            endforeach;
                 
+                ?>
             </div>
             <div class="jsp2"> </div>
             <div id="map" class="map">
