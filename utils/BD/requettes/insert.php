@@ -167,7 +167,7 @@
             return false;
         }
         else{
-            $reqResto = $bdd->prepare("INSERT INTO RESTAURANT_FAVORIS (osmidusername) VALUES (?,?)");
+            $reqResto = $bdd->prepare("INSERT INTO RESTAURANT_FAVORIS (osmid, username) VALUES (?,?)");
             $reqResto->execute(array($osmID,$username));
             return true;
         }

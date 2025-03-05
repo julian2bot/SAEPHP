@@ -584,7 +584,9 @@
 
         // echo "melange";
         // return array_merge($cuis, $resto);
-        $result = array_merge($cuis, $resto);
+        $result = array();
+        
+        $result["restos"] = array_merge($cuis, $resto);
 
         if (isset($_SESSION["connecte"])){
             $username = $_SESSION["connecte"]["username"];

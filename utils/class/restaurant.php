@@ -205,7 +205,7 @@ class Restaurant{
         echo  '
             <div class="recommendationResto">
                 <img src="../assets/img/backgroundImage2.png" alt="resto:">
-                '.$this->renderCoeur($bdd).'
+                <span class="hearts positionHeart"> &#10084 </span>
                 <div class="nomnote">
                     <p class="soustitre">'.$this->getNom().'</p>  
                     <div class="note">'.$this->formatetoile().'</div>
@@ -290,7 +290,7 @@ class Restaurant{
         if(estFavoris($bdd, $_SESSION["connecte"]["username"], $this->getOsmid())){
             return '<span class="hearts positionHeart"> &#10084 </span>';
         } else {
-            return '<span class="heartsgrey positionHeart"> &#10084 </span>';
+            return '<p>'.estFavoris($bdd, $_SESSION["connecte"]["username"], $this->getOsmid()).'</p> <span class="heartsgrey positionHeart"> &#10084 </span>';
         }
     }
 

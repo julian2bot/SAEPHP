@@ -27,7 +27,7 @@ if (isset($_POST['osmID'])) {
     $restaurant = getRestaurantByID($bdd, $osmID);
     echo json_encode($restaurant);
     if ($restaurant) {
-        $result = ajouteRetirerFavoris($bdd, $restaurant["nomrestaurant"], $username);
+        $result = ajouteRetirerFavoris($bdd, $osmID, $username);
         echo json_encode(['success' => true, 'added' => $result]);
     } else {
         echo json_encode(['error' => 'Restaurant not found']);
