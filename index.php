@@ -78,7 +78,7 @@
 
 
         foreach($resto as $value):
-            $restoClass = new Restaurant($value["osmid"],$value["nomrestaurant"],$value["etoiles"],$value["codecommune"]??'',$value["nomcommune"]??'',$value["cuisines"]);
+            $restoClass = new Restaurant($bdd, $value["osmid"],$value["nomrestaurant"],$value["etoiles"],$value["codecommune"]??'',$value["nomcommune"]??'',$value["cuisines"]);
 
             // echo $restoClass ->getNom(); 
             $restoClass-> renderIndexLesRestosRecherche();
@@ -111,7 +111,7 @@
         }
         $cpt++;
 
-        $restoClass = new Restaurant($value["osmid"],$value["nomrestaurant"],$value["etoiles"],$value["codecommune"]??'',$value["nomcommune"]??'',$value["cuisines"]);
+        $restoClass = new Restaurant($bdd,$value["osmid"],$value["nomrestaurant"],$value["etoiles"],$value["codecommune"]??'',$value["nomcommune"]??'',$value["cuisines"]);
 
         //    echo "<pre>";
         //    print_r($value);

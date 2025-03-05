@@ -19,6 +19,8 @@ class Restaurant{
     private ?string $imageHorizontal;
     private ?int $noteMoyen;
 
+    private PDO $bdd;
+
     public array $lesCommentaires;
 
     public function __construct(
@@ -48,7 +50,8 @@ class Restaurant{
         $this-> imageHorizontal = $imageHorizontal;
         $this-> noteMoyen = $noteMoyen;
         $this-> lesCommentaires = [];
-        $this->updateLesCommentaires($bdd);
+        $this-> bdd = $bdd;
+        $this-> updateLesCommentaires();
     }
 
     // Getter for $osmid
@@ -218,10 +221,10 @@ class Restaurant{
             </div>';
     }
 
-    function updateLesCommentaires($bdd):void{
+    function updateLesCommentaires():void{
         
         $this->lesCommentaires = [];
-        foreach (getCommentairesResto($bdd, $this->osmid)["commentaires"] as $CommUser) {
+        foreach (getCommentairesResto($this->bdd, $this->osmid)["commentaires"] as $CommUser) {
             if (isset($_SESSION["connecte"]["username"]) && $_SESSION["connecte"]["username"] != $CommUser["username"]){
                 $commentaireClass = new Commentaire(
                     $CommUser["username"],

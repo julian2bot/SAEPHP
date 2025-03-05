@@ -49,7 +49,7 @@
                 break;
             }
             $cpt++;
-            $restoClass = new Restaurant($value["osmid"],$value["nomrestaurant"],$value["etoiles"],$value["codecommune"]??'',$value["nomcommune"]??'',$value["cuisines"]);
+            $restoClass = new Restaurant($bdd, $value["osmid"],$value["nomrestaurant"],$value["etoiles"],$value["codecommune"]??'',$value["nomcommune"]??'',$value["cuisines"]);
 
             //    echo "<pre>";
             //    print_r($value);
