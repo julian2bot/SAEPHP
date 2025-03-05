@@ -2,6 +2,7 @@
 // echo __DIR__."/../BD/connexionBD.php";
     require_once __DIR__."/../BD/connexionBD.php";
     require_once __DIR__."/../annexe/annexe.php";
+    require_once __DIR__."/commentaire.php";
 
 class Restaurant{
 
@@ -222,10 +223,10 @@ class Restaurant{
     }
 
     function updateLesCommentaires():void{
-        
+
         $this->lesCommentaires = [];
         foreach (getCommentairesResto($this->bdd, $this->osmid)["commentaires"] as $CommUser) {
-            if (isset($_SESSION["connecte"]["username"]) && $_SESSION["connecte"]["username"] != $CommUser["username"]){
+            if (! isset($_SESSION["connecte"]["username"]) || (isset($_SESSION["connecte"]["username"]) && $_SESSION["connecte"]["username"] != $CommUser["username"])){
                 $commentaireClass = new Commentaire(
                     $CommUser["username"],
                     $CommUser["note"]??0,
@@ -237,5 +238,6 @@ class Restaurant{
             }
         }
     }
+
 
 }
