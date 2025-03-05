@@ -39,7 +39,7 @@
 
         private function buttonSupp():string{
             if(isset($_SESSION["connecte"]) && $_SESSION["connecte"]["admin"] == "true"){
-                return "<button>Supprimer</button>";
+                return "<button onclick='supprimerCommentaire(\"$this->username\", \"$this->resto\")'>Supprimer</button>";
             }
             return "";
         }
@@ -47,7 +47,7 @@
 
         function renderCommentaire(){
         echo '
-            <div class="commentaire">
+            <div id='.$this->username.' class="commentaire">
                 <h3>'. $this->username.'</h3>
                 <div>
 

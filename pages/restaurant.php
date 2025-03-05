@@ -99,6 +99,7 @@
     <link rel="stylesheet" href="../assets/style/header.css">
     <link rel="stylesheet" href="../assets/style/restaurant.css">
     <script src="../assets/script/restaurant.js"></script>
+    <script src="../assets/script/deleteComm.js"></script>
 </head>
 <body>
     <?php
@@ -174,7 +175,7 @@
                     ?>
                     
                         <div class="noter">
-                            <form action="../controleur/commentaire.php" method="POST">
+                            <form action="../controleur/commentaires/commentaire.php" method="POST">
                                 
                                 <textarea name="avis" placeholder="Laissez votre avis..." cols="100" rows="4" minlength="5" maxlength="500" spellcheck required></textarea>
                                 <input type="hidden" name="nbEtoile" value='-1'>
@@ -198,7 +199,7 @@
                         else:
                     ?>
                         <div class="noter">
-                            <form action="../controleur/commentaire.php" method="POST">
+                            <form action="../controleur/commentaires/commentaire.php" method="POST">
                                 
                                 <textarea name="avis" placeholder="Laissez votre avis..." cols="100" rows="4" minlength="5" maxlength="500" spellcheck required><?php echo $comm["commentaire"]?></textarea>
                                 <input type="hidden" name="nbEtoile" value='-1'>
@@ -215,7 +216,7 @@
                                     <button class="publier" type="sumbit">Modifier</button>
                                 </div>
                             </form>
-                            <form action="../controleur/commentaireSuppression.php" method="POST">
+                            <form action="../controleur/commentaires/commentaireSuppression.php" method="POST">
                                 <input type="hidden" name="resto" value="<?php echo $_GET["osmID"]?>">
                                 <button class="publier" type="sumbit">Supprimer</button>
                             </form>
@@ -238,17 +239,16 @@
                     ?>
                     <?php
                     foreach($avisEtComm["commentaires"] as $CommUser):
-                        // print_r($CommUser); 
-
-
-                        $commentaireClass = new Commentaire(
-                            $CommUser["username"],
-                            $CommUser["note"]??0,
-                            $CommUser["datecommentaire"],
-                            $_GET["osmID"],
-                            $CommUser["commentaire"]
-                        )  ;
-                        $commentaireClass->renderCommentaire();
+                        if (isset($_SESSION["connecte"]["username"]) && $_SESSION["connecte"]["username"] != $CommUser["username"]){
+                            $commentaireClass = new Commentaire(
+                                $CommUser["username"],
+                                $CommUser["note"]??0,
+                                $CommUser["datecommentaire"],
+                                $_GET["osmID"],
+                                $CommUser["commentaire"]
+                            )  ;
+                            $commentaireClass->renderCommentaire();
+                        }
                     endforeach;
                     ?>
 

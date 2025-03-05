@@ -1,6 +1,6 @@
 <?php
-    require_once __DIR__."/../utils/BD/connexionBD.php";
-    require_once __DIR__."/../utils/class/commentaire.php";
+    require_once __DIR__."/../../utils/BD/connexionBD.php";
+    require_once __DIR__."/../../utils/class/commentaire.php";
 
     echo "<pre>";
     
@@ -14,7 +14,7 @@
             $comm->deleteCommentaire($bdd);
         }
 
-    header("Location: ../pages/restaurant.php?osmID=$_POST[resto]#avis");
+    header("Location: ../../pages/restaurant.php?osmID=$_POST[resto]#avis");
 	exit;
 
 ?>
