@@ -135,12 +135,23 @@ class User{
      * @return bool
      */
     function updateUser(string $usernameBefore, string $newUsername, string $mdp, bool $isAdmin):bool{
-        if($usernameBefore != $newUsername && usernameExist($bdd, $newUsername)){
+        // fonction does not exist
+        if($usernameBefore != $newUsername && $this->usernameExist($this->bdd, $newUsername)){
             return false;
         }
         $mdp = hash('sha256', $mdp);
         $requser = $this->bdd->prepare("UPDATE UTILISATEUR SET username=?, mdp=?, estAdmin=? WHERE username=?");
         $requser->execute(array($newUsername, $mdp, $isAdmin ? 1 : 0, $usernameBefore));
+        return true;
+    }
+
+    function updateNameUser(string $usernameBefore, string $newUsername):bool{
+        if($usernameBefore != $newUsername && $this->usernameExist($newUsername)){
+            return false;
+        }
+        $requser = $this->bdd->prepare("UPDATE UTILISATEUR SET username=? WHERE username=?");
+        $requser->execute(array($newUsername, $usernameBefore));
+        $this->userConnecter($newUsername);
         return true;
     }
 }
