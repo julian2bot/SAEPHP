@@ -67,6 +67,7 @@
 
 
     $restoClass = new Restaurant(
+        $bdd,
         $leresto["osmid"],
         $leresto["nomrestaurant"],
         $leresto["etoiles"],
@@ -237,7 +238,7 @@
                     
                     ?>
                     <?php
-                    foreach($restoClass->getLesCommentaires($bdd) as $commentaireClass):
+                    foreach($restoClass->lesCommentaires as $commentaireClass):
                         $commentaireClass->renderCommentaire();
                     endforeach;
                     ?>
