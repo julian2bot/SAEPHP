@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../assets/style/all.css">
     <link rel="stylesheet" href="../assets/style/header.css">
     <link rel="stylesheet" href="../assets/style/login.css">
+    <script src="../assets/script/popUpGestionErr.js"></script>
 </head>
 <body>
     <?php

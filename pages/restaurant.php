@@ -80,8 +80,6 @@
         $avisEtComm["noteMoy"]??null,
     );
     $comm = isset($_SESSION["connecte"]) ? getCommentairesRestoUser($bdd, $_GET["osmID"], $_SESSION["connecte"]["username"]) : null;
-    print_r($comm);
-
 ?>
 
 

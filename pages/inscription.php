@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion</title>
+    <title>Inscription</title>
 
     <link rel="stylesheet" href="../assets/style/reset.css">
     <link rel="stylesheet" href="../assets/style/all.css">
     <link rel="stylesheet" href="../assets/style/header.css">
     <link rel="stylesheet" href="../assets/style/login.css">
+    <script src="../assets/script/popUpGestionErr.js"></script>
 </head>
 <body>
     <?php
@@ -18,7 +19,7 @@
 
         <div class="login-container">
             <div class="login-box">
-                <h2 class="title">CONNEXION</h2>
+                <h2 class="title">INSCRIPTION</h2>
                 <form action="../controleur/inscription.php" method="POST">
                     <label for="username">NOM D'UTILISATEUR</label>
                     <input type="text" id="username" name="username" required>

@@ -1,5 +1,10 @@
 <?php
 // if(false): //  todo login 
+if(!isset($_SESSION)){
+    session_start();
+}
+
+
 if(!isset($_SESSION["connecte"])):
 ?>
 
@@ -31,6 +36,7 @@ else:
 
 <?php
 endif;
+require_once __DIR__."/../../utils/annexe/annexe.php";
 affichePopUp();
 ?>
 
