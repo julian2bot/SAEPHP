@@ -221,7 +221,7 @@ class Restaurant{
                     $CommUser["username"],
                     $CommUser["note"]??0,
                     $CommUser["datecommentaire"],
-                    $_GET["osmID"],
+                    $this->osmid,
                     $CommUser["commentaire"]
                 ) ;
                 array_push($lesComm,$commentaireClass);
