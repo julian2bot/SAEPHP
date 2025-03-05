@@ -57,7 +57,7 @@ final class RestaurantTest extends TestCase{
     }
     public function testgetImageVertical(): void {
         $restau = new Restaurant("node/3422189698", "Le Bistrot de la Place", 1, "75056", "Paris", ["Française"], "01 42 78 31 64", "http://www.bistrotdelaplace.fr/", "https://www.data.gouv.fr/s/resources/le-bistrot-de-la-place/20190701-112303/LeBistrotDeLaPlace.jpg", "https://www.data.gouv.fr/s/resources/le-bistrot-de-la-place", 4);
-        $this->assertEquals("https://www.data.gouv.fr/s/resources/le-bistrot-de-la-place", $restau->getImageVertical());
+        $this->assertEquals("https://www.data.gouv.fr/s/resources/le-bistrot-de-la-place/20190701-112303/LeBistrotDeLaPlace.jpg", $restau->getImageVertical());
         $this->assertNotEquals("https://www.data.gouv.fr/s/resources/le-bistrot-de-la", $restau->getImageVertical());
     }
 
@@ -157,8 +157,8 @@ final class RestaurantTest extends TestCase{
     }
     public function testformatUrlRestoFavoris(): void {
         $restau = new Restaurant("node/3422189698", "Le Bistrot de la Place", 1, "75056", "Paris", ["Française"], "01 42 78 31 64", "http://www.bistrotdelaplace.fr/", "https://www.data.gouv.fr/s/resources/le-bistrot-de-la-place/20190701-112303/LeBistrotDeLaPlace.jpg", "https://www.data.gouv.fr/s/resources/le-bistrot-de-la-place", 4);
-        $this->assertEquals("pages/restaurant.php?osmID=node/3422189698&resto=Le Bistrot de la Place&favoris=true", $restau->formatUrlRestoFavoris());
-        $this->assertNotEquals("pages/restaurant.php?osmID=node/3422189698&resto=Le Bistrot de la Peace&favoris=true", $restau->formatUrlRestoFavoris());
+        $this->assertEquals("./restaurant.php?osmID=node/3422189698&resto=Le Bistrot de la Place", $restau->formatUrlRestoFavoris());
+        $this->assertNotEquals("pages/restaurant.php?osmID=node/3422189698&resto=Le Bistrot de la Peace", $restau->formatUrlRestoFavoris());
     }
 }
 
