@@ -1,19 +1,37 @@
 <?php
-require_once '../util/class/user.php';
+require_once '../utils/BD/connexionBD.php';
+require_once '../utils/BD/requettes/insert.php';
+require_once '../utils/BD/requettes/select.php';
 
-if (isset($_POST['osmID']) && isset($_POST['state'])) {
+if (!isset($_SESSION["connecte"])) {
+    echo json_encode(["success" => false, "message" => "User not logged in"]);
+    exit;
+}
+
+/*
+if (isset($_POST['osmID'])) {
     $osmID = $_POST['osmID'];
-    $state = $_POST['state'];
+    $username = $_SESSION["connecte"]["username"];
 
-    $user = $_SESSION["connecte"]["username"]; // todo grab avec la class user
+    $result = ajouteRetirerFavoris($bdd, $osmID, $username);
+    echo json_encode(['success' => true, 'added' => $result]);
+} else {
+    echo json_encode(['error' => 'Invalid input']);
+}
+*/
 
-    if ($state === 'hearts') {
-        $result = $user->mettre_en_fav($osmID);
+if (isset($_POST['osmID'])) {
+    $osmID = $_POST['osmID'];
+    $username = $_SESSION["connecte"]["username"];
+
+    $restaurant = getRestaurantByID($bdd, $osmID);
+    echo json_encode($restaurant);
+    if ($restaurant) {
+        $result = ajouteRetirerFavoris($bdd, $restaurant["nomrestaurant"], $username);
+        echo json_encode(['success' => true, 'added' => $result]);
     } else {
-        $result = $user->enlever_fav($osmID);
+        echo json_encode(['error' => 'Restaurant not found']);
     }
-
-    echo json_encode(['success' => $result]);
 } else {
     echo json_encode(['error' => 'Invalid input']);
 }

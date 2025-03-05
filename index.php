@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="assets/style/header.css">
     <link rel="stylesheet" href="assets/style/style.css">
     <script type="module" src="assets/script/rechercheResto.js"></script>
+    <script src="../assets/script/favoris.js"></script>
 </head>
 <body>
     <?php

@@ -312,7 +312,18 @@ div:has(> .etoiles):nth-child(n + 2) {
 }
 
 .positionHeart{
-    margin-left: calc(22rem - 2rem);
+    /* margin-right: -2rem; */
+    right: 2rem;
     position: absolute;
-    font-size: 2rem;
+    font-size: 30px;
+    transition: transform 1s;
+}
+
+@keyframes regrow {
+    0% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
 }

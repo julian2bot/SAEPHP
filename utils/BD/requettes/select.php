@@ -586,8 +586,14 @@
         // return array_merge($cuis, $resto);
         $result = array_merge($cuis, $resto);
 
-        $result['user'] = $_SESSION["connecte"]["username"];
-        $result['favori'] = getLesFavoris($bdd, $username);
+        if (isset($_SESSION["connecte"])){
+            $username = $_SESSION["connecte"]["username"];
+        } else {
+            $username = "";
+        }
+
+        $result['user'] = $username;
+        $result['favori'] = getLesFavoris($bdd, $username) ?? [];
 
         return $result;
     }

@@ -97,6 +97,7 @@
     <link rel="stylesheet" href="../assets/style/header.css">
     <link rel="stylesheet" href="../assets/style/restaurant.css">
     <script src="../assets/script/restaurant.js"></script>
+    <script src="../assets/script/favoris.js"></script>
 </head>
 <body>
     <?php
@@ -107,13 +108,13 @@
         <div>
             <H1><?php echo $restoClass-> getNom()??"Pas de restaurant trouvé"?></H1>
             <p class="note"><?php echo $restoClass-> formatetoile()?></p>
-            <?php
-            // si user est co ; dessiner le coeur de favoris
-            echo $restoClass->renderCoeur($bdd);
-            ?>
         </div>
 
     </section>
+    <?php
+    // si user est co ; dessiner le coeur de favoris
+    echo $restoClass->renderCoeur($bdd);
+    ?>
 
     <main class="grid-container">
         <div class="container">

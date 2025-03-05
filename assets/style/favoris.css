@@ -22,4 +22,14 @@ h1{
 .positionHeart{
     font-size: 30px;
     text-align: right;
+    transition: transform 1s;
+}
+
+@keyframes regrow {
+    0% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
 }

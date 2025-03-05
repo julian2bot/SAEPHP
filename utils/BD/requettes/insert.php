@@ -160,6 +160,7 @@
      * @return bool true si ajout, false sinon
      */
     function ajouteRetirerFavoris(PDO $bdd, string $osmID, string $username):bool{
+        // Uncaught PDOException: SQLSTATE[42703]: Undefined column: 7 ERROR:  column "osmidusername" of relation "restaurant_favoris" does not exist
         if(estFavoris($bdd, $osmID, $username)){
             $reqResto = $bdd->prepare("DELETE FROM RESTAURANT_FAVORIS WHERE osmid=? AND username=?");
             $reqResto->execute(array($osmID,$username));

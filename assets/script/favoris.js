@@ -2,11 +2,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const positionHearts = document.querySelectorAll('.positionHeart');
     const currentUrl = window.location.href;
     const restaurantUrlPattern = /osmID=node\/\d+/;
-    
-    // pour totu les elements coeur fav
+
+    // pour tous les éléments coeur fav
     positionHearts.forEach(function(heart) {
         let osmID = null;
-        const parentElement = heart.parentElement;
+        const parentElement = heart.parentElement?.parentElement;
 
         // pour index et la page fav l'id est dans le parent <a>
         if (parentElement && parentElement.tagName.toLowerCase() === 'a') {
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         heart.addEventListener('click', function(event) {
             event.preventDefault();
-            // ca fait un like
+            // ça fait un like
             if (heart.classList.contains('heartsgrey')) {
                 heart.classList.remove('heartsgrey');
                 heart.classList.add('hearts');
@@ -34,6 +34,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 heart.classList.remove('hearts');
                 heart.classList.add('heartsgrey');
             }
+
+            // Play the animation
+            heart.classList.add('heartactive');
+            setTimeout(() => heart.classList.remove('heartactive'), 1000);
 
             // Update la db
             const endpointUrl = '../controleur/favoris.php';
