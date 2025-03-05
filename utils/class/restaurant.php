@@ -211,7 +211,23 @@ class Restaurant{
                 
                 <p><a href="'. $this->formatUrlResto().'" style="text-decoration:none; color:black;">Voir plus</a></p>
             </div>';
-    
+    }
+
+    function getLesCommentaires($bdd):array{
+        $lesComm = [];
+        foreach (getCommentairesResto($bdd, $this->osmid)["commentaires"] as $CommUser) {
+            if (isset($_SESSION["connecte"]["username"]) && $_SESSION["connecte"]["username"] != $CommUser["username"]){
+                $commentaireClass = new Commentaire(
+                    $CommUser["username"],
+                    $CommUser["note"]??0,
+                    $CommUser["datecommentaire"],
+                    $_GET["osmID"],
+                    $CommUser["commentaire"]
+                ) ;
+                array_push($lesComm,$commentaireClass);
+            }
+        }
+        return $lesComm;
     }
 
 }

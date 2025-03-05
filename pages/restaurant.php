@@ -237,17 +237,8 @@
                     
                     ?>
                     <?php
-                    foreach($avisEtComm["commentaires"] as $CommUser):
-                        if (isset($_SESSION["connecte"]["username"]) && $_SESSION["connecte"]["username"] != $CommUser["username"]){
-                            $commentaireClass = new Commentaire(
-                                $CommUser["username"],
-                                $CommUser["note"]??0,
-                                $CommUser["datecommentaire"],
-                                $_GET["osmID"],
-                                $CommUser["commentaire"]
-                            )  ;
-                            $commentaireClass->renderCommentaire();
-                        }
+                    foreach($restoClass->getLesCommentaires($bdd) as $commentaireClass):
+                        $commentaireClass->renderCommentaire();
                     endforeach;
                     ?>
 
