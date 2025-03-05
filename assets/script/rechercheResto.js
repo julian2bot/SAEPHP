@@ -38,19 +38,24 @@ function afficherRestos(restos) {
         const restoDiv = document.createElement('div');
         restoDiv.classList.add('resto');
 
-        restoDiv.innerHTML = remplirResto(value),
+        restoDiv.innerHTML = remplirResto(value);
 
         resultatContainer.appendChild(restoDiv);
     });
 }
 
 function remplirResto(value){
+let heartSpan = '';
+    if (value.user) {
+        heartSpan = `<span class="${value.favori ? 'hearts' : 'heartsgrey'} positionHeart"> ❤ </span>`;
+    }
     return `<a href="${formatUrlResto(value.osmid, value.nomrestaurant)}">
                 <div class="nomnote">
                     <p class="soustitre">${value.nomrestaurant}</p>
                     <div class="note">${formatetoile(value.etoiles ?? 0)}</div>
                     <div>${value.etoiles ?? 0}/5</div>
-                </div>
+                    ${heartSpan}
+</div>
                 <div class="adresse">
                     <p>${formatAdresseCommune(value)}</p>
                 </div>

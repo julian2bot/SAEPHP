@@ -205,11 +205,10 @@ class Restaurant{
         echo  '
             <div class="recommendationResto">
                 <img src="../assets/img/backgroundImage2.png" alt="resto:">
-                
+                '.$this->renderCoeur($bdd).'
                 <div class="nomnote">
                     <p class="soustitre">'.$this->getNom().'</p>  
                     <div class="note">'.$this->formatetoile().'</div>
-                    '.$this->renderCoeur($bdd).'
                 </div>
                 <div class="adresse">
                     <p>'.$this->formatAdresseCommune().'</p>
@@ -225,7 +224,7 @@ class Restaurant{
     }
 
     /**
-     * render un coeur si le restaurant est dans les favoris de l'utilisateur
+     * render les cartes des restaurants dans la recherche
      * @param PDO $bdd
      * @return void
      */

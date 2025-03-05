@@ -583,8 +583,13 @@
         // print_r($resto);
 
         // echo "melange";
-        return array_merge($cuis, $resto);
+        // return array_merge($cuis, $resto);
+        $result = array_merge($cuis, $resto);
 
+        $result['user'] = $_SESSION["connecte"]["username"];
+        $result['favori'] = getLesFavoris($bdd, $username);
+
+        return $result;
     }
 
 
