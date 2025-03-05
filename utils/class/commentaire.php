@@ -37,6 +37,13 @@
             return '<span class="colorEtoileNoShadow">' . $etoilesDorees . '</span>' . $etoilesVides;
         }
 
+        private function buttonSupp():string{
+            if(isset($_SESSION["connecte"]) && $_SESSION["connecte"]["admin"] == "true"){
+                return "<button>Supprimer</button>";
+            }
+            return "";
+        }
+
 
         function renderCommentaire(){
         echo '
@@ -49,6 +56,10 @@
                 </div>                        
                 <div>
                     '. $this->commentaire.'
+                </div>
+                
+                <div>
+                    '. $this->buttonSupp().'
                 </div>
             </div>';
         }

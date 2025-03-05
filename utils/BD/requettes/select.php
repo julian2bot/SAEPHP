@@ -387,7 +387,7 @@
     function getCommentairesRestoUser(PDO $bdd, string $osmID, string $username):array{
         $reqResto = $bdd->prepare("SELECT * FROM AVIS WHERE osmid=? AND username=?");
         $reqResto->execute(array($osmID,$username));
-        $info = $reqResto->fetchAll();
+        $info = $reqResto->fetch();
 
         if(!$info){
             return [];
