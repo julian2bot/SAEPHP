@@ -117,7 +117,7 @@ class User{
      * @return bool si le joueur supprimé existait (A bien été supprimé)
      */
     function deleteUser(string $username):bool{
-        if(!usernameExist($bdd,$username)){
+        if(!$this->usernameExist($username)){
             return false;
         }
         $requser = $this->bdd->prepare("DELETE FROM UTILISATEUR WHERE username=?");
@@ -135,7 +135,7 @@ class User{
      * @return bool
      */
     function updateUser(string $usernameBefore, string $newUsername, string $mdp, bool $isAdmin):bool{
-        if($usernameBefore != $newUsername && usernameExist($bdd, $newUsername)){
+        if($usernameBefore != $newUsername && $this->usernameExist($newUsername)){
             return false;
         }
         $mdp = hash('sha256', $mdp);
