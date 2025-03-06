@@ -2,6 +2,7 @@
 // echo __DIR__."/../BD/connexionBD.php";
     require_once __DIR__."/../BD/connexionBD.php";
     require_once __DIR__."/../annexe/annexe.php";
+    require_once __DIR__."/commentaire.php";
 
 class Restaurant{
 
@@ -222,10 +223,10 @@ class Restaurant{
     }
 
     function updateLesCommentaires():void{
-        
+
         $this->lesCommentaires = [];
         foreach (getCommentairesResto($this->bdd, $this->osmid)["commentaires"] as $CommUser) {
-            if (isset($_SESSION["connecte"]["username"]) && $_SESSION["connecte"]["username"] != $CommUser["username"]){
+            if (! isset($_SESSION["connecte"]["username"]) || (isset($_SESSION["connecte"]["username"]) && $_SESSION["connecte"]["username"] != $CommUser["username"])){
                 $commentaireClass = new Commentaire(
                     $CommUser["username"],
                     $CommUser["note"]??0,
@@ -237,5 +238,50 @@ class Restaurant{
             }
         }
     }
+
+    /**
+     * Liste des services proposés 
+     * @return string[]
+     */
+    function getAllServices(): array {
+        return [
+            "vegetarien" => "vegetarien.png",
+            "vegan" => "vegan.png",
+            "livraison" => "livraison.png",
+            "aemporter" => "aemporter.png",
+            "drive" => "drive.png",
+            "accessinternet" => "accessinternet.png",
+            "espacefumeur" => "espacefumeur.png",
+            "fauteuilroulant" => "fauteuilroulant.png"
+        ];
+    }
+    
+
+    function lesServices(){
+        $result = [];
+        $services = $this->getAllServices();
+        
+        foreach ($services as $service => $image) {
+            
+            $sql = "SELECT $service FROM RESTAURANT WHERE osmid = :osmid";
+        
+            $stmt = $this->bdd->prepare($sql);
+            $stmt->bindParam(':osmid', $this->osmid, PDO::PARAM_STR);
+        
+            $stmt->execute();
+        
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+            if ($row && $row[$service] !== null) {
+                $result[$service] = [
+                    'res' => $row[$service], 
+                    'img' => $image          
+                ];
+            }
+        }
+    
+        return $result;
+    }
+    
 
 }

@@ -143,7 +143,17 @@
                 <a href="<?php echo $restoClass->getSite()??"#"?>">SiteWeb</a>     
                 
             </div>
-            <div class="jsp"> </div>
+            <div class="jsp"> 
+
+                <?php
+            foreach($restoClass -> lesServices()  as $value):
+                echo '
+                <img src="../assets/img/'.$value["img"].'" alt="'.$value["res"].'">
+                ' ;
+            endforeach;
+                
+                ?>
+            </div>
             <div class="jsp2"> </div>
             <div id="map" class="map">
 
@@ -161,7 +171,8 @@
             <div id='avis' class="avis">
     
                 <div class="note-moyenne">
-                    <h2><?php $restoClass-> getNoteMoyenne()?></h2>
+
+                    <h2>Note : <?php $restoClass-> getNoteMoyenne()?></h2>
                     <div class="etoiles"><?php echo formatetoileV2((int)$avisEtComm["noteMoy"]??0)?></div>
 
                 </div>
@@ -221,17 +232,19 @@
                                 <button class="publier" type="sumbit">Supprimer</button>
                             </form>
                         </div>
-                    <?php
-                    endif;
-                    
-                    ?>
+                        <?php
+                        endif;
+                        
+                        ?>
                     
                     <div class="listComm co">
                         
                     <?php
                     else:
                     ?>
-                    <div class="listComm nonCo">
+                    <div class="listComm co">
+
+                    <!-- <div class="listComm nonCo"> -->
                     
                     <?php
                     endif;

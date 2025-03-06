@@ -313,9 +313,9 @@
      * Liste des services proposés 
      * @return string[]
      */
-    function getAllServices():array{
-        return ["vegetarien","vegan","livraison", "aemporter", "drive", "accessinternet", "espacefumeur", "fauteuilroulant"];
-    }
+    // function getAllServices():array{
+    //     return ["vegetarien","vegan","livraison", "aemporter", "drive", "accessinternet", "espacefumeur", "fauteuilroulant"];
+    // }
 
     /**
      * Renvoie une liste de restos possèdant au moins un service

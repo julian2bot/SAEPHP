@@ -84,8 +84,12 @@ main{
   .numtel { grid-area: numtel; }
   
   .siteweb { grid-area: siteweb; }
-  
-  .jsp { grid-area: jsp; }
+/*   
+  .jsp { grid-area: jsp;
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+} */
   
   .jsp2 { grid-area: jsp2; }
   
@@ -302,4 +306,39 @@ div:has(> .etoiles):nth-child(n + 2) {
 .leaflet-popup-tip{
     
     border-radius: 0 !important; 
+}
+
+/* .jsp img{
+    width: 3rem !important;
+    height: 3rem !important;
+    top:0;
+}
+.jsp img:nth-child(2n) {
+    background-color: red;
+    margin-top:min-content;
+}
+
+ */
+ .jsp {
+    grid-area: jsp;
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap; 
+}
+
+.jsp img {
+    background-color: blue;
+    width: 5rem !important;
+    height: 5rem !important;
+    position: relative; 
+}
+
+.jsp img:nth-child(odd) {
+    top: 0;
+}
+
+.jsp img:nth-child(even) {
+    top: 100%;
+    transform: translateY(-100%); 
 }
