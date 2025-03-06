@@ -1,10 +1,12 @@
 <?php
+    namespace utils\class;
+
     require_once __DIR__."/../BD/connexionBD.php";
     require_once __DIR__."/../annexe/annexe.php";
     require_once __DIR__."/../BD/requettes/insert.php";
     require_once __DIR__."/../BD/requettes/select.php";
     require_once __DIR__."/../BD/requettes/delete.php";
-    
+
     class Commentaire{
         private string $resto;
         private string $username;

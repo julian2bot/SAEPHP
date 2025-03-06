@@ -1,6 +1,9 @@
 <?php
     require_once __DIR__."/../../utils/BD/connexionBD.php";
-    require_once __DIR__."/../../utils/class/commentaire.php";
+    // require_once __DIR__."/../../utils/class/commentaire.php";
+    require_once __DIR__."/../../utils/class/AutoLoad.php" ;
+    use utils\class\Commentaire as Commentaire;
+
 
     echo "<pre>";
     
