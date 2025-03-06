@@ -280,8 +280,7 @@ class Restaurant{
             if ($row && $row[$service] !== null) {
                 $result[$service] = [
                     'res' => $row[$service], 
-                    'img' => $image,
-                    'class' => "service"
+                    'img' => $image
                 ];
             }
         }

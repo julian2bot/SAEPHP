@@ -154,7 +154,7 @@
                 <?php
             foreach($restoClass -> lesServices()  as $value):
                 echo '
-                <img class="'.$value["class"].'" src="../assets/img/services/'.$value["img"].'" alt="'.$value["res"].'">
+                <img src="../assets/img/services/'.$value["img"].'" alt="'.$value["res"].'">
                 ' ;
             endforeach;
                 
