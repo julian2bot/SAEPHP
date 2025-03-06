@@ -19,7 +19,12 @@ class Restaurant{
     private ?string $imageHorizontal;
     private ?int $noteMoyen;
 
+    private PDO $bdd;
+
+    public array $lesCommentaires;
+
     public function __construct(
+                $bdd,
                 $osmid,
                 $nom, 
                 $nbEtoile, 
@@ -44,6 +49,9 @@ class Restaurant{
         $this-> imageVertical = $imageVertical;
         $this-> imageHorizontal = $imageHorizontal;
         $this-> noteMoyen = $noteMoyen;
+        $this-> lesCommentaires = [];
+        $this-> bdd = $bdd;
+        $this-> updateLesCommentaires();
     }
 
     // Getter for $osmid
@@ -211,55 +219,23 @@ class Restaurant{
                 
                 <p><a href="'. $this->formatUrlResto().'" style="text-decoration:none; color:black;">Voir plus</a></p>
             </div>';
-    
     }
 
-}
-
-
-class Commentaire{
-    private string $username;
-    private int $nbEtoile;
-    private string $dateCommentaire;
-    private string $commentaire;
-
-    public function __construct(
-        $username,
-        $nbEtoile,
-        $dateCommentaire,
-        $commentaire
-        ) {
-            $this->username = $username;
-            $this->nbEtoile = $nbEtoile??0;
-            $this->dateCommentaire = $dateCommentaire;
-            $this->commentaire = $commentaire;
-                
+    function updateLesCommentaires():void{
+        
+        $this->lesCommentaires = [];
+        foreach (getCommentairesResto($this->bdd, $this->osmid)["commentaires"] as $CommUser) {
+            if (isset($_SESSION["connecte"]["username"]) && $_SESSION["connecte"]["username"] != $CommUser["username"]){
+                $commentaireClass = new Commentaire(
+                    $CommUser["username"],
+                    $CommUser["note"]??0,
+                    $CommUser["datecommentaire"],
+                    $this->osmid,
+                    $CommUser["commentaire"]
+                ) ;
+                array_push($this->lesCommentaires,$commentaireClass);
+            }
+        }
     }
 
-
-    function formatetoileV2():string {
-        $this->nbEtoile = max(0, min(5, $this->nbEtoile));
-    
-        $etoilesDorees = str_repeat('★', $this->nbEtoile);
-    
-        $etoilesVides = str_repeat('☆', 5 - $this->nbEtoile);
-    
-        return '<span class="colorEtoileNoShadow">' . $etoilesDorees . '</span>' . $etoilesVides;
-    }
-
-
-    function renderCommentaire(){
-      echo '
-        <div class="commentaire">
-            <h3>'. $this->username.'</h3>
-            <div>
-
-                <div class="etoiles">'. $this->formatetoileV2() .'</div>
-                <span class="date">'. $this->dateCommentaire.'</span>
-            </div>                        
-            <div>
-                '. $this->commentaire.'
-            </div>
-        </div>';
-    }
 }
