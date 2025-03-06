@@ -113,6 +113,7 @@ main{
 
 .container div:not(:has(img), :has(#map)){
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    
     /* height: 10px; */
     /* width: 10px; */
     border-radius: 10px;
@@ -319,7 +320,9 @@ div:has(> .etoiles):nth-child(n + 2) {
 }
 
  */
- .jsp {
+.jsp {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 10px;
     grid-area: jsp;
     position: relative;
     display: flex;
@@ -327,18 +330,29 @@ div:has(> .etoiles):nth-child(n + 2) {
     flex-wrap: wrap; 
 }
 
-.jsp img {
+/* .jsp img {
     background-color: blue;
     width: 5rem !important;
     height: 5rem !important;
     position: relative; 
-}
+} */
 
 .jsp img:nth-child(odd) {
-    top: 0;
+    top: 10px;
+    background-color: rgba(57, 127, 197, 0.94);
 }
 
 .jsp img:nth-child(even) {
-    top: 100%;
+    top:calc(100% - 10px);
     transform: translateY(-100%); 
+    background-color: #FFB469;
+}
+
+.jsp img {
+    width: 4em !important;
+    height: 4em !important;
+    border-radius: 2em;
+    border-width: 5px;
+    padding: 10px;
+    position: relative; 
 }

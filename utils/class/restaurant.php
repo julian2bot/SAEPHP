@@ -250,14 +250,14 @@ class Restaurant{
      */
     function getAllServices(): array {
         return [
-            "vegetarien" => "vegetarien.png",
+            "vegetarien" => "vege.png",
             "vegan" => "vegan.png",
             "livraison" => "livraison.png",
-            "aemporter" => "aemporter.png",
+            "aemporter" => "emporter.png",
             "drive" => "drive.png",
-            "accessinternet" => "accessinternet.png",
-            "espacefumeur" => "espacefumeur.png",
-            "fauteuilroulant" => "fauteuilroulant.png"
+            "accessinternet" => "internet.png",
+            "espacefumeur" => "fumeur.png",
+            "fauteuilroulant" => "fauteuil.png"
         ];
     }
     
@@ -280,7 +280,7 @@ class Restaurant{
             if ($row && $row[$service] !== null) {
                 $result[$service] = [
                     'res' => $row[$service], 
-                    'img' => $image          
+                    'img' => $image
                 ];
             }
         }
