@@ -1,8 +1,13 @@
 <?php
-// echo __DIR__."/../BD/connexionBD.php";
+    namespace utils\class;
+
+    require_once __DIR__."/AutoLoad.php" ;
     require_once __DIR__."/../BD/connexionBD.php";
     require_once __DIR__."/../annexe/annexe.php";
-    require_once __DIR__."/commentaire.php";
+
+    use utils\class\Commentaire as Commentaire;
+
+    use PDO;
 
 class Restaurant{
 

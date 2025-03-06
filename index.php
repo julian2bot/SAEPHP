@@ -5,7 +5,9 @@
     require_once "utils/annexe/getter.php";
     require_once "utils/BD/requettes/select.php";
     require_once "utils/annexe/annexe.php";
-    require_once "utils/class/restaurant.php";
+    require_once __DIR__."/utils/class/AutoLoad.php" ;
+    use utils\class\Restaurant as Restaurant;
+    // require_once "utils/class/restaurant.php";
     // print_r($_SESSION);
 ?>
 
@@ -23,6 +25,7 @@
     <link rel="stylesheet" href="assets/style/header.css">
     <link rel="stylesheet" href="assets/style/style.css">
     <script type="module" src="assets/script/rechercheResto.js"></script>
+    <script src="../assets/script/popUpGestionErr.js"></script>
 </head>
 <body>
     <?php
