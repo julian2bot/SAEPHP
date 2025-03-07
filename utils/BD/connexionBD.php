@@ -5,7 +5,7 @@ session_start();
 
 // pass.csv DANS /utils/BD/pass.csv
 // $passCsv = fopen( __DIR__ . '/passLocal.csv', 'r');
-$passCsv = fopen( __DIR__ . '/pass.csv', 'r');
+$passCsv = fopen( __DIR__ ."/../../dataMonted/passBd.csv", 'r');
 if (!feof($passCsv)) {
     $replace = [";","\n","\r","\r\n"];
     $host = str_replace($replace,"",fgets($passCsv)) ;
