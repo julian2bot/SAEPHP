@@ -135,14 +135,24 @@ class User{
      * @param bool $isAdmin
      * @return bool
      */
-    function updateUser(PDO $bdd ,string $usernameBefore, string $newUsername, string $mdp, bool $isAdmin):bool{
+    function updateUser(string $usernameBefore, string $newUsername, string $mdp, bool $isAdmin):bool{
         // fonction does not exist
-        if($usernameBefore != $newUsername && usernameExist($bdd, $newUsername)){
+        if($usernameBefore != $newUsername && $this->usernameExist($this->bdd, $newUsername)){
             return false;
         }
         $mdp = hash('sha256', $mdp);
         $requser = $this->bdd->prepare("UPDATE UTILISATEUR SET username=?, mdp=?, estAdmin=? WHERE username=?");
         $requser->execute(array($newUsername, $mdp, $isAdmin ? 1 : 0, $usernameBefore));
+        return true;
+    }
+
+    function updateNameUser(string $usernameBefore, string $newUsername):bool{
+        if($usernameBefore != $newUsername && $this->usernameExist($newUsername)){
+            return false;
+        }
+        $requser = $this->bdd->prepare("UPDATE UTILISATEUR SET username=? WHERE username=?");
+        $requser->execute(array($newUsername, $usernameBefore));
+        $this->userConnecter($newUsername);
         return true;
     }
 }

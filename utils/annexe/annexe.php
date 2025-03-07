@@ -57,7 +57,7 @@ function formatAdresseCommune($value):string{
 }
 
 function getAPIKey():string {
-    $passCsv = fopen( __DIR__ . '/pass.csv', 'r');
+    $passCsv = fopen( __DIR__ ."/../../dataMonted/passApi.csv", 'r');
     if (!feof($passCsv)) {
         $replace = [";","\n","\r","\r\n"];
 
@@ -329,4 +329,32 @@ function categorizeImagesByOrientation($imageUrls) {
     }
 
     return $categorizedImages;
+}
+
+/**
+ * Crée les informations d'une POP UP
+ *
+ * @param string $message le message de la pop up 
+ * @param float $succes si la pop up est un succes ou err
+ *
+ * @return void
+ */
+function createPopUp(string $message, bool $success = true): void
+{
+	$_SESSION["popUp"] = [];
+	$_SESSION["popUp"]["success"] = $success;
+	$_SESSION["popUp"]["message"] = $message;
+}
+
+/**
+ * Affiche une POP UP par rapport a la pop up crée en PHP (Session)
+ * @return void
+ */
+function affichePopUp():void{
+    if(isset($_SESSION["popUp"])){
+        echo "<script type='text/javascript'>
+                showPopUp(\"".$_SESSION["popUp"]["message"]."\",".($_SESSION["popUp"]["success"] ? "true" : "false").");
+              </script>";
+        unset($_SESSION["popUp"]);
+    }
 }

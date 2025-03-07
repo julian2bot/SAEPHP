@@ -6,11 +6,16 @@
     require_once "../utils/annexe/getter.php";
     require_once "../utils/BD/requettes/select.php";
     require_once "../utils/annexe/annexe.php";
+    require_once "../utils/BD/requettes/userManagement.php";
 
     // echo "<pre>";
 
+        
+$user = new User($bdd);
 
-$resto = getMesRecommandations($bdd, "visiteur"); // todo login changé visiteur par $_SESSION["connecte"]["username"]
+echo $user -> updateNameUser("jus", "julian") ? "true ok" : "false fail gross nulll"
+
+// $resto = getMesRecommandations($bdd, "visiteur"); // todo login changé visiteur par $_SESSION["connecte"]["username"]
 
 // echo "<pre>";
 // print_r($resto);
@@ -30,9 +35,9 @@ $resto = getMesRecommandations($bdd, "visiteur"); // todo login changé visiteur
 
 // }
 
-echo "<pre>";
-print_r(rechercheResto($bdd, "ita"));
-echo "</pre>";
+// echo "<pre>";
+// print_r(rechercheResto($bdd, "ita"));
+// echo "</pre>";
 // $resto = getRestaurantByName($bdd,"O'Tacos");
 // print_r($resto);
 

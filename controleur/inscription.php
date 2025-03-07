@@ -2,6 +2,7 @@
 require_once "../utils/BD/connexionBD.php";
 require_once "../utils/BD/requettes/select.php";
 require_once "../utils/BD/requettes/userManagement.php";
+require_once __DIR__."/../utils/annexe/annexe.php";
 
 
 // code pour se login verifier s'il est bien dans la BD et mettre toute les valeurs dans le $_SESSION
@@ -35,7 +36,7 @@ if(isset($_POST['formInscription'])){
                 $user ->userConnecter($username);
             }   
         }else{
-    		$erreur =  "Les mots de passe ne correspondes pas !";
+    		$erreur =  "Les mots de passe ne correspondent pas !";
 
         }
     }   
@@ -49,7 +50,8 @@ if(isset($_POST['formInscription'])){
 
 // retourne sur la page index avec l'erreur s'il y en a une 
 if($erreur){
-	header("Location: ../pages/login.php?erreurLogin=$erreur");
+    createPopUp($erreur, false);
+	header("Location: ../pages/inscription.php");
 	exit;
 }
 else{

@@ -4,8 +4,9 @@
     require_once "../utils/annexe/getter.php";
     require_once "../utils/BD/requettes/select.php";
     require_once "../utils/annexe/annexe.php";
-    require_once "../utils/class/restaurant.php";
-    require_once "../utils/class/commentaire.php";
+    require_once __DIR__."/../utils/class/AutoLoad.php" ;
+
+    use utils\class\Restaurant as Restaurant;
 
     // echo "<pre>";
     // print_r($_GET);
@@ -67,6 +68,7 @@
 
 
     $restoClass = new Restaurant(
+        $bdd,
         $leresto["osmid"],
         $leresto["nomrestaurant"],
         $leresto["etoiles"],
@@ -79,7 +81,7 @@
         $imagesResto["horizontal"]??null,
         $avisEtComm["noteMoy"]??null,
     );
-
+    $comm = isset($_SESSION["connecte"]) ? getCommentairesRestoUser($bdd, $_GET["osmID"], $_SESSION["connecte"]["username"]) : null;
 ?>
 
 
@@ -97,6 +99,8 @@
     <link rel="stylesheet" href="../assets/style/header.css">
     <link rel="stylesheet" href="../assets/style/restaurant.css">
     <script src="../assets/script/restaurant.js"></script>
+    <script src="../assets/script/deleteComm.js"></script>
+    <script src="../assets/script/popUpGestionErr.js"></script>
     <script src="../assets/script/favoris.js"></script>
 </head>
 <body>
@@ -145,7 +149,17 @@
                 <a href="<?php echo $restoClass->getSite()??"#"?>">SiteWeb</a>     
                 
             </div>
-            <div class="jsp"> </div>
+            <div class="jsp"> 
+
+                <?php
+            foreach($restoClass -> lesServices()  as $value):
+                echo '
+                <img src="../assets/img/services/'.$value["img"].'" alt="'.$value["res"].'">
+                ' ;
+            endforeach;
+                
+                ?>
+            </div>
             <div class="jsp2"> </div>
             <div id="map" class="map">
 
@@ -163,7 +177,8 @@
             <div id='avis' class="avis">
     
                 <div class="note-moyenne">
-                    <h2><?php $restoClass-> getNoteMoyenne()?></h2>
+
+                    <h2>Note : <?php $restoClass-> getNoteMoyenne()?></h2>
                     <div class="etoiles"><?php echo formatetoileV2((int)$avisEtComm["noteMoy"]??0)?></div>
                 </div>
 
@@ -172,13 +187,15 @@
                     // if(true): // todo login 
                     if(isset($_SESSION["connecte"])):
 
+                        if($comm == null):
                     ?>
                     
                         <div class="noter">
-                            <form action="" methode="post">
+                            <form action="../controleur/commentaires/commentaire.php" method="POST">
                                 
                                 <textarea name="avis" placeholder="Laissez votre avis..." cols="100" rows="4" minlength="5" maxlength="500" spellcheck required></textarea>
                                 <input type="hidden" name="nbEtoile" value='-1'>
+                                <input type="hidden" name="resto" value="<?php echo $_GET["osmID"]?>">
                                 <div class="mettreNote">
                                     <p>Ma Note:</p>
                                     <div class="stars">
@@ -191,31 +208,55 @@
                                     <button class="publier" type="sumbit">Publier</button>
                                 </div>
                             </form>
+                            
                         </div>
+
+                    <?php
+                        else:
+                    ?>
+                        <div class="noter">
+                            <form action="../controleur/commentaires/commentaire.php" method="POST">
+                                
+                                <textarea name="avis" placeholder="Laissez votre avis..." cols="100" rows="4" minlength="5" maxlength="500" spellcheck required><?php echo $comm["commentaire"]?></textarea>
+                                <input type="hidden" name="nbEtoile" value='-1'>
+                                <input type="hidden" name="resto" value="<?php echo $_GET["osmID"]?>">
+                                <div class="mettreNote">
+                                    <p>Ma Note:</p>
+                                    <div class="stars">
+                                            <a href="#lanote=5" class="star stargrey" ><i data-index="5">★</i></a>
+                                            <a href="#lanote=4" class="star stargrey" ><i data-index="4">★</i></a>
+                                            <a href="#lanote=3" class="star stargrey" ><i data-index="3">★</i></a>
+                                            <a href="#lanote=2" class="star stargrey" ><i data-index="2">★</i></a>
+                                            <a href="#lanote=1" class="star stargrey" ><i data-index="1">★</i></a>
+                                    </div>   
+                                    <button class="publier" type="sumbit">Modifier</button>
+                                </div>
+                            </form>
+                            <form action="../controleur/commentaires/commentaireSuppression.php" method="POST">
+                                <input type="hidden" name="resto" value="<?php echo $_GET["osmID"]?>">
+                                <button class="publier" type="sumbit">Supprimer</button>
+                            </form>
+                        </div>
+                        <?php
+                        endif;
+                        
+                        ?>
                     
                     <div class="listComm co">
                         
                     <?php
                     else:
                     ?>
-                    <div class="listComm nonCo">
+                    <div class="listComm co">
+
+                    <!-- <div class="listComm nonCo"> -->
                     
                     <?php
                     endif;
                     
                     ?>
                     <?php
-                    foreach($avisEtComm["commentaires"] as $CommUser):
-                        // print_r($CommUser); 
-
-
-                        $commentaireClass = new Commentaire(
-                            $CommUser["username"],
-                            $CommUser["note"]??0,
-                            $CommUser["datecommentaire"],
-                            $restoClass->getOsmid(),
-                            $CommUser["commentaire"]
-                        )  ;
+                    foreach($restoClass->lesCommentaires as $commentaireClass):
                         $commentaireClass->renderCommentaire();
                     endforeach;
                     ?>
@@ -257,7 +298,7 @@
         var restaurant = <?php echo json_encode($leresto); ?>;
         initMap(restaurant);
 
-        noteStar(<?php echo 4; ?>) // todo get la note du client pour se resto et le mettre a la place du 4
+        noteStar(<?php echo $comm["note"] ?? 2; ?>) // todo get la note du client pour se resto et le mettre a la place du 4
     </script>
 </body>
 </html>

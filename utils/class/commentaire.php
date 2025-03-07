@@ -1,10 +1,12 @@
 <?php
+    namespace utils\class;
+
     require_once __DIR__."/../BD/connexionBD.php";
     require_once __DIR__."/../annexe/annexe.php";
     require_once __DIR__."/../BD/requettes/insert.php";
     require_once __DIR__."/../BD/requettes/select.php";
     require_once __DIR__."/../BD/requettes/delete.php";
-    
+
     class Commentaire{
         private string $resto;
         private string $username;
@@ -37,10 +39,17 @@
             return '<span class="colorEtoileNoShadow">' . $etoilesDorees . '</span>' . $etoilesVides;
         }
 
+        private function buttonSupp():string{
+            if(isset($_SESSION["connecte"]) && $_SESSION["connecte"]["admin"] == "true"){
+                return "<button onclick='supprimerCommentaire(\"$this->username\", \"$this->resto\")'>Supprimer</button>";
+            }
+            return "";
+        }
+
 
         function renderCommentaire(){
         echo '
-            <div class="commentaire">
+            <div id='.$this->username.' class="commentaire">
                 <h3>'. $this->username.'</h3>
                 <div>
 
@@ -50,19 +59,25 @@
                 <div>
                     '. $this->commentaire.'
                 </div>
+                
+                <div>
+                    '. $this->buttonSupp().'
+                </div>
             </div>';
         }
 
         /**
          * Envoie ou modifie un commentaire
-         * @return void
+         * @return bool true si modifié, false si crée
          */
-        function sendCommentaire(PDO $bdd):void{
+        function sendCommentaire(PDO $bdd):bool{
             if (existCommentairesRestoUser($bdd, $this->resto, $this->username)){
                 updateCommentaire($bdd, $this->resto, $this->username, $this->commentaire, $this->nbEtoile);
+                return true;
             }
             else{
                 insertCommentaire($bdd, $this->resto, $this->username, $this->nbEtoile, $this->commentaire);
+                return false;
             }
         }
 

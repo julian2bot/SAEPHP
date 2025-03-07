@@ -121,7 +121,7 @@
     }
 
     function addAllRestoFromJson(PDO $bdd, array $lesRestos){
-        set_time_limit(300); // 5 minutes
+        set_time_limit(5000); // 5 minutes
         foreach ($lesRestos as $resto) {
             addRestoFromJson($bdd, $resto);
         }

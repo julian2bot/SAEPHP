@@ -1,7 +1,13 @@
 <?php
-// echo __DIR__."/../BD/connexionBD.php";
+    namespace utils\class;
+
+    require_once __DIR__."/AutoLoad.php" ;
     require_once __DIR__."/../BD/connexionBD.php";
     require_once __DIR__."/../annexe/annexe.php";
+
+    use utils\class\Commentaire as Commentaire;
+
+    use PDO;
 
 class Restaurant{
 
@@ -19,7 +25,12 @@ class Restaurant{
     private ?string $imageHorizontal;
     private ?int $noteMoyen;
 
+    private PDO $bdd;
+
+    public array $lesCommentaires;
+
     public function __construct(
+                $bdd,
                 $osmid,
                 $nom, 
                 $nbEtoile, 
@@ -44,6 +55,9 @@ class Restaurant{
         $this-> imageVertical = $imageVertical;
         $this-> imageHorizontal = $imageHorizontal;
         $this-> noteMoyen = (int)$noteMoyen;
+        $this-> lesCommentaires = [];
+        $this-> bdd = $bdd;
+        $this-> updateLesCommentaires();
     }
     
     /**
@@ -274,8 +288,69 @@ class Restaurant{
                 
                 <p><a href="'. $this->formatUrlResto().'" style="text-decoration:none; color:black;">Voir plus</a></p>
             </div>';
-    
     }
+
+    function updateLesCommentaires():void{
+
+        $this->lesCommentaires = [];
+        foreach (getCommentairesResto($this->bdd, $this->osmid)["commentaires"] as $CommUser) {
+            if (! isset($_SESSION["connecte"]["username"]) || (isset($_SESSION["connecte"]["username"]) && $_SESSION["connecte"]["username"] != $CommUser["username"])){
+                $commentaireClass = new Commentaire(
+                    $CommUser["username"],
+                    $CommUser["note"]??0,
+                    $CommUser["datecommentaire"],
+                    $this->osmid,
+                    $CommUser["commentaire"]
+                ) ;
+                array_push($this->lesCommentaires,$commentaireClass);
+            }
+        }
+    }
+
+    /**
+     * Liste des services proposés 
+     * @return string[]
+     */
+    function getAllServices(): array {
+        return [
+            "vegetarien" => "vege.png",
+            "vegan" => "vegan.png",
+            "livraison" => "livraison.png",
+            "aemporter" => "emporter.png",
+            "drive" => "drive.png",
+            "accessinternet" => "internet.png",
+            "espacefumeur" => "fumeur.png",
+            "fauteuilroulant" => "fauteuil.png"
+        ];
+    }
+    
+
+    function lesServices(){
+        $result = [];
+        $services = $this->getAllServices();
+        
+        foreach ($services as $service => $image) {
+            
+            $sql = "SELECT $service FROM RESTAURANT WHERE osmid = :osmid";
+        
+            $stmt = $this->bdd->prepare($sql);
+            $stmt->bindParam(':osmid', $this->osmid, PDO::PARAM_STR);
+        
+            $stmt->execute();
+        
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+            if ($row && $row[$service] !== null) {
+                $result[$service] = [
+                    'res' => $row[$service], 
+                    'img' => $image
+                ];
+            }
+        }
+    
+        return $result;
+    }
+    
 
     /**
      * render un coeur si le restaurant est dans les favoris de l'utilisateur
