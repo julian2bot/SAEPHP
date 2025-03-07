@@ -355,4 +355,27 @@ div:has(> .etoiles):nth-child(n + 2) {
     border-width: 5px;
     padding: 10px;
     position: relative; 
+
+.hearts{
+    color: red;
+}
+.heartsgrey{
+    color: #96969d;
+}
+
+.positionHeart{
+    /* margin-right: -2rem; */
+    right: 2rem;
+    position: absolute;
+    font-size: 30px;
+    transition: transform 1s;
+}
+
+@keyframes regrow {
+    0% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
 }

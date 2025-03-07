@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="assets/style/style.css">
     <script type="module" src="assets/script/rechercheResto.js"></script>
     <script src="../assets/script/popUpGestionErr.js"></script>
+    <script src="../assets/script/favoris.js"></script>
 </head>
 <body>
     <?php
@@ -84,7 +85,7 @@
             $restoClass = new Restaurant($bdd, $value["osmid"],$value["nomrestaurant"],$value["etoiles"],$value["codecommune"]??'',$value["nomcommune"]??'',$value["cuisines"]);
 
             // echo $restoClass ->getNom(); 
-            $restoClass-> renderIndexLesRestosRecherche();
+            $restoClass-> renderIndexLesRestosRecherche($bdd);
         
         endforeach;
         ?>
@@ -119,7 +120,7 @@
         //    echo "<pre>";
         //    print_r($value);
         //    echo "</pre>";
-        $restoClass-> renderIndexLesRecommandations();
+        $restoClass-> renderIndexLesRecommandations($bdd);
     
     endforeach;
     ?>

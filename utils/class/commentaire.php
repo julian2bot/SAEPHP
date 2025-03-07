@@ -82,6 +82,7 @@
         }
 
         function deleteCommentaire(PDO $bdd):void{
+            // todo do proper user class ; function doest not exist
             deleteCommentaireUser($bdd, $this->resto, $this->username);
         }
     }
