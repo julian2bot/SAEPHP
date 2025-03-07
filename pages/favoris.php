@@ -42,8 +42,8 @@ require_once "../utils/BD/connexionBD.php";
                 // echo "<pre>";
                 // print_r($value);
                 //echo "</pre>";
-                $restoClass = new Restaurant($value["osmid"], $value["nomrestaurant"], $value["etoiles"] ?? 0, $value["codecommune"] ?? '', $value["nomcommune"] ?? '', $value["cuisines"] ?? []);
-                $restoClass->renderFavoris($bdd);
+                $restoClass = new Restaurant($bdd, $value["osmid"], $value["nomrestaurant"], $value["etoiles"] ?? 0, $value["codecommune"] ?? '', $value["nomcommune"] ?? '', $value["cuisines"] ?? []);
+                $restoClass->renderFavoris();
             endforeach;
             ?>
         </div>

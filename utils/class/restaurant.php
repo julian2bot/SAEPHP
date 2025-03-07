@@ -215,7 +215,7 @@ class Restaurant{
      * @param PDO $bdd
      * @return void
      */
-    function renderFavoris($bdd){
+    function renderFavoris(){
         echo  '
             <div class="recommendationResto">
                 <img src="../assets/img/backgroundImage2.png" alt="resto:">

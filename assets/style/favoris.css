@@ -8,9 +8,11 @@ h1{
 }
 .hearts{
     color: red;
+    cursor: pointer;
 }
 .heartsgrey{
     color: #96969d;
+    cursor: pointer;
 }
 .lesFavoris{
     max-width: 90%;

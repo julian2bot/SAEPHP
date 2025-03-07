@@ -355,12 +355,14 @@ div:has(> .etoiles):nth-child(n + 2) {
     border-width: 5px;
     padding: 10px;
     position: relative; 
-
+}
 .hearts{
     color: red;
+    cursor: pointer;
 }
 .heartsgrey{
     color: #96969d;
+    cursor: pointer;
 }
 
 .positionHeart{
