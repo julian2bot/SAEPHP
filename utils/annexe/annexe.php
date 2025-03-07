@@ -57,7 +57,7 @@ function formatAdresseCommune($value):string{
 }
 
 function getAPIKey():string {
-    $passCsv = fopen( __DIR__ . '/pass.csv', 'r');
+    $passCsv = fopen( __DIR__ ."/../../dataMonted/passApi.csv", 'r');
     if (!feof($passCsv)) {
         $replace = [";","\n","\r","\r\n"];
 
