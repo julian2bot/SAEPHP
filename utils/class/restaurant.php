@@ -241,14 +241,14 @@ class Restaurant{
      * @param PDO $bdd
      * @return void
      */
-    function renderIndexLesRestosRecherche($bdd){
+    function renderIndexLesRestosRecherche(){
        echo ' <div class="resto">
                 <a href="'. $this -> formatUrlResto().'">
                     <div class="nomnote">
                         <p class="soustitre">'.  $this ->getNom().'</p>  
                         <div class="note">'. $this->formatetoile().'</div>
                         <div>'. $this ->getNbEtoile().'/5</div>
-                        '.$this->renderCoeur($bdd).'
+                        '.$this->renderCoeur().'
                     </div>
                     <div class="adresse">
                         <p>'. $this->formatAdresseCommune().'</p>
@@ -267,13 +267,13 @@ class Restaurant{
      * @param PDO $bdd
      * @return void
      */
-    function renderIndexLesRecommandations($bdd){
+    function renderIndexLesRecommandations(){
         echo '<div class="recommendationResto">
                 <img src="assets/img/backgroundImage2.png" alt="resto:">
                 <div class="nomnote">
                     <p class="soustitre">'. $this->getNom().'</p>  
                     <div class="note">'. $this->formatetoile().'</div>
-                    '.$this->renderCoeur($bdd).'
+                    '.$this->renderCoeur().'
                 </div>
                 <div class="adresse">
                 <p>'. $this->formatAdresseCommune().'</p>
@@ -353,15 +353,14 @@ class Restaurant{
 
     /**
      * render un coeur si le restaurant est dans les favoris de l'utilisateur
-     * @param PDO $bdd
      * @return string
      */
-    function renderCoeur(PDO $bdd){
-        if(!isset($_SESSION["connecte"]) || $bdd == null){
+    function renderCoeur(){
+        if(!isset($_SESSION["connecte"]) || $this->bdd == null){
             // si pas connecté ne rien faire
             return '<span class="positionHeart"></span>';
         }
-        if(estFavoris($bdd, $this->getOsmid(), $_SESSION["connecte"]["username"])){
+        if(estFavoris($this->bdd, $this->getOsmid(), $_SESSION["connecte"]["username"])){
             return '<span class="hearts positionHeart"  id="fav-'.$this->osmid.'"> &#10084 </span>';
         } else {
             return '<span class="heartsgrey positionHeart" id="fav-'.$this->osmid.'"> &#10084 </span>';
