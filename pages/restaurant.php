@@ -1,7 +1,8 @@
 <?php
 
-    if(!isset($_SESSION)){
+    if(!session_id()){
         session_start();
+        session_regenerate_id(true);
     }
     require_once "../utils/BD/connexionBD.php";
 
