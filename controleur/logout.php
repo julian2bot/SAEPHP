@@ -1,4 +1,8 @@
 <?php
+if(!session_id()){
+    session_start();
+    session_regenerate_id(true);
+}
 // detruire la session de l'utilisateur, tout suppr puis le deconnecter
 session_unset(); 
 session_destroy();
