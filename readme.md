@@ -7,6 +7,11 @@ Mathevet Chris
 Vilcoq Yohann  
 Pavard Arthur  
 
+## Lien du site
+Nous avons un serveur, nous en avons donc profité pour le mettre en ligne ! Voici le lien du site:  
+
+https://saerestaurant.marquesjulian.fr/
+
 ## Installation  
 
 ### BD  
