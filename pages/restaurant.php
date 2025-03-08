@@ -7,11 +7,6 @@
     require_once __DIR__."/../utils/class/AutoLoad.php" ;
 
     use utils\class\Restaurant as Restaurant;
-    // use utils\class\Commentaire as Commentaire;
-
-
-    // require_once "../utils/class/restaurant.php";
-    // require_once "../utils/class/commentaire.php";
 
     // echo "<pre>";
     // print_r($_GET);
@@ -106,6 +101,7 @@
     <script src="../assets/script/restaurant.js"></script>
     <script src="../assets/script/deleteComm.js"></script>
     <script src="../assets/script/popUpGestionErr.js"></script>
+    <script src="../assets/script/favoris.js"></script>
 </head>
 <body>
     <?php
@@ -119,6 +115,10 @@
         </div>
 
     </section>
+    <?php
+    // si user est co ; dessiner le coeur de favoris
+    echo $restoClass->renderCoeur($bdd);
+    ?>
 
     <main class="grid-container">
         <div class="container">
@@ -180,7 +180,6 @@
 
                     <h2>Note : <?php $restoClass-> getNoteMoyenne()?></h2>
                     <div class="etoiles"><?php echo formatetoileV2((int)$avisEtComm["noteMoy"]??0)?></div>
-
                 </div>
 
                 <div class="commentaires">

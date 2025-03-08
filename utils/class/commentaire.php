@@ -1,5 +1,6 @@
 <?php
     namespace utils\class;
+    use \PDO;
 
     require_once __DIR__."/../BD/connexionBD.php";
     require_once __DIR__."/../annexe/annexe.php";
@@ -81,7 +82,9 @@
             }
         }
 
-        function deleteCommentaire($bdd):void{
+        function deleteCommentaire(PDO $bdd):void{
+            // todo do proper user class ; function doest not exist
+
             deleteCommentaireUser($bdd, $this->resto, $this->username);
         }
     }

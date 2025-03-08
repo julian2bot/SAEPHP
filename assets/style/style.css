@@ -160,6 +160,27 @@ main{
     margin: 0;
 }
 
+.hearts{
+    color: red;
+}
+.heartsgrey{
+    color: #96969d;
+}
+.positionHeart{
+    font-size: 30px;
+    text-align: right;
+    flex-grow: 1;
+    transition: transform 1s;
+}
+
+@keyframes regrow {
+    0% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
 .resto .attr{
     font-size: 1.1rem;
 }

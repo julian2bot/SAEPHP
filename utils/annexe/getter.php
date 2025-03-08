@@ -151,7 +151,6 @@ function getRestaurantByID2(){
     ,"14" => ""
     ,"operateur" => ""
     ,"15" => ""
-    ,"cuisines" => "fast_food"
     ,"16" => "fast_food"
     ,"wikidata" => ""
     ,"17" => ""
