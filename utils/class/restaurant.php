@@ -183,10 +183,13 @@ class Restaurant{
     function renderIndexLesRestosRecherche(){
        echo ' <div class="resto">
                 <a href="'. $this -> formatUrlResto().'">
-                    <div class="nomnote">
+                    <div class="nomnote" style="justify-content:space-between;">
                         <p class="soustitre">'.  $this ->getNom().'</p>  
-                        <div class="note">'. $this->formatetoile().'</div>
-                        <div>'. $this ->getNbEtoile().'/5</div>
+                        
+                        <div style="display:flex;">
+                            <div class="note">'. $this->formatetoile().'</div>
+                            <div>'. $this ->getNbEtoile().'/5</div>
+                        </div>
                     </div>
                     <div class="adresse">
                         <p>'. $this->formatAdresseCommune().'</p>

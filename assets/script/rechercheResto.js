@@ -46,10 +46,12 @@ function afficherRestos(restos) {
 
 function remplirResto(value){
     return `<a href="${formatUrlResto(value.osmid, value.nomrestaurant)}">
-                <div class="nomnote">
+                <div class="nomnote" style="justify-content:space-between;">
                     <p class="soustitre">${value.nomrestaurant}</p>
-                    <div class="note">${formatetoile(value.etoiles ?? 0)}</div>
-                    <div>${value.etoiles ?? 0}/5</div>
+                    <div style="display:flex;">
+                        <div class="note">${formatetoile(value.etoiles ?? 0)}</div>
+                        <div>${value.etoiles ?? 0}/5</div>
+                    </div>
                 </div>
                 <div class="adresse">
                     <p>${formatAdresseCommune(value)}</p>

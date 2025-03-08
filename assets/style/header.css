@@ -14,7 +14,7 @@ ul{
     display: flex;
     justify-content: center;
 }
-.centerHaut >a {
+/* .centerHaut >a {
 	background:linear-gradient(to bottom, #69b4ff 5%, #9de8f5 100%);
 	background-color:#69b4ff;
 	border-radius:28px;
@@ -36,6 +36,24 @@ ul{
 .centerHaut >a:active {
 	position:relative;
 	top:1px;
+} */
+.centerHaut >a {
+    text-align: center;
+    align-self: center;
+    padding: 7px 59px;
+    background: #6CB4FF;
+    color: white;
+    /* font-weight: bold; */
+    font-size: 26px;
+    text-decoration: none;
+    border-radius: 50px;
+    /* position: relative; */
+    box-shadow: 2px 5px 0px rgba(0, 0, 0, 0.3);
+    /* border: 2px solid #226AA9; */
+    transition: .3s;
+}
+.centerHaut > a:hover{
+    translate: -2px -2px ;
 }
 .titre{
     font-size: 2.5em;
@@ -79,3 +97,50 @@ ul{
     flex-direction: column;
     margin: 10px;
 }
+
+
+#profile button, #profile input[type="submit"] {
+    border: none;
+    display: flex
+;
+    padding: 0.5rem 1.5rem;
+    background-color: #d7d7d7;
+    color: #000;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    text-transform: uppercase;
+    vertical-align: middle;
+    align-items: center;
+    border-radius: 1.5rem;
+    user-select: none;
+    /* gap: 19.75rem; */
+    /* box-shadow: 0 4px 6px -1px #488aec31, 0 2px 4px -1px #488aec17; */
+    transition: all 0.6s ease;
+}
+
+#profile button:hover, #profile input[type="submit"]:hover {
+    box-shadow: 0 10px 15px -3px #1c31514f, 0 4px 6px -2px #1e3b6617;
+}
+
+#profile button:focus,
+#profile button:active, 
+#profile input[type="submit"]:focus,
+#profile input[type="submit"]:active{
+    opacity: 0.85;
+    box-shadow: none;
+}
+  
+
+#openProfileEdit{
+    cursor: pointer;
+}
+
+
+#profileEdit input[type="text"]{
+    padding-left: 5px;
+    border-radius: 10px;
+}
+
