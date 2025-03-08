@@ -42,7 +42,7 @@
 
         private function buttonSupp():string{
             if(isset($_SESSION["connecte"]) && $_SESSION["connecte"]["admin"] == "true"){
-                return "<button class='publier supprimer' onclick='supprimerCommentaire(\"$this->username\", \"$this->resto\")'>Supprimer</button>";
+                return "<button class='supprimer' onclick='supprimerCommentaire(\"$this->username\", \"$this->resto\")'>Supprimer</button>";
             }
             return "";
         }
@@ -54,7 +54,7 @@
                 <div class="upper">
                     <div class="left">
                         <h2>'. $this->username.'</h2>
-                        <div>
+                        <div style="gap:20px;">
 
                             <div class="etoiles">'. $this->formatetoileV2() .'</div>
                             <span class="date">'. $this->dateCommentaire.'</span>

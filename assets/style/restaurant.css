@@ -70,6 +70,9 @@ main{
       "avis avis avis avis avis"
       "avis avis avis avis avis"
       "avis avis avis avis avis"
+      "avis avis avis avis avis"
+      "avis avis avis avis avis"
+      "avis avis avis avis avis"
       "avis avis avis avis avis"; 
   }
   
@@ -95,7 +98,7 @@ main{
   
   .map { grid-area: map; }
   
-  .avis { grid-area: avis; }
+  .avis { grid-area: avis; overflow-y: auto;}
   
 
 /* .adresse { background: #ff5733; }   
@@ -232,7 +235,7 @@ a:hover{
 }
 
 
-.publier {
+.publier, .supprimer{
     cursor: pointer;
     font-size: 22px;
     color: rgb(0, 0, 0);
@@ -248,9 +251,13 @@ a:hover{
 }
 
 .supprimer{
-    background: #FFB469 !important;
-
+    background: #FFB469;
 }
+
+.supprimer:hover{
+    background: #fa8a1ad4 none repeat scroll 0% 0% / auto padding-box border-box;
+}
+
 
 .etoiles{
     font-size: 2em;
@@ -261,7 +268,7 @@ a:hover{
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
-    height: 100% !important; 
+    /* height: 100% !important;  */
     margin-left: 2%;
     margin-right: 2%;
     
@@ -388,6 +395,7 @@ div:has(> .etoiles):nth-child(n + 2) {
 #headerCommentaire{
     display: flex !important;
     justify-content: space-around !important;
+}
 .hearts{
     color: red;
     cursor: pointer;

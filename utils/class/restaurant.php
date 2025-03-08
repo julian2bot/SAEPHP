@@ -218,8 +218,9 @@ class Restaurant{
                 <img src="../assets/img/backgroundImage2.png" alt="resto:">
                 <div class="nomnote">
                     <p class="soustitre">'. $this->getNom().'</p>  
-                    <div class="note">'. $this->formatetoile().'</div>
+                    <div class="note">'. $this->formatetoile().'
                     <span class="hearts positionHeart" id="fav-'.$this->osmid.'"> &#10084 </span>
+                    </div>
                     
                 </div>
                 <div class="adresse">
@@ -277,8 +278,9 @@ class Restaurant{
                 <img src="assets/img/backgroundImage2.png" alt="resto:">
                 <div class="nomnote">
                     <p class="soustitre">'. $this->getNom().'</p>  
-                    <div class="note">'. $this->formatetoile().'</div>
+                    <div class="note">'. $this->formatetoile().'
                     '.$this->renderCoeur().'
+                    </div>
                 </div>
                 <div class="adresse">
                 <p>'. $this->formatAdresseCommune().'</p>
