@@ -1,4 +1,7 @@
 <?php
+    if(!isset($_SESSION)){
+        session_start();
+    }
     require_once "utils/BD/connexionBD.php";
     // $bdd = new PDO('mysql:host=localhost;dbname=saeponey', "root", "marques");
 

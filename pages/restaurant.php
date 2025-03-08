@@ -1,4 +1,8 @@
 <?php
+
+    if(!isset($_SESSION)){
+        session_start();
+    }
     require_once "../utils/BD/connexionBD.php";
 
     require_once "../utils/annexe/getter.php";
