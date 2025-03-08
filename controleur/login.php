@@ -1,4 +1,7 @@
 <?php
+if(!isset($_SESSION)){
+    session_start();
+}
 require_once "../utils/BD/connexionBD.php";
 require_once "../utils/BD/requettes/select.php";
 require_once "../utils/BD/requettes/userManagement.php";
