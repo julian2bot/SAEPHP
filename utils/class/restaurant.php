@@ -1,13 +1,11 @@
 <?php
     namespace utils\class;
+    use utils\class\Commentaire as Commentaire;
+    use \PDO;
 
     require_once __DIR__."/AutoLoad.php" ;
     require_once __DIR__."/../BD/connexionBD.php";
     require_once __DIR__."/../annexe/annexe.php";
-
-    use utils\class\Commentaire as Commentaire;
-
-    use PDO;
 
 class Restaurant{
 
@@ -216,25 +214,26 @@ class Restaurant{
      * @return void
      */
     function renderFavoris(){
-        echo  '
-            <div class="recommendationResto">
+       echo '<div class="recommendationResto">
                 <img src="../assets/img/backgroundImage2.png" alt="resto:">
-                <span class="hearts positionHeart"> &#10084 </span>
                 <div class="nomnote">
-                    <p class="soustitre">'.$this->getNom().'</p>  
-                    <div class="note">'.$this->formatetoile().'</div>
+                    <p class="soustitre">'. $this->getNom().'</p>  
+                    <div class="note">'. $this->formatetoile().'</div>
+                    <span class="hearts positionHeart" id="fav-'.$this->osmid.'"> &#10084 </span>
+                    
                 </div>
                 <div class="adresse">
-                    <p>'.$this->formatAdresseCommune().'</p>
+                <p>'. $this->formatAdresseCommune().'</p>
                 </div>
                 <div class="attr">
                     <p>🍽</p>
-                    <p>'.$this->formatCuisine().'</p>
+                    <p>
+                        '. $this->formatCuisine().'
+                    </p>
                 </div>
                 
-                <p><a href="'.$this->formatUrlRestoFavoris().'" style="text-decoration:none; color:black;">Voir plus</a></p>
-            </div>
-       ';
+                <p><a href="'. $this->formatUrlResto().'" style="text-decoration:none; color:black;">Voir plus</a></p>
+            </div>';
     }
 
     /**
@@ -362,10 +361,10 @@ class Restaurant{
             // si pas connecté ne rien faire
             return '<span class="positionHeart"></span>';
         }
-        if(estFavoris($bdd, $_SESSION["connecte"]["username"], $this->getOsmid())){
-            return '<span class="hearts positionHeart"> &#10084 </span>';
+        if(estFavoris($bdd, $this->getOsmid(), $_SESSION["connecte"]["username"])){
+            return '<span class="hearts positionHeart"  id="fav-'.$this->osmid.'"> &#10084 </span>';
         } else {
-            return '<p>'.estFavoris($bdd, $_SESSION["connecte"]["username"], $this->getOsmid()).'</p> <span class="heartsgrey positionHeart"> &#10084 </span>';
+            return '<span class="heartsgrey positionHeart" id="fav-'.$this->osmid.'"> &#10084 </span>';
         }
     }
 

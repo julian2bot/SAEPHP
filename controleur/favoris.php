@@ -8,24 +8,12 @@ if (!isset($_SESSION["connecte"])) {
     exit;
 }
 
-/*
-if (isset($_POST['osmID'])) {
-    $osmID = $_POST['osmID'];
-    $username = $_SESSION["connecte"]["username"];
-
-    $result = ajouteRetirerFavoris($bdd, $osmID, $username);
-    echo json_encode(['success' => true, 'added' => $result]);
-} else {
-    echo json_encode(['error' => 'Invalid input']);
-}
-*/
-
 if (isset($_POST['osmID'])) {
     $osmID = $_POST['osmID'];
     $username = $_SESSION["connecte"]["username"];
 
     $restaurant = getRestaurantByID($bdd, $osmID);
-    echo json_encode($restaurant);
+    // echo json_encode($restaurant);
     if ($restaurant) {
         $result = ajouteRetirerFavoris($bdd, $osmID, $username);
         echo json_encode(['success' => true, 'added' => $result]);

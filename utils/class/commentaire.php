@@ -1,5 +1,6 @@
 <?php
     namespace utils\class;
+    use \PDO;
 
     require_once __DIR__."/../BD/connexionBD.php";
     require_once __DIR__."/../annexe/annexe.php";

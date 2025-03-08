@@ -5,26 +5,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // pour tous les éléments coeur fav
     positionHearts.forEach(function(heart) {
-        let osmID = null;
-        const parentElement = heart.parentElement?.parentElement;
+        let osmID = heart.id.split("-")[1];
+        // const parentElement = heart.parentElement?.parentElement;
 
-        // pour index et la page fav l'id est dans le parent <a>
-        if (parentElement && parentElement.tagName.toLowerCase() === 'a') {
-            const url = new URL(parentElement.href);
-            const urlParams = new URLSearchParams(url.search);
-            osmID = urlParams.get('osmID');
-        } else if (restaurantUrlPattern.test(currentUrl)) {
-            // pour la page du resto l'id est dans l'url
-            const urlParams = new URLSearchParams(window.location.search);
-            osmID = urlParams.get('osmID');
-        } else {
-            // sinon erreur
-            console.log(osmID);
-            console.error('Parent element is not an <a> tag and not on a restaurant page');
-        }
-        console.log(osmID);
+        // // pour index et la page fav l'id est dans le parent <a>
+        // if (parentElement && parentElement.tagName.toLowerCase() === 'a') {
+        //     const url = new URL(parentElement.href);
+        //     const urlParams = new URLSearchParams(url.search);
+        //     osmID = urlParams.get('osmID');
+        // } else if (restaurantUrlPattern.test(currentUrl)) {
+        //     // pour la page du resto l'id est dans l'url
+        //     const urlParams = new URLSearchParams(window.location.search);
+        //     osmID = urlParams.get('osmID');
+        // } else {
+        //     // sinon erreur
+        //     console.log(osmID);
+        //     console.error('Parent element is not an <a> tag and not on a restaurant page');
+        // }
+        // console.log(osmID);
 
         heart.addEventListener('click', function(event) {
+            console.log(osmID);
             event.preventDefault();
             // ça fait un like
             if (heart.classList.contains('heartsgrey')) {
