@@ -67,20 +67,20 @@ function noteStar(maNote){
     });
 }
 
-function adjustH1Size() {
-    const h1 = document.querySelector('.fond > div h1'); 
-    const note = document.querySelector('.fond .note'); 
-    const windowWidth = window.innerWidth; 
-    const textLength = h1.textContent.length; 
+// function adjustH1Size() {
+//     const h1 = document.querySelector('.fond > div h1'); 
+//     const note = document.querySelector('.fond .note'); 
+//     const windowWidth = window.innerWidth; 
+//     const textLength = h1.textContent.length; 
 
-    let fontSize = (windowWidth / (textLength)); 
+//     let fontSize = (windowWidth / (textLength)); 
 
-    // fontSize = Math.max(16, Math.min(fontSize, 123)); // Taille minimale de 16px et maximale de 48px
-    h1.style.fontSize = `${fontSize}px`;
+//     // fontSize = Math.max(16, Math.min(fontSize, 123)); // Taille minimale de 16px et maximale de 48px
+//     h1.style.fontSize = `${fontSize}px`;
 
-    const h1Height = h1.offsetHeight; 
-    note.style.top = `${h1Height + 20}px`; 
-}
+//     const h1Height = h1.offsetHeight; 
+//     note.style.top = `${h1Height + 20}px`; 
+// }
 
 document.addEventListener('DOMContentLoaded', ()=>{
     adjustH1Size();
@@ -88,5 +88,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
         document.getElementById("formComm").submit();
     })
 });
+// document.addEventListener('DOMContentLoaded', adjustH1Size);
 
-window.addEventListener('resize', adjustH1Size);
+// window.addEventListener('resize', adjustH1Size);

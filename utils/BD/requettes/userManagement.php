@@ -116,7 +116,8 @@ class User{
      * @param string $username nom d'utilisateur de l'utilisateur a supprimé
      * @return bool si le joueur supprimé existait (A bien été supprimé)
      */
-    function deleteUser(string $username):bool{
+    function deleteUser(PDO $bdd,string $username):bool{
+        // fonction does not exist
         if(!usernameExist($bdd,$username)){
             return false;
         }

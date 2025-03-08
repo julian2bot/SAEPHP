@@ -20,7 +20,7 @@ main{
 
 }
 .fond > div{
-    /* font-size: 10em; */
+    font-size: 5em;
     position: absolute;
     left: 50%;
     translate: -50%;
@@ -388,4 +388,28 @@ div:has(> .etoiles):nth-child(n + 2) {
 #headerCommentaire{
     display: flex !important;
     justify-content: space-around !important;
+.hearts{
+    color: red;
+    cursor: pointer;
+}
+.heartsgrey{
+    color: #96969d;
+    cursor: pointer;
+}
+
+.positionHeart{
+    /* margin-right: -2rem; */
+    right: 2rem;
+    position: absolute;
+    font-size: 30px;
+    transition: transform 1s;
+}
+
+@keyframes regrow {
+    0% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
 }

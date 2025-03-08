@@ -19,7 +19,7 @@ function getRestoChercher(valueInput) {
         return response.json(); // Parse la réponse JSON
     })
     .then(data => {
-        // console.log(data);
+        console.log(data);
         // Ici, tu peux traiter ta réponse
         afficherRestos(data);
         remplirDataListe(data);
@@ -34,22 +34,42 @@ function afficherRestos(restos) {
     
     resultatContainer.innerHTML = "";
 
-    restos.forEach(value => {
+    // restos.forEach(value => {
+
+    for (const value of restos.restos) {
+        
         const restoDiv = document.createElement('div');
         restoDiv.classList.add('resto');
+        try {
+            console.log(restos.favori);
+            console.log(value.osmid);
 
-        restoDiv.innerHTML = remplirResto(value),
+            restoDiv.innerHTML = remplirResto(value, restos.favori.some(fav => fav.osmid === value.osmid), restos.user);
+            
+        } catch (error) {
+            console.log(value, error);    
+        }
 
         resultatContainer.appendChild(restoDiv);
-    });
+    // });
+    }
 }
 
-function remplirResto(value){
+function remplirResto(value, estFav,estAuf){
+let heartSpan = '';
+    console.log(estFav);
+    if (estAuf) {
+        heartSpan = `<span class="${estFav ? 'hearts' : 'heartsgrey'} positionHeart"> ❤ </span>`;
+    }
     return `<a href="${formatUrlResto(value.osmid, value.nomrestaurant)}">
-                <div class="nomnote">
+                <div class="nomnote" style="justify-content:space-between;">
                     <p class="soustitre">${value.nomrestaurant}</p>
-                    <div class="note">${formatetoile(value.etoiles ?? 0)}</div>
-                    <div>${value.etoiles ?? 0}/5</div>
+
+                    <div style="display:flex;">
+                        <div class="note">${formatetoile(value.etoiles ?? 0)}</div>
+                        <div>${value.etoiles ?? 0}/5</div>
+                        ${heartSpan}
+                    </div>
                 </div>
                 <div class="adresse">
                     <p>${formatAdresseCommune(value)}</p>
@@ -67,12 +87,15 @@ function remplirDataListe(restos) {
     
     resultatContainer.innerHTML = "";
 
-    restos.forEach(value => {
+    // restos.forEach(value => {
+    for (const value of restos.restos) {
+        
         const restOption = document.createElement('option');
-
+        
         restOption.value = value.nomrestaurant;
         resultatContainer.appendChild(restOption);
-    });
+    }
+    // });
 }
 
 
