@@ -7,9 +7,6 @@ require_once __DIR__."/../utils/annexe/annexe.php";
 
 // code pour se login verifier s'il est bien dans la BD et mettre toute les valeurs dans le $_SESSION
 
-print_r($_SESSION);
-
-
 if(isset($_POST['formLogin'])){
 
     echo "bouton ok";

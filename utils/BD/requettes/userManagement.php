@@ -67,7 +67,7 @@ class User{
         $requser = $this->bdd->prepare("SELECT * FROM UTILISATEUR WHERE username=?");
         $requser->execute(array($username));
         $info = $requser->fetch();
-        print_r($info);
+        // print_r($info);
         if(!$info){
             return false;
         }

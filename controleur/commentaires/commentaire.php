@@ -5,11 +5,11 @@
     use utils\class\Commentaire as Commentaire;
 
 
-    echo "<pre>";
+    // echo "<pre>";
     
-    print_r($_POST);
+    // print_r($_POST);
 
-    echo "</pre>";
+    // echo "</pre>";
 
     if(isset($_SESSION["connecte"]["username"])
         && isset($_POST["nbEtoile"])
