@@ -1,7 +1,7 @@
 <?php
 // base de base
 
-session_start();
+// session_start();
 
 // pass.csv DANS /utils/BD/pass.csv
 // $passCsv = fopen( __DIR__ . '/passLocal.csv', 'r');
