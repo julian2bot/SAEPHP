@@ -82,6 +82,12 @@ function noteStar(maNote){
 //     note.style.top = `${h1Height + 20}px`; 
 // }
 
+document.addEventListener('DOMContentLoaded', ()=>{
+    adjustH1Size();
+    document.getElementById("submitComm").addEventListener("click",function(){
+        document.getElementById("formComm").submit();
+    })
+});
 // document.addEventListener('DOMContentLoaded', adjustH1Size);
 
 // window.addEventListener('resize', adjustH1Size);

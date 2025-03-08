@@ -42,7 +42,7 @@
 
         private function buttonSupp():string{
             if(isset($_SESSION["connecte"]) && $_SESSION["connecte"]["admin"] == "true"){
-                return "<button onclick='supprimerCommentaire(\"$this->username\", \"$this->resto\")'>Supprimer</button>";
+                return "<button class='supprimer' onclick='supprimerCommentaire(\"$this->username\", \"$this->resto\")'>Supprimer</button>";
             }
             return "";
         }
@@ -51,18 +51,23 @@
         function renderCommentaire(){
         echo '
             <div id='.$this->username.' class="commentaire">
-                <h3>'. $this->username.'</h3>
-                <div>
+                <div class="upper">
+                    <div class="left">
+                        <h2>'. $this->username.'</h2>
+                        <div style="gap:20px;">
 
-                    <div class="etoiles">'. $this->formatetoileV2() .'</div>
-                    <span class="date">'. $this->dateCommentaire.'</span>
-                </div>                        
+                            <div class="etoiles">'. $this->formatetoileV2() .'</div>
+                            <span class="date">'. $this->dateCommentaire.'</span>
+                        </div>                        
+                        
+                    
+                    </div>
+                    <div class="boutonSupp">
+                        '. $this->buttonSupp().'
+                    </div>
+                </div>
                 <div>
                     '. $this->commentaire.'
-                </div>
-                
-                <div>
-                    '. $this->buttonSupp().'
                 </div>
             </div>';
         }
