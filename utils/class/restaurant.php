@@ -233,7 +233,7 @@ class Restaurant{
                     </p>
                 </div>
                 
-                <p><a href="../'. $this->formatUrlResto().'" style="text-decoration:none; color:black;">Voir plus</a></p>
+                <p><a href="'. $this->formatUrlRestoFavoris().'" style="text-decoration:none; color:black;">Voir plus</a></p>
             </div>';
     }
 
