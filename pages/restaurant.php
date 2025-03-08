@@ -175,15 +175,11 @@
 
 
             <div id='avis' class="avis">
-    
-                <div class="note-moyenne">
-
-                    <h2>Note : <?php $restoClass-> getNoteMoyenne()?></h2>
-                    <div class="etoiles"><?php echo formatetoileV2((int)$avisEtComm["noteMoy"]??0)?></div>
-
-                </div>
-
-                <div class="commentaires">
+                <div id="headerCommentaire">
+                    <div class="note-moyenne">
+                        <h2>Note Moyenne: <?php $restoClass-> getNoteMoyenne()?></h2>
+                        <div class="etoiles"><?php echo formatetoileV2((int)$avisEtComm["noteMoy"]??0)?></div>
+                    </div>
                     <?php
                     // if(true): // todo login 
                     if(isset($_SESSION["connecte"])):
@@ -231,31 +227,27 @@
                                             <a href="#lanote=1" class="star stargrey" ><i data-index="1">★</i></a>
                                     </div>   
                                     <button class="publier" type="sumbit">Modifier</button>
+                                    <form id="formSupprimerComm" action="../controleur/commentaires/commentaireSuppression.php" method="POST">
+                                        <input type="hidden" name="resto" value="<?php echo $_GET["osmID"]?>">
+                                        <button class="publier" type="sumbit">Supprimer</button>
+                                    </form>
                                 </div>
                             </form>
-                            <form action="../controleur/commentaires/commentaireSuppression.php" method="POST">
-                                <input type="hidden" name="resto" value="<?php echo $_GET["osmID"]?>">
-                                <button class="publier" type="sumbit">Supprimer</button>
-                            </form>
+                            
                         </div>
                         <?php
                         endif;
-                        
                         ?>
-                    
-                    <div class="listComm co">
-                        
-                    <?php
-                    else:
-                    ?>
-                    <div class="listComm co">
-
-                    <!-- <div class="listComm nonCo"> -->
-                    
                     <?php
                     endif;
-                    
                     ?>
+                </div>
+    
+                
+                <div class="listComm co">
+
+                <div class="commentaires">
+                    
                     <?php
                     foreach($restoClass->lesCommentaires as $commentaireClass):
                         $commentaireClass->renderCommentaire();

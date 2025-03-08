@@ -163,10 +163,11 @@ a:hover{
 
 
 .avis{
-    display: flex;
+    display: initial !important;
+    /* display: flex;
     justify-content: space-around !important;
     align-items: start !important;
-    gap: 20px;
+    gap: 20px; */
 }
 .note-moyenne{
     display: flex;
@@ -178,24 +179,36 @@ a:hover{
     font-size: 2rem;
 }
 
-.avis .commentaires, .avis .listComm{
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-    justify-content: start !important;
-}
 
 .commentaire{
     text-align: left;
-    justify-content: flex-start !important;
+    flex-direction: column;
     align-items: start !important;
     width: 100%;
+    margin-top: 2%;
+    padding: 2%;
+    border: 0px solid #96969d;
+    border-top-width: 2px;
+    border-radius: 0 !important;
 }
 
-.noter form{
+.upper{
+    width: 100%;
+    justify-content: space-between !important;
+}
+
+.left{
     display: flex;
     flex-direction: column;
+    justify-content: left;
 }
+
+.boutonSupp{
+    height: 100%;
+    display: flex !important;
+    align-items: center !important;
+}
+
 .avis textarea{
     width: 100%;
     max-height: 5rem;
@@ -205,13 +218,7 @@ a:hover{
     border: 1px solid #CCCCCC;
 }
 
-.commentaire{
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
 
-}
 .etoiles{
     margin-bottom: 10px;
 }
@@ -248,10 +255,22 @@ a:hover{
     display: flex !important;
     flex-direction: column !important;
     height: 100% !important; 
+    margin-left: 2%;
+    margin-right: 2%;
+    
+    /* border-width: 0px 2px 0px 0px; */
 }
 
 .noter {
+    width: 70%;
     flex-shrink: 0 !important; 
+}
+
+
+.noter form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .listComm {
@@ -355,4 +374,9 @@ div:has(> .etoiles):nth-child(n + 2) {
     border-width: 5px;
     padding: 10px;
     position: relative; 
+}
+
+#headerCommentaire{
+    display: flex !important;
+    justify-content: space-around !important;
 }
