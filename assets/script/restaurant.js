@@ -82,6 +82,11 @@ function adjustH1Size() {
     note.style.top = `${h1Height + 20}px`; 
 }
 
-document.addEventListener('DOMContentLoaded', adjustH1Size);
+document.addEventListener('DOMContentLoaded', ()=>{
+    adjustH1Size();
+    document.getElementById("submitComm").addEventListener("click",function(){
+        document.getElementById("formComm").submit();
+    })
+});
 
 window.addEventListener('resize', adjustH1Size);

@@ -41,7 +41,7 @@
 
         private function buttonSupp():string{
             if(isset($_SESSION["connecte"]) && $_SESSION["connecte"]["admin"] == "true"){
-                return "<button class='publier' onclick='supprimerCommentaire(\"$this->username\", \"$this->resto\")'>Supprimer</button>";
+                return "<button class='publier supprimer' onclick='supprimerCommentaire(\"$this->username\", \"$this->resto\")'>Supprimer</button>";
             }
             return "";
         }

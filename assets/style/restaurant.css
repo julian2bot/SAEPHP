@@ -224,6 +224,7 @@ a:hover{
 }
 
 .mettreNote{
+    width: 100%;
     display: flex !important;
     justify-content: end !important;
     gap: 10px;
@@ -246,6 +247,11 @@ a:hover{
     background: rgba(57, 127, 197, 0.94) none repeat scroll 0% 0% / auto padding-box border-box;
 }
 
+.supprimer{
+    background: #FFB469 !important;
+
+}
+
 .etoiles{
     font-size: 2em;
 }
@@ -254,6 +260,7 @@ a:hover{
 .commentaires {
     display: flex !important;
     flex-direction: column !important;
+    justify-content: flex-start !important;
     height: 100% !important; 
     margin-left: 2%;
     margin-right: 2%;
@@ -264,10 +271,11 @@ a:hover{
 .noter {
     width: 70%;
     flex-shrink: 0 !important; 
+    flex-direction: column;
 }
 
 
-.noter form{
+#formComm{
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -275,15 +283,16 @@ a:hover{
 
 .listComm {
     flex-grow: 1 !important; 
-    overflow: auto !important; 
+    /* overflow: auto !important;  */
+    height: max-content !important;
     width: 100%;
 }
-.nonCo{
+/* .nonCo{
     max-height: 80% !important; 
 }
 .co{
     max-height: 60% !important; 
-}
+} */
 
 
 div:has(> .etoiles):nth-child(n + 2) {
