@@ -181,3 +181,14 @@ main{
         transform: scale(1);
     }
 }
+.resto .attr{
+    font-size: 1.1rem;
+}
+
+.soustitre{
+    transition: .2s;
+}
+.resto:hover .soustitre,
+.recommendationResto:hover .soustitre{
+    color: rgb(69, 69, 69);
+}

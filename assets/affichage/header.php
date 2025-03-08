@@ -33,7 +33,7 @@ else:
     </nav>
 </header>
 <div style="display:none;" id="profile">
-    <div class="dflex">
+    <div class="dflex" style="justify-content:space-around;">
         <img src="/assets/img/avatar.png" alt="logoProfile">
         <p><?php echo $_SESSION["connecte"]["username"]?></p>
         <img src="/assets/img/edit.png" alt="logoProfile" id="openProfileEdit">

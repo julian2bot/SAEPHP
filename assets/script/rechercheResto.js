@@ -62,12 +62,15 @@ let heartSpan = '';
         heartSpan = `<span class="${estFav ? 'hearts' : 'heartsgrey'} positionHeart"> ❤ </span>`;
     }
     return `<a href="${formatUrlResto(value.osmid, value.nomrestaurant)}">
-                <div class="nomnote">
+                <div class="nomnote" style="justify-content:space-between;">
                     <p class="soustitre">${value.nomrestaurant}</p>
-                    <div class="note">${formatetoile(value.etoiles ?? 0)}</div>
-                    <div>${value.etoiles ?? 0}/5</div>
-                    ${heartSpan}
-</div>
+
+                    <div style="display:flex;">
+                        <div class="note">${formatetoile(value.etoiles ?? 0)}</div>
+                        <div>${value.etoiles ?? 0}/5</div>
+                        ${heartSpan}
+                    </div>
+                </div>
                 <div class="adresse">
                     <p>${formatAdresseCommune(value)}</p>
                 </div>

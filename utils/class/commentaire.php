@@ -71,7 +71,7 @@
          * Envoie ou modifie un commentaire
          * @return bool true si modifié, false si crée
          */
-        function sendCommentaire(PDO $bdd):bool{
+        function sendCommentaire($bdd):bool{
             if (existCommentairesRestoUser($bdd, $this->resto, $this->username)){
                 updateCommentaire($bdd, $this->resto, $this->username, $this->commentaire, $this->nbEtoile);
                 return true;
@@ -84,6 +84,7 @@
 
         function deleteCommentaire(PDO $bdd):void{
             // todo do proper user class ; function doest not exist
+
             deleteCommentaireUser($bdd, $this->resto, $this->username);
         }
     }

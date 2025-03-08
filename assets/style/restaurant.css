@@ -20,7 +20,7 @@ main{
 
 }
 .fond > div{
-    /* font-size: 10em; */
+    font-size: 5em;
     position: absolute;
     left: 50%;
     translate: -50%;
