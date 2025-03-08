@@ -32,7 +32,7 @@ if(isset($_POST['formLogin'])){
 }
 
 // retourne sur la page index avec l'erreur s'il y en a une 
-if($erreur){
+if(isset($erreur)){
     createPopUp($erreur, false);
 	header("Location: ../pages/login.php");
 	exit;
