@@ -193,37 +193,12 @@
                     // if(true): // todo login 
                     if(isset($_SESSION["connecte"])):
 
-                        if($comm == null):
                     ?>
-                    
-                        <div class="noter">
-                            <form action="../controleur/commentaires/commentaire.php" method="POST">
-                                
-                                <textarea name="avis" placeholder="Laissez votre avis..." cols="100" rows="4" minlength="5" maxlength="500" spellcheck required></textarea>
-                                <input type="hidden" name="nbEtoile" value='-1'>
-                                <input type="hidden" name="resto" value="<?php echo $_GET["osmID"]?>">
-                                <div class="mettreNote">
-                                    <p>Ma Note:</p>
-                                    <div class="stars">
-                                            <a href="#lanote=5" class="star stargrey" ><i data-index="5">★</i></a>
-                                            <a href="#lanote=4" class="star stargrey" ><i data-index="4">★</i></a>
-                                            <a href="#lanote=3" class="star stargrey" ><i data-index="3">★</i></a>
-                                            <a href="#lanote=2" class="star stargrey" ><i data-index="2">★</i></a>
-                                            <a href="#lanote=1" class="star stargrey" ><i data-index="1">★</i></a>
-                                    </div>   
-                                    <button class="publier" type="sumbit">Publier</button>
-                                </div>
-                            </form>
-                            
-                        </div>
-
-                    <?php
-                        else:
-                    ?>
+                  
                         <div class="noter">
                             <form id="formComm" action="../controleur/commentaires/commentaire.php" method="POST">
                                 
-                                <textarea name="avis" placeholder="Laissez votre avis..." cols="100" rows="4" minlength="5" maxlength="500" spellcheck required><?php echo $comm["commentaire"]?></textarea>
+                                <textarea name="avis" placeholder="Laissez votre avis..." cols="100" rows="4" minlength="5" maxlength="500" spellcheck required><?php echo $comm["commentaire"] ?? ""?></textarea>
                                 <input type="hidden" name="nbEtoile" value='-1'>
                                 <input type="hidden" name="resto" value="<?php echo $_GET["osmID"]?>">
                                 
@@ -237,17 +212,26 @@
                                         <a href="#lanote=2" class="star stargrey" ><i data-index="2">★</i></a>
                                         <a href="#lanote=1" class="star stargrey" ><i data-index="1">★</i></a>
                                 </div>   
+                                <?php
+                                if($comm == null):
+                                ?>
+                                <button id="submitComm" class="publier" type="sumbit">Envoyer</button>
+                                <?php
+                                else:
+                                ?>
                                 <button id="submitComm" class="publier" type="sumbit">Modifier</button>
                                 <form id="formSupprimerComm" action="../controleur/commentaires/commentaireSuppression.php" method="POST">
                                     <input type="hidden" name="resto" value="<?php echo $_GET["osmID"]?>">
                                     <button class="publier supprimer" type="sumbit">Supprimer</button>
                                 </form>
+                                <?php
+                                endif;
+                                ?>
+
                             </div>
                             
                         </div>
-                        <?php
-                        endif;
-                        ?>
+                        
                     <?php
                     endif;
                     ?>

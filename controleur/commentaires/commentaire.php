@@ -1,15 +1,11 @@
 <?php
+if(!session_id()){
+    session_start();
+    session_regenerate_id(true);
+}
     require_once __DIR__."/../../utils/BD/connexionBD.php";
-    // require_once __DIR__."/../../utils/class/commentaire.php";
     require_once __DIR__."/../../utils/class/AutoLoad.php" ;
     use utils\class\Commentaire as Commentaire;
-
-
-    // echo "<pre>";
-    
-    // print_r($_POST);
-
-    // echo "</pre>";
 
     if(isset($_SESSION["connecte"]["username"])
         && isset($_POST["nbEtoile"])
