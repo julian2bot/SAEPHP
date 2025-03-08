@@ -421,3 +421,8 @@ div:has(> .etoiles):nth-child(n + 2) {
         transform: scale(1);
     }
 }
+
+.left h2{
+    text-align: left;
+    width: 100%;
+}

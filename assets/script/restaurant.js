@@ -83,7 +83,7 @@ function noteStar(maNote){
 // }
 
 document.addEventListener('DOMContentLoaded', ()=>{
-    adjustH1Size();
+    // adjustH1Size();
     document.getElementById("submitComm").addEventListener("click",function(){
         document.getElementById("formComm").submit();
     })
