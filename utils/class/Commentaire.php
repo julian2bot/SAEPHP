@@ -47,6 +47,10 @@
             return "";
         }
 
+        function getCommentaire(){
+            $replace = [";","script","style","php","https","http","://"];
+            return str_replace($replace,"", $this->commentaire);
+        }
 
         function renderCommentaire(){
         echo '
@@ -67,7 +71,7 @@
                     </div>
                 </div>
                 <div>
-                    '. $this->commentaire.'
+                    '. $this->getCommentaire().'
                 </div>
             </div>';
         }

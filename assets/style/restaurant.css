@@ -99,6 +99,10 @@ main{
   .map { grid-area: map; }
   
   .avis { grid-area: avis; overflow-y: auto;}
+  .avis img {
+        width: 30px !important;
+        height: 30px !important;
+  }
   
 
 /* .adresse { background: #ff5733; }   
