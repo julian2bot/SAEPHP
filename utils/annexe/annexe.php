@@ -219,29 +219,61 @@ function transformOpeningHours(string $opening):array{
 function getPlaceId(float $lat, float $lng, string $name, int $rad = 10){ 
     $apiKey = getAPIKey();
     $placeId = "";
-    $url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$apiKey&location=$lat,$lng&radius=$rad";
-    $response = file_get_contents($url);
-    $data = json_decode($response, true);
-    // echo "<pre>";
-    // print_r($data["results"]);
-    // echo "</pre>";
-    
-    try{
-        if(isset($data["results"]) || !empty($data["results"]) ){
 
-            foreach($data["results"] as $resto){
-                // echo $resto["$resto"]
-                // foreach($resto as $val) {
-                    //     if (is_string($val)) {
-                        //         $val = json_decode($val, true); // true pour obtenir un tableau associatif
-                        //     }
-                        
-                if ($resto["name"]==$name){
-                    $placeId = $resto["place_id"];
-                    break;
-                    // }
-                }
-        }
+    $body = [
+        "maxResultCount" => 10,
+        "locationRestriction" => [
+            "circle" => [
+                "center" => [
+                    "latitude" => $lat,
+                    "longitude" => $lng
+                ],
+                "radius" => $rad
+            ]
+        ]
+    ];
+
+    $url = "https://places.googleapis.com/v1/places:searchNearby";
+
+    $headers = [
+        "Content-Type: application/json",
+        "X-Goog-Api-Key: $apiKey",
+        "X-Goog-FieldMask: places.displayName,places.formattedAddress,places.location,places.id,places.photos"
+    ];
+
+    $options = [
+        'http' => [
+            'method'  => 'POST',
+            'header'  => implode("\r\n", $headers),
+            'content' => json_encode($body),
+            'ignore_errors' => true
+        ]
+    ];
+    $context = stream_context_create($options);
+    
+    $response = @file_get_contents($url, false, $context);
+    if ($response === false) {
+        error_log("Erreur lors de l'appel à l'API Nearby Search");
+        return "";
+    }
+    
+    $data = json_decode($response, true);
+    if (!isset($data["places"]) || !is_array($data["places"])) {
+        error_log ("Réponse inattendue de l'API: " . $response);
+        return "";
+    }
+
+    // print_r($data);
+
+    $data = $data["places"];
+    
+
+    try{
+        foreach($data as $resto){
+            if ($resto["displayName"]["text"]==$name){
+                $placeId = $resto["id"];
+                break;
+            }
     }
     } catch( Exception $e ){
         // Juste parce que le foreach resto fait nimp
@@ -250,42 +282,37 @@ function getPlaceId(float $lat, float $lng, string $name, int $rad = 10){
 }
 
 function getImageByPlaceId(PDO $bdd, string $osmid, string $placeId):array{
+    error_reporting(E_ERROR | E_PARSE);
+    ini_set('display_errors', '0'); 
+    
 
     $lesimages = getImagesResto($bdd, $osmid);
     if(!empty($lesimages["vertical"]) && !empty($lesimages["horizontal"])  ){
-        
-
         return $lesimages;
     }else{
-        
-
         $apiKey = getAPIKey();
-        $url_img = "https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&fields=name,photos&key=$apiKey";
 
+        $url_img = "https://places.googleapis.com/v1/places/$placeId?fields=id,displayName,photos&key=$apiKey";
+    
         $response_img = file_get_contents($url_img);
+        
         $data_img = json_decode($response_img, true);
         
-        // if (!$data_img || $data_img['status'] !== "OK") {
-        //     die(json_encode(["error" => "Aucun résultat trouvé ou erreur API.", "status" => $data_img['status'] ?? "Unknown"]));
-        // }
-        
         $photos = [];
-        if (!empty($data_img['result']['photos'])) {
-            foreach ($data_img['result']['photos'] as $photo) {
-                $photoRef = $photo['photo_reference'];
-                $photoUrl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=$photoRef&key=$apiKey";
-                $photos[] = $photoUrl;
+        if (!empty($data_img['photos'])) {
+            foreach ($data_img['photos'] as $photo) {
+                if (isset($photo["name"])) {
+                    $photoUrl = "https://places.googleapis.com/v1/$photo[name]/media?maxWidthPx=800&key=$apiKey";
+                    array_push($photos,$photoUrl);
+                }
             }
         }
         if(empty($photo)){
             return[];
         }
-        // header('Content-Type: application/json');
         $lesimages = categorizeImagesByOrientation($photos);
       
         if(!empty($lesimages["vertical"]) && !empty($lesimages["horizontal"])  ){
-            
-            // echo ("insert image dans la bd");
             addImageRestaurantById($bdd, $osmid, $lesimages["horizontal"][0], $lesimages["vertical"][0]);
         }
         return  [
@@ -293,7 +320,6 @@ function getImageByPlaceId(PDO $bdd, string $osmid, string $placeId):array{
             'horizontal' => $lesimages["horizontal"][0],
         ];
     }
-
 }
 
 function categorizeImagesByOrientation($imageUrls) {
