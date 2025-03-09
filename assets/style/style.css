@@ -1,0 +1,194 @@
+*{
+    font-family: 'Koulen', sans-serif;
+}
+
+/* MAIN */
+main{
+    background-image: url("../img/backgroundImage.png");
+    /* background-color: aquamarine; */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    
+    max-height: 80vh;
+    height: 80vh;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+/* input / resultat */
+.custom_input {
+	display: flex;
+	align-items: center;
+	position: relative;
+    width: 150%;
+}
+
+.input {
+	font-size: 18px;
+	padding: 5px 10px;
+	width: 100%;
+	padding-left: 35px;
+	outline: none;
+	background: #FFFFFF;
+	color: #000000;
+	border: 1px solid #C4D1EB;
+	border-radius: 5px;
+	box-shadow: 3px 3px 2px 0px #E2E2E2;
+	transition: .3s ease;
+}
+
+.input:focus {
+	background: #F2F2F2;
+	border: 1px solid #5A7EC7;
+	border-radius: 10px;
+}
+
+.input::placeholder {
+	color: #DDDDDD;
+}
+
+.svg_icon {
+    background: transparent;
+    color: transparent;
+    border: none;
+
+	position: absolute;
+	left: 10px;
+	fill: #4660DC;
+	width: 18px;
+	height: 18px;
+}
+.svg_icon svg{
+    translate: -50% -50%;
+}
+/* resultat */
+#resultat{
+    /* box-shadow: 1em; */
+    max-height: 45em;
+    translate: 0 20%;
+    overflow-y: auto;
+    width: 25em;
+
+    background-color: rgb(236, 236, 236);
+    padding: 20px;
+    border-radius: 18px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.resto > a{
+    text-decoration: none;
+    color: black;
+}
+.nomnote, .adresse, .attr{
+    display: flex;
+    justify-content: start;
+    padding-top:2px ;
+    padding-bottom:2px ;
+}
+
+.resto *:not(a){
+    margin-left: 10px;
+}
+
+.resto:not(:last-child){
+    border-bottom: 1px solid #000000;
+    padding-bottom: 20px;
+}
+.resto:nth-child(n+2){
+    padding-top: 20px;
+}
+
+.colorEtoile{
+    color:#feb624;
+}
+.note{
+    /* margin-top: -.4em; */
+    font-size:1.5em;
+}
+.soustitre{
+    font-size: 30px;
+}
+
+/* recommendation */
+
+#recommendation{
+    height: 100vh;
+    /* width: 100vw; */
+}
+#recommendation h1{
+    margin-left:1.5em ;
+    font-size: 80px;
+}
+#recommendationRestoContainer{
+    translate: 0 20%;
+    margin-top: 2em;
+    display: flex;
+    justify-content: space-evenly;
+}
+.recommendationResto{
+    background-color: whitesmoke;
+	border-radius:28px;
+    height: 24em;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    width: 23em;
+}
+.recommendationResto img{
+	border-top-left-radius:28px;
+	border-top-right-radius:28px;
+    
+    height: 10em;
+    width: 100%;
+}
+
+.recommendationResto > p{
+    text-align: center;
+}
+.recommendationResto .nomnote{
+    display:flex ;
+    justify-content: space-between;
+}
+.recommendationResto .attr p {
+    margin-left: 10px;
+}
+.recommendationResto .nomnote,.recommendationResto  .adresse,.recommendationResto  .attr{
+    padding: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin: 0;
+}
+
+.hearts{
+    color: red;
+}
+.heartsgrey{
+    color: #96969d;
+}
+.positionHeart{
+    font-size: 30px;
+    text-align: right;
+    flex-grow: 1;
+    transition: transform 1s;
+}
+
+@keyframes regrow {
+    0% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+.resto .attr{
+    font-size: 1.1rem;
+}
+
+.soustitre{
+    transition: .2s;
+}
+.resto:hover .soustitre,
+.recommendationResto:hover .soustitre{
+    color: rgb(69, 69, 69);
+}

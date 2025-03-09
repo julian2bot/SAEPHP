@@ -1,7 +1,7 @@
 <?php
-    require_once __DIR__."/../connexionBD.php";
+    // require_once __DIR__."/../connexionBD.php";
     require_once __DIR__."/../../annexe/annexe.php";
-    require_once __DIR__."/get.php";
+    require_once __DIR__."/select.php";
 
     /**
      * Créer une région si elle n'existe pas encore
@@ -15,7 +15,7 @@
             return false;
         }
 
-        $reqResto = $bdd->prepare("INSERT INTO REGION (codeRegion,nomRegion) VALUES (?,?)");
+        $reqResto = $bdd->prepare("INSERT INTO REGION (coderegion,nomregion) VALUES (?,?)");
         $reqResto->execute(array($codeRegion,$nomRegion));
 
         return true;
@@ -34,7 +34,7 @@
             return false;
         }
 
-        $reqResto = $bdd->prepare("INSERT INTO DEPARTEMENT (codeRegion,codeDepartement,nomDepartement) VALUES (?,?,?)");
+        $reqResto = $bdd->prepare("INSERT INTO DEPARTEMENT (coderegion,codedepartement,nomdepartement) VALUES (?,?,?)");
         $reqResto->execute(array($codeRegion,$codeDepartement,$nomDepartement));
         return true;
     }
@@ -52,7 +52,7 @@
             return false;
         }
 
-        $reqResto = $bdd->prepare("INSERT INTO COMMUNE (codeDepartement,codeCommune, nomCommune) VALUES (?,?,?)");
+        $reqResto = $bdd->prepare("INSERT INTO COMMUNE (codedepartement,codecommune, nomcommune) VALUES (?,?,?)");
         $reqResto->execute(array($codeDepartement,$codeCommune, $nomCommune));
         return true;
     }
@@ -61,7 +61,7 @@
      * Crée un restaurant a partir d'une liste d'information
      * @param PDO $bdd
      * @param array $info
-     * @return bool
+     * @return bool 
      */
     function createRestaurant(PDO $bdd, array $info) : bool{
         if(sizeof($info)!=24 ||  ! empty(getRestaurantByID($bdd, $info[0]))){
@@ -86,7 +86,7 @@
         else{
             $idCuisine = getNextCuisineID($bdd);
         }
-        $reqResto = $bdd->prepare("INSERT INTO CUISINE (idCuisine,nomCuisine) VALUES (?,?)");
+        $reqResto = $bdd->prepare("INSERT INTO CUISINE (idcuisine,nomcuisine) VALUES (?,?)");
         $reqResto->execute(array($idCuisine, $nomCuisine));
         return $idCuisine;
     }
@@ -103,7 +103,7 @@
             return false;
         }
         $idCuisine = createCuisine($bdd, $nomCuisine);
-        $reqResto = $bdd->prepare("INSERT INTO PROPOSE (idCuisine,osmID) VALUES (?,?)");
+        $reqResto = $bdd->prepare("INSERT INTO PROPOSE (idcuisine,osmid) VALUES (?,?)");
         $reqResto->execute(array($idCuisine, $osmID));
         return true;
     }
@@ -116,7 +116,7 @@
      * @return bool
      */
     function insertHoraires(PDO $bdd, string $osmID, string $horaires):bool{
-        $reqResto = $bdd->prepare("INSERT INTO HEURE_OUVERTURE (osmID,jourOuverture,heureDebut,heureFin) VALUES (?,?,?,?)");
+        $reqResto = $bdd->prepare("INSERT INTO HEURE_OUVERTURE (osmid,jouroçuverture,heuredebut,heurefin) VALUES (?,?,?,?)");
         foreach (transformOpeningHours($horaires) as $unHorraire) {
             foreach ($unHorraire["jours"] as $unJour) {
                 foreach ($unHorraire["heures"] as $unCrenau) {
@@ -129,5 +129,47 @@
             }
         }
         return true;
+    }
+
+    /**
+     * Ajoute un commentaire d'un utilisateur pour un restaurant
+     * @param PDO $bdd
+     * @param string $osmID
+     * @param string $username
+     * @param int $note
+     * @param string $commentaire
+     * @return bool
+     */
+    function insertCommentaire(PDO $bdd, string $osmID, string $username, int $note, string $commentaire):bool{
+        $date = date_format(new DateTime(), "Y-m-d");
+        $reqResto = $bdd->prepare("INSERT INTO AVIS (osmid,username,note,commentaire,datecommentaire) VALUES (?,?,?,?,?)");
+        try {
+            $reqResto->execute(array($osmID,$username,$note,$commentaire,$date));
+            return true;
+        } catch (PDOException $th) {
+            echo "erreur $th";
+            return false;
+        }
+    }
+
+    /**
+     * Ajoute ou retire un restaurant aux favoris de l'utilisateur
+     * @param PDO $bdd
+     * @param string $osmID
+     * @param string $username
+     * @return bool true si ajout, false sinon
+     */
+    function ajouteRetirerFavoris(PDO $bdd, string $osmID, string $username):bool{
+        // Uncaught PDOException: SQLSTATE[42703]: Undefined column: 7 ERROR:  column "osmidusername" of relation "restaurant_favoris" does not exist
+        if(estFavoris($bdd, $osmID, $username)){
+            $reqResto = $bdd->prepare("DELETE FROM RESTAURANT_FAVORIS WHERE osmid=? AND username=?");
+            $reqResto->execute(array($osmID,$username));
+            return false;
+        }
+        else{
+            $reqResto = $bdd->prepare("INSERT INTO RESTAURANT_FAVORIS (osmid, username) VALUES (?,?)");
+            $reqResto->execute(array($osmID,$username));
+            return true;
+        }
     }
 ?>

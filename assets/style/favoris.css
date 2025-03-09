@@ -1,0 +1,37 @@
+main{
+    flex-direction: column;
+    background: none;
+}
+h1{
+    margin-left: 3em;
+    align-self: flex-start;
+}
+.hearts{
+    color: red;
+    cursor: pointer;
+}
+.heartsgrey{
+    color: #96969d;
+    cursor: pointer;
+}
+.lesFavoris{
+    max-width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+}
+.positionHeart{
+    font-size: 30px;
+    text-align: right;
+    transition: transform 1s;
+}
+
+@keyframes regrow {
+    0% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}

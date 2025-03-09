@@ -113,19 +113,22 @@
         if(isset($resto["opening_hours"]) && $resto["opening_hours"] !== null){
             insertHoraires($bdd, $resto["osm_id"], $resto["opening_hours"]);
         }
+        echo "<pre>";
+        print_r(getRestaurantByID($bdd, $resto["osm_id"]));
+        echo "</pre>";
 
         return true;
     }
 
     function addAllRestoFromJson(PDO $bdd, array $lesRestos){
-        set_time_limit(300); // 5 minutes
+        set_time_limit(5000); // 5 minutes
         foreach ($lesRestos as $resto) {
             addRestoFromJson($bdd, $resto);
         }
         set_time_limit(120);
     }
 
-    echo "<pre>";
-    addAllRestoFromJson($bdd,$lesRestaurants);
-    echo "<pre>";
+    // echo "<pre>";
+    // addAllRestoFromJson($bdd,$lesRestaurants);
+    // echo "<pre>";
 ?>
