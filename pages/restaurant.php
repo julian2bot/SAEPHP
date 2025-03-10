@@ -1,11 +1,17 @@
 <?php
+
+    if(!session_id()){
+        session_start();
+        session_regenerate_id(true);
+    }
     require_once "../utils/BD/connexionBD.php";
 
     require_once "../utils/annexe/getter.php";
     require_once "../utils/BD/requettes/select.php";
     require_once "../utils/annexe/annexe.php";
-    require_once "../utils/class/restaurant.php";
-    require_once "../utils/class/commentaire.php";
+    require_once __DIR__."/../utils/class/AutoLoad.php" ;
+
+    use utils\class\Restaurant as Restaurant;
 
     // echo "<pre>";
     // print_r($_GET);
@@ -100,6 +106,7 @@
     <script src="../assets/script/restaurant.js"></script>
     <script src="../assets/script/deleteComm.js"></script>
     <script src="../assets/script/popUpGestionErr.js"></script>
+    <script src="../assets/script/favoris.js"></script>
 </head>
 <body>
     <?php
@@ -113,6 +120,10 @@
         </div>
 
     </section>
+    <?php
+    // si user est co ; dessiner le coeur de favoris
+    echo $restoClass->renderCoeur($bdd);
+    ?>
 
     <main class="grid-container">
         <div class="container">
@@ -143,7 +154,17 @@
                 <a href="<?php echo $restoClass->getSite()??"#"?>">SiteWeb</a>     
                 
             </div>
-            <div class="jsp"> </div>
+            <div class="jsp"> 
+
+                <?php
+            foreach($restoClass -> lesServices()  as $value):
+                echo '
+                <img src="../assets/img/services/'.$value["img"].'" alt="'.$value["res"].'" title="'."$value[titre] : $value[res]".'">
+                ' ;
+            endforeach;
+                
+                ?>
+            </div>
             <div class="jsp2"> </div>
             <div id="map" class="map">
 
@@ -159,11 +180,12 @@
 
 
             <div id='avis' class="avis">
+                <div id="headerCommentaire">
+                    <div class="note-moyenne">
+                        <h2>Note Moyenne: <?php $restoClass-> getNoteMoyenne()?></h2>
+                        <div class="etoiles"><?php echo formatetoileV2((int)$avisEtComm["noteMoy"]??0)?></div>
+                    </div>
     
-                <div class="note-moyenne">
-                    <h2><?php $restoClass-> getNoteMoyenne()?></h2>
-                    <div class="etoiles"><?php echo formatetoileV2((int)$avisEtComm["noteMoy"]??0)?></div>
-
                 </div>
 
                 <div class="commentaires">
@@ -171,72 +193,55 @@
                     // if(true): // todo login 
                     if(isset($_SESSION["connecte"])):
 
-                        if($comm == null):
                     ?>
-                    
+                  
                         <div class="noter">
-                            <form action="../controleur/commentaires/commentaire.php" method="POST">
+                            <form id="formComm" action="../controleur/commentaires/commentaire.php" method="POST">
                                 
-                                <textarea name="avis" placeholder="Laissez votre avis..." cols="100" rows="4" minlength="5" maxlength="500" spellcheck required></textarea>
+                                <textarea name="avis" placeholder="Laissez votre avis..." cols="100" rows="4" minlength="5" maxlength="500" spellcheck required><?php echo $comm["commentaire"] ?? ""?></textarea>
                                 <input type="hidden" name="nbEtoile" value='-1'>
                                 <input type="hidden" name="resto" value="<?php echo $_GET["osmID"]?>">
-                                <div class="mettreNote">
-                                    <p>Ma Note:</p>
-                                    <div class="stars">
-                                            <a href="#lanote=5" class="star stargrey" ><i data-index="5">★</i></a>
-                                            <a href="#lanote=4" class="star stargrey" ><i data-index="4">★</i></a>
-                                            <a href="#lanote=3" class="star stargrey" ><i data-index="3">★</i></a>
-                                            <a href="#lanote=2" class="star stargrey" ><i data-index="2">★</i></a>
-                                            <a href="#lanote=1" class="star stargrey" ><i data-index="1">★</i></a>
-                                    </div>   
-                                    <button class="publier" type="sumbit">Publier</button>
-                                </div>
+                                
                             </form>
+                            <div class="mettreNote">
+                                <p>Ma Note:</p>
+                                <div class="stars">
+                                        <a href="#lanote=5" class="star stargrey" ><i data-index="5">★</i></a>
+                                        <a href="#lanote=4" class="star stargrey" ><i data-index="4">★</i></a>
+                                        <a href="#lanote=3" class="star stargrey" ><i data-index="3">★</i></a>
+                                        <a href="#lanote=2" class="star stargrey" ><i data-index="2">★</i></a>
+                                        <a href="#lanote=1" class="star stargrey" ><i data-index="1">★</i></a>
+                                </div>   
+                                <?php
+                                if($comm == null):
+                                ?>
+                                <button id="submitComm" class="publier" type="sumbit">Envoyer</button>
+                                <?php
+                                else:
+                                ?>
+                                <button id="submitComm" class="publier" type="sumbit">Modifier</button>
+                                <form id="formSupprimerComm" action="../controleur/commentaires/commentaireSuppression.php" method="POST">
+                                    <input type="hidden" name="resto" value="<?php echo $_GET["osmID"]?>">
+                                    <button class="publier supprimer" type="sumbit">Supprimer</button>
+                                </form>
+                                <?php
+                                endif;
+                                ?>
+
+                            </div>
                             
                         </div>
-
-                    <?php
-                        else:
-                    ?>
-                        <div class="noter">
-                            <form action="../controleur/commentaires/commentaire.php" method="POST">
-                                
-                                <textarea name="avis" placeholder="Laissez votre avis..." cols="100" rows="4" minlength="5" maxlength="500" spellcheck required><?php echo $comm["commentaire"]?></textarea>
-                                <input type="hidden" name="nbEtoile" value='-1'>
-                                <input type="hidden" name="resto" value="<?php echo $_GET["osmID"]?>">
-                                <div class="mettreNote">
-                                    <p>Ma Note:</p>
-                                    <div class="stars">
-                                            <a href="#lanote=5" class="star stargrey" ><i data-index="5">★</i></a>
-                                            <a href="#lanote=4" class="star stargrey" ><i data-index="4">★</i></a>
-                                            <a href="#lanote=3" class="star stargrey" ><i data-index="3">★</i></a>
-                                            <a href="#lanote=2" class="star stargrey" ><i data-index="2">★</i></a>
-                                            <a href="#lanote=1" class="star stargrey" ><i data-index="1">★</i></a>
-                                    </div>   
-                                    <button class="publier" type="sumbit">Modifier</button>
-                                </div>
-                            </form>
-                            <form action="../controleur/commentaires/commentaireSuppression.php" method="POST">
-                                <input type="hidden" name="resto" value="<?php echo $_GET["osmID"]?>">
-                                <button class="publier" type="sumbit">Supprimer</button>
-                            </form>
-                        </div>
-                    <?php
-                    endif;
-                    
-                    ?>
-                    
-                    <div class="listComm co">
                         
                     <?php
-                    else:
-                    ?>
-                    <div class="listComm nonCo">
-                    
-                    <?php
                     endif;
+                    ?>  
+                </div>
+    
+                
+                <div class="listComm co">
+
+                <div class="commentaires">
                     
-                    ?>
                     <?php
                     foreach($restoClass->lesCommentaires as $commentaireClass):
                         $commentaireClass->renderCommentaire();
@@ -244,34 +249,8 @@
                     ?>
 
                     </div>
-
-
-<!--                    <div class="commentaire">
-                        <h3>JOHNNY SHALLOW</h3>
-                        <div>
-
-                            <div class="etoiles">⭐⭐⭐⭐⭐</div>
-                            <span class="date">17/02/2077</span>
-                        </div>
-                        <p>I poured myself a large glass of wine</p>
-                    </div>
-
-                    <div class="commentaire">
-                        <h3>TIMOTHEE SALAMECHE</h3>
-                        <div>
-
-                            <div class="etoiles">⭐⭐⭐⭐⭐</div>
-                            <span class="date">17/02/2077</span>
-                        </div>
-                        <p>Les rêves font de bonnes histoires, mais le chef fait de bons plats</p>
-                    </div> -->
-                    
                 </div>
             </div>
-
-
-
-
         </div>
     </main>
 

@@ -67,7 +67,7 @@ class User{
         $requser = $this->bdd->prepare("SELECT * FROM UTILISATEUR WHERE username=?");
         $requser->execute(array($username));
         $info = $requser->fetch();
-        print_r($info);
+        // print_r($info);
         if(!$info){
             return false;
         }
@@ -141,6 +141,16 @@ class User{
         $mdp = hash('sha256', $mdp);
         $requser = $this->bdd->prepare("UPDATE UTILISATEUR SET username=?, mdp=?, estAdmin=? WHERE username=?");
         $requser->execute(array($newUsername, $mdp, $isAdmin ? 1 : 0, $usernameBefore));
+        return true;
+    }
+
+    function updateNameUser(string $usernameBefore, string $newUsername):bool{
+        if($usernameBefore != $newUsername && $this->usernameExist($newUsername)){
+            return false;
+        }
+        $requser = $this->bdd->prepare("UPDATE UTILISATEUR SET username=? WHERE username=?");
+        $requser->execute(array($newUsername, $usernameBefore));
+        $this->userConnecter($newUsername);
         return true;
     }
 }

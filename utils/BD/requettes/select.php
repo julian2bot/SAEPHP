@@ -313,9 +313,9 @@
      * Liste des services proposés 
      * @return string[]
      */
-    function getAllServices():array{
-        return ["vegetarien","vegan","livraison", "aemporter", "drive", "accessinternet", "espacefumeur", "fauteuilroulant"];
-    }
+    // function getAllServices():array{
+    //     return ["vegetarien","vegan","livraison", "aemporter", "drive", "accessinternet", "espacefumeur", "fauteuilroulant"];
+    // }
 
     /**
      * Renvoie une liste de restos possèdant au moins un service
@@ -583,8 +583,21 @@
         // print_r($resto);
 
         // echo "melange";
-        return array_merge($cuis, $resto);
+        // return array_merge($cuis, $resto);
+        $result = array();
+        
+        $result["restos"] = array_merge($cuis, $resto);
 
+        if (isset($_SESSION["connecte"])){
+            $username = $_SESSION["connecte"]["username"];
+        } else {
+            $username = "";
+        }
+
+        $result['user'] = $username;
+        $result['favori'] = getLesFavoris($bdd, $username) ?? [];
+
+        return $result;
     }
 
 

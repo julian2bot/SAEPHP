@@ -1,3 +1,10 @@
+<?php
+    if(!session_id()){
+        session_start();
+        session_regenerate_id(true);
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

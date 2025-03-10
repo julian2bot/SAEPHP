@@ -1,9 +1,17 @@
+<?php
+    if(!session_id()){
+        session_start();
+        session_regenerate_id(true);
+    }
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Carte des restaurants</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+    <script src="../assets/script/popUpGestionErr.js"></script>
     <style>
         #map {
             height: 450px;
