@@ -116,9 +116,8 @@ class User{
      * @param string $username nom d'utilisateur de l'utilisateur a supprimé
      * @return bool si le joueur supprimé existait (A bien été supprimé)
      */
-    function deleteUser(PDO $bdd,string $username):bool{
-        // fonction does not exist
-        if(!usernameExist($bdd,$username)){
+    function deleteUser(string $username):bool{
+        if(!$this->usernameExist($username)){
             return false;
         }
         $requser = $this->bdd->prepare("DELETE FROM UTILISATEUR WHERE username=?");
@@ -136,8 +135,7 @@ class User{
      * @return bool
      */
     function updateUser(string $usernameBefore, string $newUsername, string $mdp, bool $isAdmin):bool{
-        // fonction does not exist
-        if($usernameBefore != $newUsername && $this->usernameExist($this->bdd, $newUsername)){
+        if($usernameBefore != $newUsername && $this->usernameExist($newUsername)){
             return false;
         }
         $mdp = hash('sha256', $mdp);
